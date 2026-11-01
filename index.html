@@ -413,7 +413,7 @@
     .rs-ap { display: flex; flex-direction: column; min-height: 8em; }
     .rs-ap > .rs-problems { flex: 1 1 auto; }
     .rs-ap > .rs-add-row { margin-top: auto; padding-top: 4px; }
-    .rs-sheet:not(.show-exam) .rs-opt-exam, .rs-sheet:not(.show-ros) .rs-opt-ros, .rs-sheet:not(.show-notes) .rs-opt-notes, .rs-sheet:not(.show-lines) .rs-opt-lines { display: none; }
+    .rs-sheet:not(.show-exam) .rs-opt-exam, .rs-sheet:not(.show-ros) .rs-opt-ros, .rs-sheet:not(.show-notes) .rs-opt-notes, .rs-sheet:not(.show-lines) .rs-opt-lines, .rs-sheet:not(.show-pending) .rs-opt-pending, .rs-sheet:not(.show-dc) .rs-opt-dc { display: none; }
     .rs-sheets { display: flex; align-items: flex-start; gap: 24px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; padding-bottom: 6px; }
     .rs-sheets::-webkit-scrollbar { display: none; }
     .rs-sheets > .rs-sheet { flex: 0 0 100%; min-width: 0; scroll-snap-align: center; scroll-snap-stop: always; }
@@ -436,6 +436,159 @@
     .rs-remove:hover { color: var(--brand-maroon); border-color: var(--brand-maroon); }
     .rs-more { position: relative; }
     .rs-special-print { display: none !important; }
+    .so-sheets { max-width: 1000px; margin: 0 auto; zoom: var(--so-zoom, 1); }
+    .so-sheet { position: relative; padding: 14px; color: #172536; background: #fff; border: 1px solid #d5deea; border-radius: 8px; box-shadow: 0 3px 12px rgba(15, 23, 42, .08); font-family: Arial, sans-serif; font-size: 13px; }
+    .so-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px; margin-bottom: 10px; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+    .so-title { color: var(--brand-blue); font-size: 16px; font-weight: 800; }
+    .so-sub { color: var(--muted); font-size: 12px; font-weight: 500; }
+    .so-tools { display: inline-flex; gap: 4px; }
+    .so-tools .quiet-button, .so-tools .copy-button { padding: 4px 10px; font-size: 12px; }
+    .so-list { display: grid; gap: 10px; }
+    .so-card { border: 1px solid #5b6b7c; border-left: 5px solid #94a3b8; break-inside: avoid; page-break-inside: avoid; }
+    .so-card[data-severity="stable"] { border-left-color: #16a34a; }
+    .so-card[data-severity="watcher"] { border-left-color: #d97706; }
+    .so-card[data-severity="unstable"] { border-left-color: #dc2626; }
+    .so-card-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; padding: 4px 8px; background: #eef3f8; border-bottom: 1px solid #c3cfdb; }
+    .so-bed { font-size: 14px; font-weight: 800; }
+    .so-sev { display: inline-flex; gap: 3px; }
+    .so-sev button { padding: 2px 9px; color: var(--ink); background: #fff; border: 1px solid #c3cfdb; border-radius: 999px; font: 600 11.5px Inter, ui-sans-serif, system-ui, sans-serif; cursor: pointer; }
+    .so-sev button[aria-pressed="true"][data-sev="stable"] { color: #fff; background: #16a34a; border-color: #16a34a; }
+    .so-sev button[aria-pressed="true"][data-sev="watcher"] { color: #fff; background: #d97706; border-color: #d97706; }
+    .so-sev button[aria-pressed="true"][data-sev="unstable"] { color: #fff; background: #dc2626; border-color: #dc2626; }
+    .so-code { display: inline-flex; align-items: baseline; gap: 4px; margin-left: auto; font-size: 12px; font-weight: 700; }
+    .so-code input { width: 9em; padding: 0 3px; color: inherit; background: transparent; border: 0; border-bottom: 1px solid #9aa9b9; border-radius: 0; font: inherit; font-weight: 400; }
+    .so-fields { display: grid; grid-template-columns: 1fr 1fr; }
+    .so-field { position: relative; padding: 2px 6px 4px; border-top: 1px solid #c3cfdb; }
+    .so-field:nth-child(odd) { border-right: 1px solid #c3cfdb; }
+    .so-field.so-wide { grid-column: 1 / -1; border-right: 0; }
+    .so-field > span { display: block; color: #23384e; font-size: 10px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+    .so-field textarea { display: block; width: 100%; min-height: 2.6em; padding: 1px 0; overflow: hidden; color: inherit; background: transparent; border: 0; font: inherit; line-height: 1.35; resize: none; }
+    .so-field textarea:focus, .so-code input:focus { outline: 2px solid rgba(75, 156, 211, .35); background: #F2F8FD; }
+    .so-readback { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 700; }
+    .so-empty { padding: 16px; color: var(--muted); text-align: center; border: 1px dashed #c3cfdb; border-radius: 6px; }
+    html[data-theme="dark"] .so-sheet { color: var(--sheet-ink); background: var(--sheet-bg); border-color: var(--line); box-shadow: 0 3px 14px rgba(0, 0, 0, .35); }
+    html[data-theme="dark"] .so-card { border-color: #5f636b; }
+    html[data-theme="dark"] .so-card-head { background: #2a2b30; border-color: #45474e; }
+    html[data-theme="dark"] .so-field { border-color: #45474e !important; }
+    html[data-theme="dark"] .so-field > span { color: var(--tag-ink, #c9cdd6); }
+    html[data-theme="dark"] .so-sev button { color: var(--ink); background: #2a2b30; border-color: #45474e; }
+    html[data-theme="dark"] :is(.so-field textarea, .so-code input):focus { background: var(--field-focus); }
+    @media print {
+      .so-sheets { max-width: none; zoom: 1 !important; }
+      .so-sheet { padding: 0; border: 0; box-shadow: none; font-size: 9pt; }
+      .so-sev button:not([aria-pressed="true"]) { display: none !important; }
+      .so-sev button { display: inline-block !important; }
+      .so-card { border-color: #333; }
+    }
+    .foot-kbd { margin-left: 6px; padding: 0 4px; color: var(--muted); border: 1px solid var(--line); border-radius: 3px; font-size: 10.5px; font-weight: 600; }
+    .hide-menu .foot-pop { right: 0; width: 240px; }
+    .foot-row select { padding: 3px 4px; color: var(--ink); background: transparent; border: 1px solid #cbd5e1; border-radius: 4px; font: inherit; font-size: 12.5px; }
+    body.is-private > :not(.privacy-screen):not(script) { filter: blur(16px); }
+    .privacy-screen { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; background: rgba(226, 236, 245, .72); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); }
+    .privacy-screen[hidden] { display: none; }
+    .privacy-card { display: grid; gap: 4px; padding: 22px 34px; color: #13294B; background: #fff; border: 1px solid #b8c5d4; border-radius: 12px; box-shadow: 0 12px 40px rgba(15, 23, 42, .2); font-family: Inter, ui-sans-serif, system-ui, sans-serif; cursor: pointer; }
+    .privacy-title { font-size: 20px; font-weight: 800; }
+    .privacy-sub { color: var(--muted); font-size: 13px; }
+    html[data-theme="dark"] .privacy-screen { background: rgba(20, 21, 24, .78); }
+    html[data-theme="dark"] .privacy-card { color: #e6e7eb; background: #2a2b30; border-color: #45474e; }
+    .present { position: fixed; inset: 0; z-index: 900; display: flex; flex-direction: column; color: #13294B; background: #f7fafc; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+    .present[hidden] { display: none; }
+    .present-bar { display: flex; align-items: center; gap: 8px; padding: 10px 18px; background: #fff; border-bottom: 1px solid var(--line); }
+    .present-title { font-size: 17px; font-weight: 800; }
+    .present-spacer { flex: 1 1 auto; }
+    .present-body { flex: 1 1 auto; overflow: auto; padding: 22px max(24px, calc((100vw - 980px) / 2)) 60px; font-size: var(--present-size, 20px); line-height: 1.45; }
+    .present-oneliner { margin: 0 0 .7em; font-size: 1.25em; font-weight: 700; }
+    .present-sec { margin: 0 0 .75em; padding-bottom: .55em; border-bottom: 1px solid #dbe4ee; }
+    .present-sec:last-child { border-bottom: 0; }
+    .present-label { display: block; margin-bottom: .15em; color: var(--brand-teal-ink); font-size: .62em; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .present-sec p { margin: 0; white-space: pre-wrap; }
+    .present-problem { margin: .35em 0 .2em; font-weight: 800; }
+    .present-plan { margin: 0 0 .3em 1.2em; padding: 0; }
+    .present-plan li { margin: 0; }
+    .present-abn { font-weight: 800; }
+    .present-trend { border-collapse: collapse; font-size: .8em; }
+    .present-trend th, .present-trend td { padding: .1em .55em; border: 1px solid #cfdae6; text-align: center; }
+    .present-trend th:first-child, .present-trend td:first-child { text-align: left; font-weight: 700; }
+    .present-empty { color: var(--muted); }
+    html[data-theme="dark"] .present { color: #e6e7eb; background: #1b1c1f; }
+    html[data-theme="dark"] .present-bar { background: #212226; }
+    html[data-theme="dark"] .present-sec { border-bottom-color: #34363c; }
+    html[data-theme="dark"] .present-trend :is(th, td) { border-color: #45474e; }
+    @media print { .present, .privacy-screen { display: none !important; } body.is-private > * { filter: none !important; } }
+    .mr-sheets { max-width: 1000px; margin: 0 auto; zoom: var(--mr-zoom, 1); }
+    .mr-sheet { position: relative; padding: 14px; color: #172536; background: #fff; border: 1px solid #d5deea; border-radius: 8px; box-shadow: 0 3px 12px rgba(15, 23, 42, .08); font-family: Arial, sans-serif; font-size: 13px; }
+    .mr-grid { display: grid; gap: 10px; }
+    .mr-box h3 { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: 0 0 6px; padding: 2px 7px; color: #1d3a5c; background: #e3e8ef; border-bottom: 1.5px solid #1d3a5c; font-size: .92em; font-weight: 700; }
+    .mr-h3-hint { color: var(--muted); font-size: .88em; font-weight: 400; }
+    .mr-format { margin-left: auto; }
+    .mr-format .quiet-button { padding: 2px 8px; font-size: 11.5px; }
+    #mr-paste { display: block; width: 100%; padding: 6px 8px; color: inherit; background: #fafbfd; border: 1px solid #c3cfdb; border-radius: 5px; font: inherit; resize: vertical; }
+    .mr-input-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 6px; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+    .mr-input-actions .quiet-button, .mr-input-actions .copy-button { padding: 5px 10px; font-size: 12px; }
+    .mr-load-status { color: var(--muted); font-size: 12px; }
+    .mr-empty { padding: 14px; color: var(--muted); text-align: center; border: 1px dashed #c3cfdb; border-radius: 6px; }
+    .mr-card { padding: 10px 12px; border: 1px solid #c3cfdb; border-left: 4px solid #c3cfdb; border-radius: 6px; }
+    .mr-card[data-decision="continue"] { border-left-color: #16a34a; }
+    .mr-card[data-decision="hold"] { border-left-color: #d97706; }
+    .mr-card[data-decision="stop"] { border-left-color: #dc2626; }
+    .mr-card[data-decision="change"] { border-left-color: var(--brand-teal); }
+    .mr-card[data-decision="new"] { border-left-color: #7c3aed00; border-left-color: var(--brand-teal); }
+    .mr-card-nav { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+    .mr-dots { display: inline-flex; flex-wrap: wrap; gap: 4px; flex: 1 1 auto; }
+    .mr-dot { width: 10px; height: 10px; padding: 0; background: #d5dce6; border: 0; border-radius: 50%; cursor: pointer; }
+    .mr-dot[data-decision="continue"] { background: #16a34a; } .mr-dot[data-decision="hold"] { background: #d97706; } .mr-dot[data-decision="stop"] { background: #dc2626; } .mr-dot[data-decision="change"], .mr-dot[data-decision="new"] { background: var(--brand-teal); }
+    .mr-dot[aria-current="true"] { outline: 2px solid #1d3a5c; outline-offset: 1px; }
+    .mr-count { color: var(--muted); font-size: 12px; font-weight: 700; white-space: nowrap; }
+    .mr-med { display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr); align-items: baseline; gap: 8px; margin-bottom: 10px; }
+    .mr-kind { padding: 1px 6px; color: var(--muted); background: #eef2f7; border-radius: 4px; font-size: 10.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; }
+    .mr-med input { width: 100%; padding: 2px 3px; color: inherit; background: transparent; border: 0; border-bottom: 1px solid #c3cfdb; border-radius: 0; font: inherit; }
+    .mr-name { font-size: 16px !important; font-weight: 700 !important; }
+    .mr-regimen { font-size: 14px !important; }
+    .mr-card [hidden] { display: none !important; }
+    .mr-actions { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+    .mr-actions button { padding: 9px 6px; color: var(--ink); background: var(--surface, #fff); border: 1px solid #c3cfdb; border-radius: 6px; font: 600 13px Inter, ui-sans-serif, system-ui, sans-serif; cursor: pointer; }
+    .mr-actions button b { text-decoration: underline; text-underline-offset: 2px; }
+    .mr-actions button:hover { border-color: var(--brand-teal); }
+    .mr-actions button[aria-pressed="true"][data-decision="continue"] { color: #fff; background: #16a34a; border-color: #16a34a; }
+    .mr-actions button[aria-pressed="true"][data-decision="hold"] { color: #fff; background: #d97706; border-color: #d97706; }
+    .mr-actions button[aria-pressed="true"][data-decision="stop"] { color: #fff; background: #dc2626; border-color: #dc2626; }
+    .mr-actions button[aria-pressed="true"][data-decision="change"] { color: #fff; background: var(--brand-teal); border-color: var(--brand-teal); }
+    .mr-detail { margin-top: 8px; }
+    .mr-detail label { display: flex; align-items: baseline; gap: 8px; color: var(--muted); font-size: 12px; font-weight: 700; }
+    .mr-detail input { flex: 1 1 auto; min-width: 0; padding: 3px 4px; color: var(--ink); background: transparent; border: 0; border-bottom: 1px solid #9aa9b9; border-radius: 0; font: 400 14px Arial, sans-serif; }
+    .mr-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
+    .mr-chips button { padding: 2px 8px; color: var(--brand-teal-ink); background: var(--brand-teal-pale); border: 1px solid #A9CFEA; border-radius: 999px; font: 600 11.5px Inter, ui-sans-serif, system-ui, sans-serif; cursor: pointer; }
+    .mr-card-foot { display: flex; justify-content: space-between; gap: 6px; margin-top: 10px; }
+    .mr-card-foot .quiet-button { padding: 4px 9px; font-size: 12px; }
+    .mr-remove:hover { color: var(--brand-maroon); border-color: var(--brand-maroon); }
+    .mr-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    .mr-table th, .mr-table td { padding: 3px 6px; border: 1px solid #d5deea; text-align: left; vertical-align: top; }
+    .mr-table th { color: var(--muted); background: #f1f5f9; font-size: 11px; letter-spacing: .04em; text-transform: uppercase; }
+    .mr-table th:nth-child(1) { width: 42%; } .mr-table th:nth-child(2) { width: 14%; }
+    .mr-table tbody tr { cursor: pointer; }
+    .mr-table tbody tr:hover { background: var(--brand-teal-pale); }
+    .mr-table tbody tr[aria-current="true"] { box-shadow: inset 3px 0 0 var(--brand-teal); background: #f2f8fd; }
+    .mr-table .mr-tag { font-weight: 700; }
+    .mr-tag[data-decision="continue"] { color: #15803d; } .mr-tag[data-decision="hold"] { color: #b45309; } .mr-tag[data-decision="stop"] { color: #b91c1c; } .mr-tag[data-decision="change"], .mr-tag[data-decision="new"] { color: var(--brand-teal-ink); } .mr-tag[data-decision=""] { color: var(--muted); font-weight: 400; font-style: italic; }
+    .mr-table-empty td { color: var(--muted); text-align: center; cursor: default; }
+    .mr-preview { min-height: 4em; max-height: 340px; margin: 0; padding: 8px 10px; overflow: auto; color: inherit; background: #fafbfd; border: 1px solid #c3cfdb; border-radius: 5px; font: 12.5px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; white-space: pre-wrap; }
+    .mr-send-label { display: inline-flex; align-items: center; gap: 4px; margin-left: auto; color: var(--muted); font-size: 12px; font-weight: 700; }
+    .mr-send-label select { max-width: 150px; padding: 4px 5px; color: var(--ink); background: var(--surface, #fff); border: 1px solid #cbd5e1; border-radius: 5px; font: inherit; font-weight: 400; }
+    html[data-theme="dark"] .mr-sheet { color: var(--sheet-ink); background: var(--sheet-bg); border-color: var(--line); box-shadow: 0 3px 14px rgba(0, 0, 0, .35); }
+    html[data-theme="dark"] .mr-box h3 { color: #e6e7eb; background: #2a2b30; border-bottom-color: #8b8f98; }
+    html[data-theme="dark"] :is(#mr-paste, .mr-preview) { color: var(--ink); background: #1f2024; border-color: #45474e; }
+    html[data-theme="dark"] :is(.mr-card, .mr-empty) { border-color: #45474e; }
+    html[data-theme="dark"] .mr-actions button { color: var(--ink); background: #2a2b30; border-color: #45474e; }
+    html[data-theme="dark"] .mr-kind { background: #2e3035; }
+    html[data-theme="dark"] :is(.mr-med input, .mr-detail input) { border-bottom-color: #5f636b; }
+    html[data-theme="dark"] .mr-table :is(th, td) { border-color: #45474e; }
+    html[data-theme="dark"] .mr-table th { background: #2a2b30; }
+    html[data-theme="dark"] .mr-table tbody tr[aria-current="true"] { background: rgba(90, 169, 222, .12); }
+    html[data-theme="dark"] .mr-chips button { color: #A7D3F2; border-color: #3C7DAE; }
+    html[data-theme="dark"] .mr-dot { background: #4b4e55; }
+    html[data-theme="dark"] .mr-dot[aria-current="true"] { outline-color: #e6e7eb; }
+    html[data-theme="dark"] .mr-send-label select { background: #2a2b30; border-color: #45474e; }
+    @media (max-width: 720px) { .mr-med { grid-template-columns: 1fr; } .mr-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     .rs-sheet, .pc-sheet { position: relative; }
     .sheet-resize { position: absolute; z-index: 5; padding: 0; background: transparent; border: 0; touch-action: none; }
     .sheet-resize[data-dir="e"], .sheet-resize[data-dir="w"] { top: 16px; bottom: 16px; width: 9px; cursor: ew-resize; }
@@ -449,7 +602,7 @@
     .sheet-resize[data-dir="e"]::after, .sheet-resize[data-dir="w"]::after { top: 50%; left: 3px; width: 3px; height: 44px; margin-top: -22px; }
     .sheet-resize[data-dir="n"]::after, .sheet-resize[data-dir="s"]::after { left: 50%; top: 3px; width: 44px; height: 3px; margin-left: -22px; }
     .sheet-resize[data-dir="se"]::after { right: 3px; bottom: 3px; width: 9px; height: 9px; background: none; border-right: 2px solid #b8c5d4; border-bottom: 2px solid #b8c5d4; border-radius: 0 0 4px 0; }
-    .rs-sheet:hover > .sheet-resize::after, .pc-sheet:hover > .sheet-resize::after { opacity: .6; }
+    .rs-sheet:hover > .sheet-resize::after, .pc-sheet:hover > .sheet-resize::after, .mr-sheet:hover > .sheet-resize::after, .so-sheet:hover > .sheet-resize::after { opacity: .6; }
     .sheet-resize:hover::after, .sheet-resize:focus-visible::after, body.is-resizing .sheet-resize.is-active::after { opacity: 1 !important; background: var(--brand-teal); }
     .sheet-resize[data-dir="se"]:hover::after, .sheet-resize[data-dir="se"]:focus-visible::after { background: none; border-color: var(--brand-teal); }
     .sheet-resize:focus-visible { outline: none; }
@@ -516,6 +669,28 @@
     .rs-box-tools { position: absolute; top: 1px; right: 3px; z-index: 5; display: inline-flex; align-items: center; gap: 4px; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
     .rs-box-tools button { padding: 1px 7px; color: var(--brand-teal-ink); background: var(--brand-teal-pale); border: 1px solid #A9CFEA; border-radius: 4px; font-size: 11px; font-weight: 700; }
     .rs-box-hint { color: #8494a7; font-size: 10.5px; }
+    .rs-dc-items { display: flex; flex-wrap: wrap; gap: 3px 10px; padding-left: var(--tag-w, 4em); }
+    .rs-dc-item { padding: 0; color: inherit; background: none; border: 0; font: inherit; font-size: .92em; cursor: pointer; }
+    .rs-dc-item::before { content: "\2610"; margin-right: 3px; }
+    .rs-dc-item[aria-pressed="true"]::before { content: "\2611"; color: #15803d; }
+    .rs-dc-item[aria-pressed="true"] { font-weight: 700; }
+    .rs-counters { display: flex; flex-wrap: wrap; gap: 3px 14px; }
+    .rs-counters:empty { display: none; }
+    .rs-counter { display: inline-flex; align-items: baseline; gap: 4px; }
+    .rs-counter input { padding: 0 2px; color: inherit; background: transparent; border: 0; border-bottom: 1px solid #c3cfdb; border-radius: 0; font: inherit; }
+    .rs-counter-name { width: 8em; font-weight: 700 !important; }
+    .rs-counter-start { width: 3.6em; font-size: .9em !important; color: #475569 !important; }
+    .rs-counter-day { min-width: 2.4em; padding: 0 5px; color: #fff; background: var(--brand-teal); border-radius: 4px; font-weight: 800; text-align: center; }
+    .rs-counter-day:empty { display: none; }
+    .rs-counter .rs-tt-x { position: static; transform: none; opacity: .7; }
+    html[data-theme="dark"] .rs-counter input { border-bottom-color: #5f636b; }
+    html[data-theme="dark"] .rs-counter-start { color: #a9adb6 !important; }
+    @media print { .rs-counter-day { color: #000 !important; background: none !important; border: 1px solid #000; } .rs-dc-item[aria-pressed="true"]::before { color: #000; } }
+    .rs-inline-row { display: flex; align-items: baseline; gap: 4px; margin-top: 1px; }
+    .rs-inline-row > span { flex: 0 0 auto; font-size: .82em; font-weight: 700; white-space: nowrap; }
+    .rs-inline-field { flex: 1 1 auto; min-height: 0 !important; text-indent: 0 !important; }
+    .rs-pp-row { padding-left: var(--tag-w, 4em); padding-right: 7.5em; }
+    .rs-sheet:not(.show-exam) .rs-exam-hint { display: none; }
     .rs-exam-other { display: flex; align-items: baseline; gap: 4px; margin-top: 2px; font-size: .82em; font-weight: 700; }
     .rs-exam-other input { flex: 1 1 auto; min-width: 0; padding: 0 2px; color: inherit; background: transparent; border: 0; border-bottom: 1px solid #c3cfdb; border-radius: 0; font: inherit; font-weight: 400; }
     .pre-rounds-exam-system[role="button"] { cursor: pointer; border-radius: 3px; }
@@ -771,13 +946,16 @@
       body[data-print="pre-rounds"] #pre-rounds-panel, body[data-print="pre-charting"] #pre-charting-panel, body[data-print="other"] .workspace-panel.print-active { display: block !important; }
       body[data-print="other"] .preview { position: static !important; width: auto !important; max-height: none !important; }
       textarea.has-mirror { display: none !important; }
-      button:not(.pc-ros-item), select, details, summary, .pc-hint, .rs-box-hint, .rs-box-tools, .rs-add, .rs-problem-tools, .pc-mini, .preview-empty { display: none !important; }
+      button:not(.pc-ros-item):not(.rs-dc-item):not(.so-sev-btn), select, details, summary, .pc-hint, .rs-box-hint, .rs-box-tools, .rs-add, .rs-problem-tools, .pc-mini, .preview-empty { display: none !important; }
       .print-mirror { display: block !important; height: auto !important; white-space: pre-wrap; overflow-wrap: anywhere; }
       .pc-cols { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 0 10pt; }
       .rs-fish-row { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
       input::placeholder, textarea::placeholder { color: transparent !important; }
 
-      .rs-sheets, .pc-sheets { max-width: none; zoom: 1 !important; }
+      .rs-sheets, .pc-sheets, .mr-sheets { max-width: none; zoom: 1 !important; }
+      .mr-sheet { padding: 0; border: 0; box-shadow: none; }
+      .mr-input, .mr-review, .mr-format, .mr-input-actions { display: none !important; }
+      .mr-preview { max-height: none; overflow: visible; border: 0; background: none !important; }
       .rs-sheet, .rs-sheet[hidden] { display: flex !important; flex-direction: column; box-sizing: border-box; min-height: 4.85in; margin: 0; padding: 0.2in 0.3in 0.15in; color: #000; background: #fff; border: 0; border-radius: 0; box-shadow: none; font-size: 7.4pt; break-inside: avoid; page-break-inside: avoid; }
       .rs-grid { display: flex; flex-direction: column; flex: 1 1 auto; }
       .rs-grid > .rs-ap { flex: 1 1 auto; }
@@ -799,6 +977,8 @@
       .rs-field, .rs-fish-value, .rs-vital input, .pre-rounds-problem input { color: #000; }
       .rs-fish-value { border-bottom: 0 !important; }
       .rs-subjective .rs-field { min-height: 0.42in; }
+      .rs-sheet .rs-inline-field, .rs-sheet .rs-inline-field + .print-mirror, .rs-sheet .print-mirror.rs-inline-field { min-height: 0 !important; }
+      .rs-pp-row { padding-right: 0; }
       .rs-notes .rs-field { min-height: 0.45in; }
       .rs-imaging .rs-field { min-height: 0.42in; }
       .rs-todo .rs-field { min-height: 1in; }
@@ -844,6 +1024,8 @@
         <nav class="tool-tabs" role="tablist" aria-label="Documentation tools">
         <button class="tool-tab" id="pre-rounds-tab" type="button" role="tab" aria-selected="true" aria-controls="pre-rounds-panel" tabindex="0">Pre-Rounds</button>
         <button class="tool-tab" id="pre-charting-tab" type="button" role="tab" aria-selected="false" aria-controls="pre-charting-panel" tabindex="-1">Pre-Charting</button>
+        <button class="tool-tab" id="med-rec-tab" type="button" role="tab" aria-selected="false" aria-controls="med-rec-panel" tabindex="-1">Med Rec</button>
+        <button class="tool-tab" id="sign-out-tab" type="button" role="tab" aria-selected="false" aria-controls="sign-out-panel" tabindex="-1">Sign-out</button>
       </nav>
     </details>
     <div class="top-controls">
@@ -870,6 +1052,7 @@
         <span class="pre-rounds-toggle-label">Show:</span>
         <span data-system-picker="pc-exam"></span>
       </span>
+      <button class="quiet-button" id="pc-start-medrec" type="button" title="Open Med Rec with the meds from this worksheet's Current Medications box">Start Med Rec</button>
       <button class="quiet-button" id="pc-send-rounds" type="button" title="Create a Pre-Rounds sheet from this admission">Send to Pre-Rounds</button>
       <button class="quiet-button" id="pc-copy" type="button" title="Copy as an H&amp;P outline">Copy H&amp;P</button>
       <button class="copy-button" id="pc-print" type="button">Print</button>
@@ -956,8 +1139,11 @@
             <span data-local-picker="ros"></span>
             <span data-local-picker="labs"></span>
             <button class="quiet-button pre-rounds-toggle" type="button" data-toggle-opt="lines" aria-pressed="false" title="Lines, drains, tele: still needed?">Lines</button>
+            <button class="quiet-button pre-rounds-toggle" type="button" data-toggle-opt="pending" aria-pressed="false" title="Results and consults you are waiting on">Pending</button>
+            <button class="quiet-button pre-rounds-toggle" type="button" data-toggle-opt="dc" aria-pressed="false" title="Add a discharge readiness checklist">Discharge</button>
             <button class="quiet-button pre-rounds-toggle" type="button" data-toggle-opt="notes" aria-pressed="true" title="Show or hide the Notes box">Notes</button>
             <span class="rs-bar-divider" aria-hidden="true"></span>
+            <button class="quiet-button" type="button" data-present title="Presentation mode: large, clean view in rounds order (Esc to close)">Present</button>
             <button class="quiet-button" type="button" data-copy-note title="Copy as a progress note (plain text, ready to paste into the EHR)">Copy note</button>
             <button class="quiet-button" type="button" data-print-patient title="Print only this patient">Print</button>
             <details class="rs-more">
@@ -980,13 +1166,17 @@
             </div>
             <div class="rs-field rs-oneliner-text" data-field="power" role="textbox" aria-multiline="true" aria-label="One-liner" data-placeholder="e.g. 68M w/ HFrEF, CKD3 admitted for CAP, now on RA"></div>
           </div>
-          <div class="rs-box rs-c12 rs-subjective"><span class="rs-tag">Overnight / Subj</span><textarea class="rs-field" data-field="subjective" rows="2" aria-label="Overnight events and subjective"></textarea></div>
+          <div class="rs-box rs-c12 rs-subjective"><span class="rs-tag">Overnight / Subj</span><textarea class="rs-field" data-field="subjective" rows="2" aria-label="Overnight events and subjective"></textarea>
+            <label class="rs-inline-row"><span>ROS:</span><textarea class="rs-field rs-inline-field" data-field="ros-pp" rows="1" aria-label="Pertinent positive and negative ROS" placeholder="pertinent + / − (e.g. + cough, − chest pain, − fever)"></textarea></label></div>
           <div class="rs-box rs-c12 rs-vitals"><span class="rs-tag">Vitals</span><div class="rs-vitals-bar" data-vitals></div></div>
           <div class="rs-box rs-c12 rs-opt-lines rs-lines"><span class="rs-tag">Lines / drains</span><textarea class="rs-field" data-field="lines" rows="1" aria-label="Lines, drains and tele" placeholder="e.g. PIV x2, Foley (d3), R IJ CVC (d5), tele. Still needed?"></textarea></div>
-          <div class="rs-box rs-c12 rs-opt-exam rs-checks"><span class="rs-tag">Exam</span>
-            <span class="rs-box-tools screen-only"><span class="rs-box-hint">click a system name for normals</span><button type="button" data-copy-exam>Copy exam</button></span>
-            <div data-exam-checklist></div>
-            <label class="rs-exam-other"><span>Other:</span><input data-field="exam-other" autocomplete="off" aria-label="Other exam findings"></label>
+          <div class="rs-box rs-c12 rs-exam rs-checks"><span class="rs-tag">Exam</span>
+            <span class="rs-box-tools screen-only"><span class="rs-box-hint rs-exam-hint">click a system name for normals</span><button type="button" data-copy-exam>Copy exam</button></span>
+            <label class="rs-inline-row rs-pp-row"><span>Pertinent +:</span><textarea class="rs-field rs-inline-field" data-field="exam-pp" rows="1" aria-label="Pertinent positive exam findings" placeholder="e.g. crackles R base, 2+ LE edema (full checklist: Show → Exam)"></textarea></label>
+            <div class="rs-opt-exam">
+              <div data-exam-checklist></div>
+              <label class="rs-exam-other"><span>Other:</span><input data-field="exam-other" autocomplete="off" aria-label="Other exam findings"></label>
+            </div>
           </div>
           <div class="rs-box rs-c12 rs-opt-ros rs-checks"><span class="rs-tag">ROS</span>
             <span class="rs-box-tools screen-only"><span class="rs-box-hint">click: ⊕ positive, again: ⊖ denies</span><button type="button" data-ros-rest>Rest negative</button><button type="button" data-copy-ros>Copy ROS</button></span>
@@ -1011,6 +1201,7 @@
               </details>
             </div>
           </div>
+          <div class="rs-box rs-c12 rs-opt-pending rs-pending"><span class="rs-tag">Pending</span><textarea class="rs-field" data-field="pending" rows="1" aria-label="Pending results and consults" placeholder="e.g. blood cx x2, TTE, GI consult, MRI read"></textarea></div>
           <div class="rs-box rs-c12 rs-imaging"><span class="rs-tag">Imaging</span>
             <textarea class="rs-field" data-field="imaging" rows="2" aria-label="Imaging and micro"></textarea>
           </div>
@@ -1029,12 +1220,135 @@
               </details>
             </div>
           </div>
-          <div class="rs-box rs-c12 rs-opt-notes rs-notes"><span class="rs-tag">Notes</span><textarea class="rs-field" data-field="notes" rows="3" aria-label="Notes" placeholder="To-dos, subjective, anything else"></textarea></div>
+          <div class="rs-box rs-c12 rs-opt-dc rs-dc"><span class="rs-tag">Discharge</span>
+            <div class="rs-dc-items"><button type="button" class="rs-dc-item" data-dc-item aria-pressed="false">Dispo plan</button><button type="button" class="rs-dc-item" data-dc-item aria-pressed="false">PT/OT</button><button type="button" class="rs-dc-item" data-dc-item aria-pressed="false">Home O₂ check</button><button type="button" class="rs-dc-item" data-dc-item aria-pressed="false">Meds to beds / Rx</button><button type="button" class="rs-dc-item" data-dc-item aria-pressed="false">Follow-up booked</button><button type="button" class="rs-dc-item" data-dc-item aria-pressed="false">Pending results plan</button><button type="button" class="rs-dc-item" data-dc-item aria-pressed="false">Teaching done</button><button type="button" class="rs-dc-item" data-dc-item aria-pressed="false">DC summary started</button></div>
+            <label class="rs-inline-row"><span>Barriers / plan:</span><textarea class="rs-field rs-inline-field" data-field="dc-notes" rows="1" aria-label="Discharge barriers and plan" placeholder="e.g. SNF bed pending, needs home O2 qualification"></textarea></label>
+          </div>
+          <div class="rs-box rs-c12 rs-opt-notes rs-notes"><span class="rs-tag">Notes</span><textarea class="rs-field" data-field="notes" rows="3" aria-label="Notes" placeholder="To-dos, subjective, anything else"></textarea>
+            <div class="rs-counters" data-counters></div>
+            <button class="rs-add screen-only" type="button" data-add-counter title="Count antibiotic days, line days, Foley days... Day 1 is the start date.">+ Day counter</button>
+          </div>
         </div>
       </article>
     </template>
     <p class="privacy-note">This page runs locally in your browser and does not save or transmit information. Use only as permitted by your organization's policies, verify all information, and do not treat the sheet as a substitute for the approved medical record.</p>
   </main>
+
+  <main class="page workspace-panel" id="med-rec-panel" role="tabpanel" aria-labelledby="med-rec-tab" tabindex="0" hidden>
+    <p class="pre-rounds-status" id="mr-status" role="status"></p>
+    <div class="mr-sheets" id="mr-sheets">
+      <article class="mr-sheet" id="mr-sheet">
+        <div class="mr-grid">
+          <section class="mr-box mr-input">
+            <h3>Home medications <span class="mr-h3-hint">paste the prior-to-admission list, one med per line</span></h3>
+            <textarea id="mr-paste" rows="6" placeholder="Metoprolol succinate 50 mg PO daily&#10;Lisinopril 20 mg PO qd&#10;Atorvastatin 40 mg PO qhs&#10;Insulin glargine 20 U SC at bedtime&#10;&#10;Tables and EHR lists work too. Abbreviations like qd and U are spelled out."></textarea>
+            <div class="mr-input-actions">
+              <button class="copy-button" type="button" id="mr-load">Load meds</button>
+              <button class="quiet-button" type="button" id="mr-add-home">+ Home med</button>
+              <button class="quiet-button" type="button" id="mr-add-new">+ New med (started here)</button>
+              <span class="mr-load-status" id="mr-load-status" role="status"></span>
+            </div>
+          </section>
+
+          <section class="mr-box mr-review" id="mr-review" tabindex="-1">
+            <h3>Review one at a time <span class="mr-h3-hint">keys: C continue · H hold · S stop · D change dose · ← → move</span></h3>
+            <div class="mr-empty" id="mr-empty">Paste the home list and press <b>Load meds</b>, or add meds one by one.</div>
+            <div class="mr-card" id="mr-card" hidden>
+              <div class="mr-card-nav">
+                <button class="quiet-button rs-pager-arrow" type="button" id="mr-prev" aria-label="Previous medication">&#x2039;</button>
+                <span class="mr-dots" id="mr-dots"></span>
+                <span class="mr-count" id="mr-count"></span>
+                <button class="quiet-button rs-pager-arrow" type="button" id="mr-next" aria-label="Next medication">&#x203a;</button>
+              </div>
+              <div class="mr-med">
+                <span class="mr-kind" id="mr-kind">Home med</span>
+                <input class="mr-name" id="mr-name" autocomplete="off" aria-label="Medication" placeholder="Medication">
+                <input class="mr-regimen" id="mr-regimen" autocomplete="off" aria-label="Dose, route, frequency" placeholder="Dose, route, frequency">
+              </div>
+              <div class="mr-actions" id="mr-actions" role="group" aria-label="Decision">
+                <button type="button" data-decision="continue"><b>C</b>ontinue</button>
+                <button type="button" data-decision="hold"><b>H</b>old</button>
+                <button type="button" data-decision="stop"><b>S</b>top</button>
+                <button type="button" data-decision="change">Change <b>d</b>ose</button>
+              </div>
+              <div class="mr-detail" id="mr-change-wrap" hidden>
+                <label>New dose / route / frequency<input id="mr-new-regimen" autocomplete="off" placeholder="e.g. 40 mg IV BID"></label>
+              </div>
+              <div class="mr-detail" id="mr-reason-wrap" hidden>
+                <label><span id="mr-reason-label">Reason</span><input id="mr-reason" autocomplete="off" placeholder="optional"></label>
+                <div class="mr-chips" id="mr-chips"></div>
+              </div>
+              <div class="mr-card-foot">
+                <button class="quiet-button mr-remove" type="button" id="mr-remove">Remove med</button>
+                <button class="quiet-button" type="button" id="mr-next-undecided">Next undecided &#x2192;</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="mr-box mr-table-box">
+            <h3>All medications <span class="mr-h3-hint">click a row to review it</span></h3>
+            <table class="mr-table" id="mr-table"><thead><tr><th>Medication</th><th>Decision</th><th>Details</th></tr></thead><tbody></tbody></table>
+          </section>
+
+          <section class="mr-box mr-output">
+            <h3>Template
+              <span class="pre-rounds-toggle-group mr-format" role="group" aria-label="Template style">
+                <button class="quiet-button pre-rounds-toggle" type="button" data-mr-format="note" aria-pressed="true" title="For the H&amp;P or progress note">Chart note</button>
+                <button class="quiet-button pre-rounds-toggle" type="button" data-mr-format="discharge" aria-pressed="false" title="Patient-facing wording for discharge instructions">Discharge</button>
+              </span>
+            </h3>
+            <pre class="mr-preview" id="mr-preview" aria-live="polite"></pre>
+            <div class="mr-input-actions">
+              <button class="copy-button" type="button" id="mr-copy">Copy template</button>
+              <label class="mr-send-label">Send to
+                <select id="mr-send-target" aria-label="Pre-Rounds patient"></select>
+              </label>
+              <button class="quiet-button" type="button" id="mr-send">Send to Pre-Rounds</button>
+              <button class="quiet-button rs-remove" type="button" id="mr-clear">Clear</button>
+            </div>
+          </section>
+        </div>
+      </article>
+    </div>
+    <p class="privacy-note">This page runs locally in your browser and does not save or transmit information. It records your decisions; it does not check doses, interactions, or indications. Reconcile with the patient, pharmacy, and prescriber.</p>
+  </main>
+
+  <main class="page workspace-panel" id="sign-out-panel" role="tabpanel" aria-labelledby="sign-out-tab" tabindex="0" hidden>
+    <p class="pre-rounds-status" id="so-status" role="status"></p>
+    <div class="so-sheets" id="so-sheets">
+      <article class="so-sheet" id="so-sheet">
+        <div class="so-head">
+          <span class="so-title">Sign-out <span class="so-sub">I-PASS · built from your Pre-Rounds patients</span></span>
+          <span class="so-tools screen-only">
+            <button class="quiet-button" type="button" id="so-refresh" title="Add new Pre-Rounds patients and update summaries you have not edited">Update from Pre-Rounds</button>
+            <button class="quiet-button" type="button" id="so-copy">Copy all</button>
+            <button class="copy-button" type="button" id="so-print">Print</button>
+          </span>
+        </div>
+        <div class="so-list" id="so-list"></div>
+      </article>
+    </div>
+    <p class="privacy-note">This page runs locally in your browser and does not save or transmit information. Hand off verbally as well; the receiver should read back the plan (the final S in I-PASS).</p>
+  </main>
+
+  <div class="privacy-screen" id="privacy-screen" hidden>
+    <button type="button" class="privacy-card" id="privacy-reveal">
+      <span class="privacy-title">Hidden</span>
+      <span class="privacy-sub">Click or press any key to show</span>
+    </button>
+  </div>
+  <div class="present" id="present" hidden role="dialog" aria-modal="true" aria-label="Presentation mode">
+    <div class="present-bar">
+      <button type="button" class="quiet-button rs-pager-arrow" id="present-prev" aria-label="Previous patient">&#x2039;</button>
+      <span class="present-title" id="present-title"></span>
+      <button type="button" class="quiet-button rs-pager-arrow" id="present-next" aria-label="Next patient">&#x203a;</button>
+      <span class="present-spacer"></span>
+      <button type="button" class="quiet-button" id="present-smaller" aria-label="Smaller text">A&#x2212;</button>
+      <button type="button" class="quiet-button" id="present-larger" aria-label="Larger text">A+</button>
+      <button type="button" class="quiet-button" id="present-close">&#x2715; Close (Esc)</button>
+    </div>
+    <div class="present-body" id="present-body"></div>
+  </div>
 
   <script>
     async function copyPlainText(text) {
@@ -2200,6 +2514,62 @@
       ].filter(Boolean).join(" ");
     }
 
+    function rsExamText(sheet) {
+      const pp = (sheet.querySelector('[data-field="exam-pp"]')?.value || "").trim();
+      const checklist = sheet._opts?.exam?.size ? examNoteText(sheet.querySelector(".rs-opt-exam"), sheet.querySelector('[data-field="exam-other"]').value) : "";
+      return [pp && `Pertinent positives: ${pp.replace(/\s*\n\s*/g, "; ")}`, checklist].filter(Boolean).join("\n");
+    }
+
+    // ---------- Day counters (antibiotics, lines): Day 1 = start date ----------
+    function parseShortDate(text) {
+      const match = String(text || "").trim().match(/^(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?$/);
+      if (!match) return null;
+      const now = new Date();
+      const year = match[3] ? (match[3].length === 2 ? 2000 + Number(match[3]) : Number(match[3])) : now.getFullYear();
+      let date = new Date(year, Number(match[1]) - 1, Number(match[2]));
+      if (!match[3] && date - now > 31 * 864e5) date = new Date(year - 1, Number(match[1]) - 1, Number(match[2]));
+      return Number.isNaN(date.getTime()) ? null : date;
+    }
+    function counterDay(startText) {
+      const start = parseShortDate(startText);
+      if (!start) return "";
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const day = Math.round((today - start) / 864e5) + 1;
+      return day >= 1 ? `D${day}` : "";
+    }
+    function addCounter(sheet, focus = false) {
+      const row = document.createElement("span");
+      row.className = "rs-counter";
+      row.dataset.counter = "";
+      row.innerHTML = '<input class="rs-counter-name" data-counter-name autocomplete="off" placeholder="e.g. Ceftriaxone" aria-label="What to count"><span class="rs-counter-since">since</span><input class="rs-counter-start" data-counter-start autocomplete="off" aria-label="Start date (Day 1)" title="Start date = Day 1 (M/D)"><span class="rs-counter-day" data-counter-day></span><button type="button" class="rs-tt-x screen-only" data-remove-counter aria-label="Remove counter" title="Remove">\u00d7</button>';
+      row.querySelector("[data-counter-start]").value = shortDate(new Date());
+      sheet.querySelector("[data-counters]").append(row);
+      updateCounter(row);
+      if (focus) row.querySelector("[data-counter-name]").focus();
+      return row;
+    }
+    function updateCounter(row) {
+      row.querySelector("[data-counter-day]").textContent = counterDay(row.querySelector("[data-counter-start]").value);
+    }
+    function sheetCounters(sheet) {
+      return [...sheet.querySelectorAll("[data-counter]")].map((row) => ({
+        name: row.querySelector("[data-counter-name]").value.trim(),
+        start: row.querySelector("[data-counter-start]").value.trim(),
+        day: counterDay(row.querySelector("[data-counter-start]").value)
+      })).filter((item) => item.name);
+    }
+    const counterText = (item) => `${item.name}${item.day ? ` ${item.day}` : ""}${item.start ? ` (started ${item.start})` : ""}`;
+    setInterval(() => document.querySelectorAll("[data-counter]").forEach(updateCounter), 10 * 60 * 1000);
+    function sheetDischarge(sheet) {
+      const items = [...sheet.querySelectorAll("[data-dc-item]")];
+      return {
+        done: items.filter((item) => item.getAttribute("aria-pressed") === "true").map((item) => item.textContent),
+        open: items.filter((item) => item.getAttribute("aria-pressed") !== "true").map((item) => item.textContent),
+        notes: (sheet.querySelector('[data-field="dc-notes"]')?.value || "").trim()
+      };
+    }
+
     // ---------- Copy as progress note ----------
     function progressNoteText(sheet) {
       const field = (name) => (sheet.querySelector(`[data-field="${name}"]`)?.value || "").trim();
@@ -2214,7 +2584,8 @@
       if (hd) out.push(`Hospital day ${hd.replace(/^hd\s*#?\s*/i, "")}`);
 
       const subjective = field("subjective");
-      const ros = opts.ros?.size ? rosNoteText(sheet.querySelector(".rs-opt-ros")) : "";
+      const rosChecklist = opts.ros?.size ? rosNoteText(sheet.querySelector(".rs-opt-ros")) : "";
+      const ros = [field("ros-pp"), rosChecklist].filter(Boolean).join(" ");
       if (subjective || ros) {
         out.push("", "SUBJECTIVE");
         if (subjective) out.push(subjective);
@@ -2232,7 +2603,7 @@
       if (field("intake") || field("output")) vitals.push(`I/O ${field("intake") || "?"} / ${field("output") || "?"}${calcs.net ? ` (net ${calcs.net})` : ""}`);
       if (vitals.length) objective.push(`Vitals: ${vitals.join(", ")}`);
       if (opts.lines && field("lines")) objective.push(`Lines/drains: ${field("lines").replace(/\s*\n\s*/g, "; ")}`);
-      const exam = opts.exam?.size ? examNoteText(sheet.querySelector(".rs-opt-exam"), field("exam-other")) : "";
+      const exam = rsExamText(sheet);
       if (exam) objective.push(`Exam:\n${exam}`);
       const labs = [
         labLine("BMP", [["Na", "na"], ["K", "k"], ["Cl", "cl"], ["HCO3", "hco3"], ["BUN", "bun"], ["Cr", "cr"], ["Glu", "gluc"]]),
@@ -2248,6 +2619,9 @@
       if (labs.length) objective.push(`Labs:\n${labs.join("\n")}`);
       const imaging = field("imaging");
       if (imaging) objective.push(`Imaging: ${imaging}`);
+      if (opts.pending && field("pending")) objective.push(`Pending: ${field("pending").replace(/\s*\n\s*/g, "; ")}`);
+      const counters = sheetCounters(sheet);
+      if (counters.length) objective.push(`Day counts: ${counters.map(counterText).join("; ")}`);
       if (objective.length) out.push("", "OBJECTIVE", ...objective);
 
       const oneLiner = field("power");
@@ -2261,6 +2635,13 @@
           problem.lines.forEach((line) => out.push(`- ${line}`));
         }
         if (otherAp) out.push("", otherAp);
+      }
+      if (opts.dc) {
+        const dc = sheetDischarge(sheet);
+        out.push("", "DISCHARGE PLANNING");
+        if (dc.done.length) out.push(`Done: ${dc.done.join(", ")}`);
+        if (dc.open.length) out.push(`Outstanding: ${dc.open.join(", ")}`);
+        if (dc.notes) out.push(`Barriers / plan: ${dc.notes}`);
       }
       return out.join("\n").replace(/^\n+/, "").replace(/\n{3,}/g, "\n\n").trim();
     }
@@ -2335,7 +2716,10 @@
 
       row = table.insertRow();
       row.className = "pre-rounds-row-subjective";
-      appendPreRoundsSection(row, "Overnight / Subj", preRoundsFieldValue(card, "subjective"), 12).classList.add("pre-rounds-handwrite--subjective");
+      const subjCell = appendPreRoundsSection(row, "Overnight / Subj", preRoundsFieldValue(card, "subjective"), 12);
+      subjCell.classList.add("pre-rounds-handwrite--subjective");
+      subjCell.append(Object.assign(document.createElement("div"), { innerHTML: "<b>ROS:</b> " }));
+      subjCell.lastChild.append(document.createTextNode(preRoundsFieldValue(card, "ros-pp")));
 
       row = table.insertRow();
       row.className = "pre-rounds-row-vitals";
@@ -2363,10 +2747,12 @@
       }
 
       const sheetOptions = card._opts || { exam: new Set(), ros: new Set(), labs: new Set(labPanelNames), notes: true };
+      row = table.insertRow();
+      row.className = "pre-rounds-row-exam";
+      const examTableCell = appendPreRoundsSection(row, "Exam", "", 12);
+      examTableCell.append(Object.assign(document.createElement("div"), { innerHTML: "<b>Pertinent +:</b> " }));
+      examTableCell.lastChild.append(document.createTextNode(preRoundsFieldValue(card, "exam-pp")));
       if (sheetOptions.exam.size) {
-        row = table.insertRow();
-        row.className = "pre-rounds-row-exam";
-        const examTableCell = appendPreRoundsSection(row, "Exam", "", 12);
         makePreRoundsExamChecklist(examTableCell);
         examTableCell.querySelectorAll(".pre-rounds-exam-line[data-system]").forEach((line) => { if (!sheetOptions.exam.has(line.dataset.system)) line.remove(); });
         const examOther = preRoundsFieldValue(card, "exam-other");
@@ -2477,6 +2863,11 @@
       row.className = "pre-rounds-row-imaging";
       const imagingCell = appendPreRoundsSection(row, "Imaging", "", 12);
       imagingCell.append(document.createTextNode(preRoundsFieldValue(card, "imaging")));
+      if (sheetOptions.pending) {
+        row = table.insertRow();
+        row.className = "pre-rounds-row-pending";
+        appendPreRoundsSection(row, "Pending", preRoundsFieldValue(card, "pending"), 12);
+      }
 
       row = table.insertRow();
       row.className = "pre-rounds-row-assessment";
@@ -2524,10 +2915,21 @@
         assessmentBody.append(other);
       }
 
+      if (sheetOptions.dc) {
+        row = table.insertRow();
+        row.className = "pre-rounds-row-dc";
+        const dc = sheetDischarge(card);
+        const dcCell = appendPreRoundsSection(row, "Discharge", "", 12);
+        dcCell.append(document.createTextNode([...dc.done.map((item) => `\u2611 ${item}`), ...dc.open.map((item) => `\u2610 ${item}`)].join("   ")));
+        if (dc.notes) dcCell.append(Object.assign(document.createElement("div"), { textContent: `Barriers / plan: ${dc.notes}` }));
+      }
       if (sheetOptions.notes) {
         row = table.insertRow();
         row.className = "pre-rounds-row-notes";
-        appendPreRoundsSection(row, "Notes", preRoundsFieldValue(card, "notes"), 12).classList.add("pre-rounds-handwrite--notes");
+        const notesCell = appendPreRoundsSection(row, "Notes", preRoundsFieldValue(card, "notes"), 12);
+        notesCell.classList.add("pre-rounds-handwrite--notes");
+        const counters = sheetCounters(card);
+        if (counters.length) notesCell.append(Object.assign(document.createElement("div"), { textContent: counters.map(counterText).join("   ") }));
       }
 
       sheet.append(table);
@@ -2601,7 +3003,7 @@
 
     function sheetHasContent(sheet) {
       return [...sheet.querySelectorAll('input, textarea, [data-field="power"]')].some((element) => element.type !== "checkbox" && !element.closest(".sheet-foot, .rs-patient-bar") && element.value.trim())
-        || sheet.querySelector('[data-state="pos"], [data-state="neg"], [data-checked="true"]');
+        || sheet.querySelector('[data-state="pos"], [data-state="neg"], [data-checked="true"], [data-dc-item][aria-pressed="true"]');
     }
 
     function makeSheetTabs({ tabs, container, sheetSelector, labelFor, onShow }) {
@@ -3245,8 +3647,8 @@
     }
 
     // ---------- Resizable sheet frame: scales the whole sheet like a page, aspect ratio kept (not saved) ----------
-    const sheetZoomVar = { "pre-rounds": "--rs-zoom", "pre-charting": "--pc-zoom" };
-    const sheetContainerFor = (kind) => document.getElementById(kind === "pre-rounds" ? "pre-rounds-patients" : "pc-sheets");
+    const sheetZoomVar = { "pre-rounds": "--rs-zoom", "pre-charting": "--pc-zoom", "med-rec": "--mr-zoom", "sign-out": "--so-zoom" };
+    const sheetContainerFor = (kind) => document.getElementById(({ "pre-rounds": "pre-rounds-patients", "pre-charting": "pc-sheets", "med-rec": "mr-sheets", "sign-out": "so-sheets" })[kind]);
     const sheetZoom = (kind) => parseFloat(document.documentElement.style.getPropertyValue(sheetZoomVar[kind])) || 1;
     function setSheetZoom(kind, zoom) {
       const container = sheetContainerFor(kind);
@@ -3291,7 +3693,7 @@
       if (!handle || event.button !== 0) return;
       event.preventDefault();
       const kind = handle.dataset.kind;
-      const rect = handle.closest(".rs-sheet, .pc-sheet").getBoundingClientRect();
+      const rect = handle.closest(".rs-sheet, .pc-sheet, .mr-sheet, .so-sheet").getBoundingClientRect();
       resizing = { kind, dir: handle.dataset.dir, startX: event.clientX, startY: event.clientY, width: rect.width, height: rect.height, zoom: sheetZoom(kind), handle, pointerId: event.pointerId };
       handle.setPointerCapture?.(event.pointerId);
       handle.classList.add("is-active");
@@ -3351,7 +3753,7 @@
     function makeSheetFoot(kind) {
       const foot = document.createElement("div");
       foot.className = "sheet-foot screen-only";
-      const current = kind === "pre-rounds" ? "Pre-Rounds" : "Pre-Charting";
+      const current = ({ "pre-rounds": "Pre-Rounds", "pre-charting": "Pre-Charting", "med-rec": "Med Rec", "sign-out": "Sign-out" })[kind];
       const toolItems = toolTabs.map((tab) => `<button type="button" class="foot-item" data-go-tool="${tab.id}"${tab.textContent === current ? ' aria-current="true"' : ""}>${tab.textContent}</button>`).join("");
       const roundsOnly = kind === "pre-rounds" ? `
           <button class="quiet-button" type="button" data-copy-all title="Copy every patient's sheet for Word">Copy all</button>
@@ -3379,9 +3781,19 @@
         </details>
         <span class="sheet-foot-right">${roundsOnly}
           <button class="quiet-button" type="button" data-proxy="fullscreen-toggle"></button>
-          <button class="quiet-button" type="button" data-proxy="theme-toggle"></button>${printMenu}
+          <button class="quiet-button" type="button" data-proxy="theme-toggle"></button>
+          <details class="foot-menu hide-menu">
+            <summary class="quiet-button" title="Privacy screen (or press Esc twice)">Hide &#x25b4;</summary>
+            <div class="foot-pop">
+              <button type="button" class="foot-item print-primary" data-hide-now>Hide now <span class="foot-kbd">Esc Esc</span></button>
+              <div class="foot-row"><span class="foot-label">Auto-hide when idle</span>
+                <select data-idle-minutes aria-label="Auto-hide after minutes idle"><option value="0">Off</option><option value="2">2 min</option><option value="5">5 min</option><option value="10">10 min</option></select></div>
+            </div>
+          </details>${printMenu}
         </span>`;
       syncFootProxies(foot);
+      const idle = foot.querySelector("[data-idle-minutes]");
+      if (idle) idle.value = String(window.__idleMinutes || 0);
       return foot;
     }
     function syncFootProxies(root = document) {
@@ -3451,7 +3863,7 @@
       makePreRoundsExamChecklist(sheet.querySelector("[data-exam-checklist]"));
       makePreRoundsRosChecklist(sheet.querySelector("[data-ros-checklist]"));
       makeChecklistInteractive(sheet);
-      sheet._opts = { exam: new Set(), ros: new Set(), labs: new Set(labPanelNames), notes: true, lines: false };
+      sheet._opts = { exam: new Set(), ros: new Set(), labs: new Set(labPanelNames), notes: true, lines: false, pending: false, dc: false };
       sheet.classList.add("show-notes");
       sheet.querySelectorAll("[data-local-picker]").forEach((mount) => {
         const picker = makeLocalPicker(sheet, mount.dataset.localPicker);
@@ -3471,10 +3883,93 @@
       updateCalcs(sheet);
     }
 
+    // ---------- Multi-day lab tables (a column per date) -> newest day on the sheet + trends ----------
+    function parseMultiDayLabs(text) {
+      const lines = String(text || "").replace(/\r\n?/g, "\n").split("\n").filter((line) => line.trim());
+      const cellsOf = (line) => (line.includes("\t") ? line.split("\t") : line.trim().split(/\s{2,}/)).map((cell) => cell.trim());
+      const dateCell = (cell) => {
+        const match = cell.match(/^(\d{1,2})\/(\d{1,2})(?:\/\d{2,4})?(?:\s+(\d{1,2}):(\d{2})\s*([AP]M)?)?$/i);
+        if (!match) return null;
+        let minutes = match[3] ? Number(match[3]) % 12 * 60 + Number(match[4]) : 0;
+        if (match[5] && /p/i.test(match[5])) minutes += 720;
+        else if (match[3] && !match[5] && Number(match[3]) >= 12) minutes = Number(match[3]) * 60 + Number(match[4]);
+        return { key: `${Number(match[1])}/${Number(match[2])}`, minutes };
+      };
+      let headerIndex = -1, columns = null;
+      for (let i = 0; i < lines.length; i += 1) {
+        const dates = cellsOf(lines[i]).map(dateCell);
+        if (dates.filter(Boolean).length >= 2) {
+          headerIndex = i;
+          columns = dates;
+          break;
+        }
+      }
+      if (headerIndex < 0) return null;
+      const offset = columns[0] ? 1 : 0;
+      const rows = [];
+      for (const line of lines.slice(headerIndex + 1)) {
+        const cells = cellsOf(line);
+        if (cells.length < 2 || !/[a-z]/i.test(cells[0])) continue;
+        const values = new Map();
+        columns.forEach((column, index) => {
+          if (!column) return;
+          const raw = (cells[index + offset] || "").trim();
+          if (!raw || !/\d/.test(raw)) return;
+          const previous = values.get(column.key);
+          if (!previous || column.minutes >= previous.minutes) values.set(column.key, { raw, minutes: column.minutes });
+        });
+        if (values.size) rows.push({ name: cells[0].replace(/\s*\([^)]*\)\s*$/, "").trim(), values });
+      }
+      if (!rows.length) return null;
+      const dateKeys = [...new Set(columns.filter(Boolean).map((column) => column.key))]
+        .sort((a, b) => (parseShortDate(a) || 0) - (parseShortDate(b) || 0));
+      return { dates: dateKeys, rows };
+    }
+
+    function applyMultiDayTrends(sheet, multi) {
+      const dates = multi.dates.slice(-maxTrendDays);
+      const order = preRoundsLabFields.map(([, field]) => field);
+      const picked = [];
+      for (const row of multi.rows) {
+        const points = dates.map((date) => row.values.get(date)?.raw || "");
+        if (points.filter(Boolean).length < 2) continue;
+        const { parsed, unrecognized } = parseEmrLabs(`${row.name} ${points.find(Boolean)}`);
+        const field = [...parsed.keys()][0] || "";
+        const flagged = points.some((point) => splitLabFlag(point).flag || /\*\s*$/.test(point));
+        if (!flagged) continue;
+        const label = field ? preRoundsLabFields.find(([, key]) => key === field)[0].replace("Gluc", "Glucose").replace("Plts", "PLT") : (unrecognized[0] ? classifyExtraLab(unrecognized[0].name).label : row.name);
+        if (picked.some((item) => item.label === label)) continue;
+        picked.push({ label, points, rank: field ? order.indexOf(field) : 100 + picked.length });
+      }
+      if (!picked.length) return 0;
+      picked.sort((a, b) => a.rank - b.rank);
+      sheet.querySelector("[data-trends]").replaceChildren();
+      const table = createTrendTable(sheet);
+      const head = table.tHead.rows[0];
+      while (head.cells.length > 1) head.cells[1].remove();
+      dates.forEach((date) => head.append(makeTrendDayHeader(date)));
+      for (const item of picked) {
+        const row = addTrendRow(sheet);
+        row.querySelector("[data-trend-name]").value = item.label;
+        item.points.forEach((point, index) => {
+          const input = row.querySelectorAll("[data-trend-value]")[index];
+          if (!input || !point) return;
+          const flag = splitLabFlag(point.replace(/\s*\*$/, " A"));
+          input.value = flag.value.replace(/[()]/g, "").trim();
+          setLabInputFlag(input, flag.flag);
+        });
+      }
+      syncTrendTools(sheet);
+      return picked.length;
+    }
+
     function applySheetLabs(sheet) {
       const paste = sheet.querySelector("[data-emr-labs]");
       const status = sheet.querySelector("[data-lab-status]");
-      const { parsed, parsedFlags, unrecognized, skipped } = parseEmrLabs(paste.value);
+      const multi = parseMultiDayLabs(paste.value);
+      const newest = multi?.dates.at(-1);
+      const singleDayText = multi ? multi.rows.filter((row) => row.values.has(newest)).map((row) => `${row.name}\t${row.values.get(newest).raw}`).join("\n") : paste.value;
+      const { parsed, parsedFlags, unrecognized, skipped } = parseEmrLabs(singleDayText);
       for (const [field, value] of parsed) {
         const input = sheet.querySelector(`.rs-fish [data-field="${field}"]`);
         if (!input) continue;
@@ -3520,6 +4015,10 @@
       status.textContent = paste.value.trim()
         ? `Filled ${parsed.size} fishbone value${parsed.size === 1 ? "" : "s"}; ${withValues.length} other result${withValues.length === 1 ? "" : "s"} listed below.`
         : "";
+      if (multi) {
+        const trended = applyMultiDayTrends(sheet, multi);
+        status.textContent = `Found ${multi.dates.length} dates. Filled the sheet from ${newest} (${parsed.size} fishbone value${parsed.size === 1 ? "" : "s"}, ${withValues.length} other)${trended ? `; trends for ${trended} lab${trended === 1 ? "" : "s"} that were abnormal at some point.` : "."}`;
+      }
       showLabPanelsWithValues(sheet);
       renderSheetExtraLabs(sheet);
     }
@@ -3637,6 +4136,7 @@
       if (!sheet) return;
       autoGrow(event.target);
       if (event.target.matches(".rs-fish-value, .rs-vital input")) updateCalcs(sheet);
+      if (event.target.matches("[data-counter-start]")) updateCounter(event.target.closest("[data-counter]"));
       if (event.target.matches("[data-emr-labs]")) {
         applySheetLabs(sheet);
         return;
@@ -3676,7 +4176,11 @@
         sheet.classList.toggle(`show-${key}`, sheet._opts[key]);
         optToggle.setAttribute("aria-pressed", String(sheet._opts[key]));
         refreshSheet(sheet);
-        if (sheet._opts[key]) sheet.querySelector(`.rs-opt-${key} textarea`)?.focus();
+        if (sheet._opts[key]) sheet.querySelector(`.rs-opt-${key} textarea`)?.focus({ preventScroll: true });
+        return;
+      }
+      if (event.target.closest("[data-present]")) {
+        window.openPresentation(sheet);
         return;
       }
       if (event.target.closest("[data-copy-note]")) {
@@ -3727,8 +4231,8 @@
         return;
       }
       if (event.target.closest("[data-copy-exam]")) {
-        const text = examNoteText(sheet.querySelector(".rs-opt-exam"), sheet.querySelector('[data-field="exam-other"]').value);
-        copyPlainText(text).then((ok) => { preRoundsStatus.textContent = !text ? "Mark exam findings first." : ok ? "Exam copied." : "Copy unavailable."; });
+        const text = rsExamText(sheet);
+        copyPlainText(text).then((ok) => { preRoundsStatus.textContent = !text ? "Enter pertinent positives or mark exam findings first." : ok ? "Exam copied." : "Copy unavailable."; });
         return;
       }
       if (event.target.closest("[data-copy-ros]")) {
@@ -3742,6 +4246,19 @@
       }
       if (event.target.closest("[data-add-lab]")) {
         addPreRoundsManualLab(sheet, true);
+        return;
+      }
+      const dcItem = event.target.closest("[data-dc-item]");
+      if (dcItem) {
+        dcItem.setAttribute("aria-pressed", String(dcItem.getAttribute("aria-pressed") !== "true"));
+        return;
+      }
+      if (event.target.closest("[data-add-counter]")) {
+        addCounter(sheet, true);
+        return;
+      }
+      if (event.target.closest("[data-remove-counter]")) {
+        event.target.closest("[data-counter]").remove();
         return;
       }
       if (event.target.closest("[data-add-trend], [data-add-trend-row]")) {
@@ -3857,7 +4374,8 @@
         const problems = row.insertCell();
         problems.className = "rs-census-problems";
         preRoundsProblems(sheet).forEach((problem) => problems.append(Object.assign(document.createElement("div"), { textContent: `# ${problem.title || "Problem"}` })));
-        row.insertCell();
+        const todo = row.insertCell();
+        if (sheet._opts?.pending && value("pending")) todo.textContent = `Pending: ${value("pending")}`;
       }
       census.replaceChildren(head, table);
       document.body.dataset.printSpecial = "list";
@@ -3882,10 +4400,15 @@
       const used = sheets.filter(sheetHasContent).length;
       if (used && !window.confirm(`Erase all ${sheets.length} patient sheet${sheets.length === 1 ? "" : "s"}? This cannot be undone.`)) return;
       sheets.forEach((sheet) => sheet.remove());
+      // Back to defaults: 2 per page, 100% scale, 4 blank sheets.
+      preRoundsPatients.classList.remove("print-one");
+      document.documentElement.style.removeProperty("--rs-zoom");
       createRoundingSheet();
+      document.querySelectorAll("[data-print-layout]").forEach((item) => item.setAttribute("aria-pressed", String(item.dataset.printLayout === "2")));
+      document.querySelectorAll("[data-blank-count]").forEach((field) => { field.value = "4"; });
       roundingTabs.render();
       goToPage(0, false);
-      preRoundsStatus.textContent = "All sheets cleared.";
+      preRoundsStatus.textContent = "All sheets cleared and reset to default settings.";
     }
     preRoundsPatients.addEventListener("click", (event) => {
       const target = event.target;
@@ -4144,6 +4667,17 @@
       pcStatus.textContent = await copyPlainText(text) ? "H&P outline copied. Verify everything at the bedside before using it in a note." : "Copy unavailable.";
     });
     document.getElementById("pc-print").addEventListener("click", () => window.print());
+    document.getElementById("pc-start-medrec").addEventListener("click", () => {
+      const source = pcTabs.current();
+      const meds = pcValue(source, "meds");
+      if (!meds.trim()) {
+        pcStatus.textContent = "Type or paste the home medications into Current Medications first.";
+        return;
+      }
+      activateToolTab(document.getElementById("med-rec-tab"));
+      window.scrollTo({ top: 0 });
+      window.medRecStart(meds, source.dataset.sheetId);
+    });
     document.getElementById("pc-send-rounds").addEventListener("click", () => {
       const source = pcTabs.current();
       const target = [...preRoundsPatients.querySelectorAll(".rs-sheet")].find((sheet) => !sheetHasContent(sheet)) || createRoundingSheet();
@@ -4170,10 +4704,691 @@
         }
         renumberPreRoundsProblems(target);
       }
+      const medsCarried = window.medRecSource?.() === source.dataset.sheetId && window.medRecWriteTo?.(target);
       activateToolTab(document.getElementById("pre-rounds-tab"));
       roundingTabs.select(target.dataset.sheetId);
-      preRoundsStatus.textContent = "Created from Pre-Charting. Labs in the Labs / Imaging box were parsed into the fishbones where recognized.";
+      preRoundsStatus.textContent = `Created from Pre-Charting. Labs in the Labs / Imaging box were parsed into the fishbones where recognized.${medsCarried ? " Med Rec decisions were added as \"# Home meds\"." : ""}`;
     });
+
+    // ---------- Presentation mode: one patient, large type, in the order you present ----------
+    (function initializePresentation() {
+      const overlay = document.getElementById("present");
+      const body = document.getElementById("present-body");
+      let index = 0;
+      let size = 20;
+      const el = (tag, className, text) => {
+        const node = document.createElement(tag);
+        if (className) node.className = className;
+        if (text !== undefined) node.textContent = text;
+        return node;
+      };
+      function section(label, content) {
+        if (!content || (typeof content === "string" && !content.trim())) return null;
+        const sec = el("section", "present-sec");
+        sec.append(el("span", "present-label", label));
+        if (typeof content === "string") sec.append(el("p", "", content));
+        else sec.append(content);
+        return sec;
+      }
+      function labsBlock(sheet) {
+        const wrap = el("div");
+        const groups = [["BMP", [["Na", "na"], ["K", "k"], ["Cl", "cl"], ["HCO3", "hco3"], ["BUN", "bun"], ["Cr", "cr"], ["Glu", "gluc"]]], ["CBC", [["WBC", "wbc"], ["Hgb", "hgb"], ["Hct", "hct"], ["Plt", "plts"]]], ["Ca/Mg/Phos", [["Ca", "ca"], ["Mg", "mg"], ["Phos", "po4"]]]];
+        for (const [title, pairs] of groups) {
+          const items = pairs.map(([label, name]) => [label, sheet.querySelector(`.rs-fish [data-field="${name}"]`)]).filter(([, input]) => input && input.value.trim());
+          if (!items.length) continue;
+          const line = el("p");
+          line.append(el("b", "", `${title}: `));
+          items.forEach(([label, input], i) => {
+            if (i) line.append(", ");
+            line.append(`${label} `);
+            const value = el("span", input.dataset.flag ? "present-abn" : "", `${input.value.trim()}${input.dataset.flag ? ` ${input.dataset.flag}` : ""}`);
+            line.append(value);
+          });
+          wrap.append(line);
+        }
+        const calc = calcText(sheetCalcs(sheet));
+        if (calc) wrap.append(el("p", "", calc));
+        const extra = makeExtraLabsDisplay(preRoundsManualLabs(sheet));
+        if (extra?.dataset.plainText) extra.dataset.plainText.split("\n").forEach((line) => wrap.append(el("p", "", line)));
+        const trends = sheetTrends(sheet).filter((trend) => trend.points.length);
+        if (trends.length) {
+          const dates = sheetTrendDates(sheet);
+          const table = el("table", "present-trend");
+          const head = table.insertRow();
+          head.append(el("th", "", "Trend"), ...dates.map((date) => el("th", "", date)));
+          [...sheet.querySelectorAll("[data-trend]")].forEach((row) => {
+            const name = row.querySelector("[data-trend-name]").value.trim();
+            const inputs = [...row.querySelectorAll("[data-trend-value]")];
+            if (!name && !inputs.some((input) => input.value.trim())) return;
+            const tr = table.insertRow();
+            tr.append(el("td", "", name || "Lab"));
+            inputs.forEach((input) => tr.append(el("td", input.dataset.flag ? "present-abn" : "", input.value.trim())));
+          });
+          wrap.append(table);
+        }
+        return wrap.childNodes.length ? wrap : null;
+      }
+      function render() {
+        const sheets = rsSheetsList();
+        index = Math.max(0, Math.min(sheets.length - 1, index));
+        const sheet = sheets[index];
+        const field = (name) => (sheet.querySelector(`[data-field="${name}"]`)?.value || "").trim();
+        const opts = sheet._opts || {};
+        const where = [field("label") && `Bed ${field("label").replace(/^bed\s*/i, "")}`, field("room") && `Rm ${field("room")}`, field("hd") && `HD ${field("hd").replace(/^hd\s*#?\s*/i, "")}`].filter(Boolean).join(" \u00b7 ");
+        document.getElementById("present-title").textContent = `${where || sheet.querySelector("[data-patient-name]").textContent}${sheets.length > 1 ? `   (${index + 1} of ${sheets.length})` : ""}`;
+        document.getElementById("present-prev").disabled = index === 0;
+        document.getElementById("present-next").disabled = index === sheets.length - 1;
+        const parts = [];
+        if (field("power")) parts.push(el("p", "present-oneliner", field("power")));
+        parts.push(section("Overnight / subjective", [field("subjective"), field("ros-pp") && `ROS: ${field("ros-pp")}`, opts.ros?.size ? rosNoteText(sheet.querySelector(".rs-opt-ros")) : ""].filter(Boolean).join("\n")));
+        const calcs = sheetCalcs(sheet);
+        const vitals = [["T", "temp"], ["HR", "hr"], ["RR", "rr"], ["BP", "bp"]].map(([label, name]) => field(name) && `${label} ${field(name)}`);
+        if (field("o2") || field("o2dev")) vitals.push(`SpO2 ${field("o2")}${field("o2dev") ? ` on ${field("o2dev")}` : ""}`);
+        if (field("weight")) vitals.push(`Wt ${field("weight")}`);
+        if (field("intake") || field("output")) vitals.push(`I/O ${field("intake") || "?"} / ${field("output") || "?"}${calcs.net ? ` (net ${calcs.net})` : ""}`);
+        parts.push(section("Vitals", vitals.filter(Boolean).join("   ")));
+        if (opts.lines) parts.push(section("Lines / drains", field("lines")));
+        parts.push(section("Exam", rsExamText(sheet).replace(/^Pertinent positives: /, "")));
+        parts.push(section("Labs", labsBlock(sheet)));
+        parts.push(section("Imaging", field("imaging")));
+        if (opts.pending) parts.push(section("Pending", field("pending")));
+        const problems = preRoundsProblems(sheet);
+        if (problems.length) {
+          const ap = el("div");
+          problems.forEach((problem) => {
+            ap.append(el("p", "present-problem", `# ${problem.title || "Problem"}`));
+            if (problem.lines.length) {
+              const list = el("ul", "present-plan");
+              problem.lines.forEach((line) => list.append(el("li", "", line)));
+              ap.append(list);
+            }
+          });
+          parts.push(section("Assessment & plan", ap));
+        }
+        const counters = sheetCounters(sheet);
+        if (counters.length) parts.push(section("Day counts", counters.map(counterText).join("   ")));
+        if (opts.dc) {
+          const dc = sheetDischarge(sheet);
+          parts.push(section("Discharge", [dc.open.length && `Outstanding: ${dc.open.join(", ")}`, dc.notes && `Barriers / plan: ${dc.notes}`].filter(Boolean).join("\n")));
+        }
+        const filled = parts.filter(Boolean);
+        body.replaceChildren(...(filled.length ? filled : [el("p", "present-empty", "Nothing on this sheet yet.")]));
+        body.scrollTop = 0;
+      }
+      window.openPresentation = (sheet) => {
+        index = Math.max(0, rsSheetsList().indexOf(sheet));
+        overlay.hidden = false;
+        render();
+        document.getElementById("present-close").focus({ preventScroll: true });
+      };
+      const close = () => {
+        overlay.hidden = true;
+        goToPage(index, false);
+      };
+      document.getElementById("present-close").addEventListener("click", close);
+      document.getElementById("present-prev").addEventListener("click", () => { index -= 1; render(); });
+      document.getElementById("present-next").addEventListener("click", () => { index += 1; render(); });
+      const resize = (delta) => {
+        size = Math.max(14, Math.min(34, size + delta));
+        body.style.setProperty("--present-size", `${size}px`);
+      };
+      document.getElementById("present-smaller").addEventListener("click", () => resize(-2));
+      document.getElementById("present-larger").addEventListener("click", () => resize(2));
+      document.addEventListener("keydown", (event) => {
+        if (overlay.hidden || !document.getElementById("privacy-screen").hidden) return;
+        if (event.key === "Escape") {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          close();
+        } else if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          index += event.key === "ArrowRight" ? 1 : -1;
+          render();
+        }
+      }, true);
+      let touchX = null;
+      body.addEventListener("touchstart", (event) => { touchX = event.touches[0].clientX; }, { passive: true });
+      body.addEventListener("touchend", (event) => {
+        if (touchX === null) return;
+        const dx = event.changedTouches[0].clientX - touchX;
+        touchX = null;
+        if (Math.abs(dx) > 60) { index += dx < 0 ? 1 : -1; render(); }
+      });
+    })();
+
+    // ---------- Privacy screen: Hide button, Esc twice, optional auto-hide when idle ----------
+    (function initializePrivacy() {
+      const screen = document.getElementById("privacy-screen");
+      let lastEscape = 0;
+      let idleMinutes = 0;
+      let idleTimer = 0;
+      const hide = () => {
+        document.querySelectorAll("details[open]").forEach((details) => { details.open = false; });
+        document.body.classList.add("is-private");
+        screen.hidden = false;
+        document.getElementById("privacy-reveal").focus({ preventScroll: true });
+      };
+      const show = () => {
+        document.body.classList.remove("is-private");
+        screen.hidden = true;
+        armIdle();
+      };
+      window.hideScreen = hide;
+      function armIdle() {
+        clearTimeout(idleTimer);
+        if (idleMinutes > 0 && screen.hidden) idleTimer = setTimeout(hide, idleMinutes * 60000);
+      }
+      ["pointerdown", "keydown", "wheel", "touchstart", "input"].forEach((type) => document.addEventListener(type, () => { if (screen.hidden) armIdle(); }, { passive: true, capture: true }));
+      screen.addEventListener("click", show);
+      document.addEventListener("keydown", (event) => {
+        if (!screen.hidden) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          show();
+          return;
+        }
+        if (event.key === "Escape" && document.getElementById("present").hidden) {
+          const now = Date.now();
+          if (now - lastEscape < 650) {
+            lastEscape = 0;
+            hide();
+          } else lastEscape = now;
+        }
+      }, true);
+      document.addEventListener("click", (event) => {
+        if (event.target.closest("[data-hide-now]")) hide();
+      });
+      document.addEventListener("change", (event) => {
+        const select = event.target.closest("[data-idle-minutes]");
+        if (!select) return;
+        idleMinutes = Number(select.value) || 0;
+        window.__idleMinutes = idleMinutes;
+        document.querySelectorAll("[data-idle-minutes]").forEach((item) => { item.value = select.value; });
+        armIdle();
+      });
+    })();
+
+    // ---------- Sign-out (I-PASS) built from Pre-Rounds patients ----------
+    (function initializeSignOut() {
+      const $ = (id) => document.getElementById(id);
+      const sheet = $("so-sheet");
+      sheet.append(makeSheetFoot("sign-out"));
+      addResizeHandles(sheet, "sign-out");
+      const entries = new Map(); // Pre-Rounds sheet id -> entry
+      const list = $("so-list");
+      const fieldsSpec = [
+        ["summary", "P · Patient summary", "One-liner, active problems, hospital course in a sentence"],
+        ["actions", "A · Action list", "To do overnight, with timing: f/u 2am K, recheck lactate..."],
+        ["contingency", "S · Situation awareness & contingency", "If ___, then ___. e.g. if MAP < 65 after 1 L, call ICU"],
+      ];
+      const value = (rsSheet, name) => (rsSheet.querySelector(`[data-field="${name}"]`)?.value || "").trim();
+      function summaryFrom(rsSheet) {
+        const problems = preRoundsProblems(rsSheet).map((problem) => `# ${problem.title || "Problem"}`).join("  ");
+        return [value(rsSheet, "power"), problems].filter(Boolean).join("\n");
+      }
+      function actionsFrom(rsSheet) {
+        return rsSheet._opts?.pending && value(rsSheet, "pending") ? value(rsSheet, "pending").split(/\s*[,;\n]\s*/).filter(Boolean).map((item) => `- f/u ${item}`).join("\n") : "";
+      }
+      function grow(area) { area.style.height = "auto"; area.style.height = `${area.scrollHeight}px`; }
+      function sync() {
+        const sheets = rsSheetsList();
+        const ids = new Set(sheets.map((rsSheet) => rsSheet.dataset.sheetId));
+        for (const id of [...entries.keys()]) if (!ids.has(id)) entries.delete(id);
+        for (const rsSheet of sheets) {
+          const id = rsSheet.dataset.sheetId;
+          const entry = entries.get(id) || { severity: "", code: "", summary: "", actions: "", contingency: "", readback: false, edited: {} };
+          if (!entry.edited.summary) entry.summary = summaryFrom(rsSheet);
+          if (!entry.edited.actions) entry.actions = actionsFrom(rsSheet);
+          entry.bed = rsSheet.querySelector("[data-patient-name]").textContent;
+          entry.room = value(rsSheet, "room");
+          entries.set(id, entry);
+        }
+        render(sheets);
+      }
+      function render(sheets = rsSheetsList()) {
+        const used = sheets.filter((rsSheet) => sheetHasContent(rsSheet));
+        const show = used.length ? used : [];
+        if (!show.length) {
+          list.replaceChildren(Object.assign(document.createElement("div"), { className: "so-empty", textContent: "Fill in at least one Pre-Rounds sheet; each patient appears here as a sign-out card." }));
+          return;
+        }
+        list.replaceChildren(...show.map((rsSheet) => {
+          const id = rsSheet.dataset.sheetId;
+          const entry = entries.get(id);
+          const card = document.createElement("section");
+          card.className = "so-card";
+          card.dataset.id = id;
+          card.dataset.severity = entry.severity;
+          const head = document.createElement("div");
+          head.className = "so-card-head";
+          head.innerHTML = `<span class="so-bed"></span><span class="so-sev" role="group" aria-label="I · Illness severity">${["stable", "watcher", "unstable"].map((sev) => `<button type="button" class="so-sev-btn" data-sev="${sev}" aria-pressed="${entry.severity === sev}">${sev.charAt(0).toUpperCase()}${sev.slice(1)}</button>`).join("")}</span><label class="so-code">Code status <input data-so="code" autocomplete="off" placeholder="Full / DNR / DNI"></label><label class="so-readback screen-only"><input type="checkbox" data-so="readback"> Read back</label>`;
+          head.querySelector(".so-bed").textContent = `${entry.bed}${entry.room ? ` · Rm ${entry.room}` : ""}`;
+          head.querySelector('[data-so="code"]').value = entry.code;
+          head.querySelector('[data-so="readback"]').checked = entry.readback;
+          const fields = document.createElement("div");
+          fields.className = "so-fields";
+          fieldsSpec.forEach(([key, label, hint], index) => {
+            const field = document.createElement("label");
+            field.className = `so-field${index === 0 || index === 2 ? " so-wide" : " so-wide"}`;
+            field.append(Object.assign(document.createElement("span"), { textContent: label }));
+            const area = document.createElement("textarea");
+            area.dataset.so = key;
+            area.rows = 2;
+            area.placeholder = hint;
+            area.value = entry[key];
+            field.append(area);
+            fields.append(field);
+          });
+          card.append(head, fields);
+          return card;
+        }));
+        list.querySelectorAll("textarea").forEach(grow);
+      }
+      list.addEventListener("input", (event) => {
+        const card = event.target.closest(".so-card");
+        if (!card) return;
+        const entry = entries.get(card.dataset.id);
+        const key = event.target.dataset.so;
+        if (key === "readback") entry.readback = event.target.checked;
+        else {
+          entry[key] = event.target.value;
+          entry.edited[key] = true;
+        }
+        if (event.target.matches("textarea")) grow(event.target);
+      });
+      list.addEventListener("change", (event) => {
+        const card = event.target.closest(".so-card");
+        if (card && event.target.dataset.so === "readback") entries.get(card.dataset.id).readback = event.target.checked;
+      });
+      list.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-sev]");
+        if (!button) return;
+        const card = button.closest(".so-card");
+        const entry = entries.get(card.dataset.id);
+        entry.severity = entry.severity === button.dataset.sev ? "" : button.dataset.sev;
+        card.dataset.severity = entry.severity;
+        card.querySelectorAll("[data-sev]").forEach((item) => item.setAttribute("aria-pressed", String(item.dataset.sev === entry.severity)));
+      });
+      function signOutText() {
+        return [...list.querySelectorAll(".so-card")].map((card) => {
+          const entry = entries.get(card.dataset.id);
+          return [
+            `${entry.bed}${entry.room ? ` (Rm ${entry.room})` : ""}${entry.severity ? ` — ${entry.severity.toUpperCase()}` : ""}${entry.code ? ` — ${entry.code}` : ""}`,
+            entry.summary && `P: ${entry.summary.replace(/\n/g, "\n   ")}`,
+            entry.actions && `A: ${entry.actions.replace(/\n/g, "\n   ")}`,
+            entry.contingency && `S: ${entry.contingency.replace(/\n/g, "\n   ")}`
+          ].filter(Boolean).join("\n");
+        }).join("\n\n");
+      }
+      $("so-refresh").addEventListener("click", () => {
+        sync();
+        $("so-status").textContent = "Updated from Pre-Rounds. Fields you typed in were kept.";
+      });
+      $("so-copy").addEventListener("click", async () => {
+        const text = signOutText();
+        $("so-status").textContent = !text ? "Nothing to copy yet." : await copyPlainText(text) ? "Sign-out copied." : "Copy unavailable.";
+      });
+      $("so-print").addEventListener("click", () => window.print());
+      document.addEventListener("tool-tab-shown", () => { if (!$("sign-out-panel").hidden) sync(); });
+      window.__signOut = { entries, sync, signOutText };
+      sync();
+    })();
+
+    // ---------- Med Rec: paste the home list, decide each med, copy one template ----------
+    (function initializeMedRec() {
+      const $ = (id) => document.getElementById(id);
+      const mr = { meds: [], index: 0, format: "note", nextId: 1 };
+      window.medRecHasWork = () => mr.meds.length > 0;
+      const sheet = $("mr-sheet");
+      sheet.append(makeSheetFoot("med-rec"));
+      addResizeHandles(sheet, "med-rec");
+
+      const decisionLabels = { continue: "Continue", hold: "Hold", stop: "Stop", change: "Change", new: "New" };
+      const chipSets = {
+        hold: ["AKI", "NPO", "Hypotension", "Bleeding / procedure", "On IV equivalent", "Formulary substitution", "Resume at discharge", "Until clinically improved"],
+        stop: ["Not taking", "Duplicate therapy", "Adverse effect", "No longer indicated", "Replaced by new med"],
+        change: ["Renal dosing", "Hypotension", "Uncontrolled", "Formulary substitution"],
+        new: []
+      };
+      const reasonLabels = { hold: "Reason / resume plan", stop: "Reason", change: "Reason", new: "Indication" };
+
+      // Spell out error-prone abbreviations and tidy common EHR wording.
+      function tidyRegimen(text) {
+        return String(text || "")
+          .replace(/\bq\.?\s?o\.?\s?d\.?(?=[\s,;)]|$)/gi, "every other day")
+          .replace(/\bq\.?\s?d\.?(?=[\s,;)]|$)/gi, "daily")
+          .replace(/\bq\.?\s?h\.?\s?s\.?(?=[\s,;)]|$)/gi, "at bedtime")
+          .replace(/\bh\.?s\.?(?=[\s,;)]|$)/g, "at bedtime")
+          .replace(/(\d)\s*I?U\b/g, "$1 units")
+          .replace(/\b(\d+)\.0+(?!\d)/g, "$1")
+          .replace(/(^|[\s(])\.(\d)/g, "$10.$2")
+          .replace(/\b(?:sq|subq|s\.c\.|sc)\b/gi, "subcut")
+          .replace(/\bby mouth\b/gi, "PO")
+          .replace(/\bpo\b/gi, "PO")
+          .replace(/\b(bid|tid|qid|prn)\b/gi, (match) => match.toUpperCase())
+          .replace(/\b(\d+(?:\.\d+)?)\s*(MG|MCG|ML|G|MEQ)\b/g, (match, number, unit) => `${number} ${unit === "ML" ? "mL" : unit === "MEQ" ? "mEq" : unit.toLowerCase()}`)
+          .replace(/\s+/g, " ")
+          .trim();
+      }
+      const doseStart = /\s(?=\d[\d.,/]*\s*(?:mg|mcg|µg|g|gm|units?|meq|ml|%|puffs?|tabs?|tablets?|caps?|capsules?|drops?|sprays?|patch(?:es)?|iu|u)\b)/i;
+      function parseMedLine(raw) {
+        let line = raw.replace(/\t+/g, "  ").replace(/^\s*(?:[-*•▪]|\d{1,2}[.)])\s*/, "").replace(/(^|[\s(])\.(\d)/g, "$10.$2").trim();
+        line = line.replace(/\b\d{1,2}\/\d{1,2}\/\d{2,4}\b/g, " ").replace(/\s{2,}(?:taking|not taking|yes|no|active)\s*$/i, "").trim();
+        if (!line || !/[a-z]/i.test(line)) return null;
+        if (/^(?:medications?|outpatient medications?|home medications?|prior to admission(?: medications)?|pta(?: meds)?|current medications?|active medications?|sig|dispense|refills?|medication list|name)\s*:?\s*$/i.test(line)) return null;
+        const split = line.search(doseStart);
+        const name = (split > 0 ? line.slice(0, split) : line).replace(/\s{2,}/g, " ").replace(/[,;:]\s*$/, "").trim();
+        let rest = split > 0 ? line.slice(split) : "";
+        // EHR sigs: "50 MG tablet  Take 1 tablet (50 mg total) by mouth daily." -> "50 mg PO daily"
+        const sig = rest.match(/\b(?:take|give|inject|inhale|use|apply|place|instill)\b.*?\(([^)]*?)\s*total\)\s*(.*)$/i);
+        if (sig) rest = `${sig[1]} ${sig[2]}`;
+        const regimen = tidyRegimen(rest).replace(/\.\s*$/, "");
+        return { name: name.charAt(0).toUpperCase() + name.slice(1), regimen };
+      }
+      const makeMed = (fields) => ({ id: mr.nextId++, name: "", regimen: "", decision: "", reason: "", newRegimen: "", isNew: false, ...fields });
+      const current = () => mr.meds[mr.index];
+      const medText = (med, regimen = med.regimen) => `${med.name}${regimen ? ` ${regimen}` : ""}`.trim() || "Medication";
+
+      function templateText() {
+        const meds = mr.meds.filter((med) => med.name || med.regimen);
+        if (!meds.length) return "";
+        const by = (decision) => meds.filter((med) => med.decision === decision);
+        const reason = (med) => (med.reason ? med.reason.trim() : "");
+        const sections = [];
+        const add = (title, items) => { if (items.length) sections.push([title, items]); };
+        if (mr.format === "note") {
+          add("Continued:", by("continue").map((med) => medText(med)));
+          add("Held:", by("hold").map((med) => `${medText(med)}${reason(med) ? `: held, ${reason(med)}` : ": held"}`));
+          add("Changed:", by("change").map((med) => `${med.name}: ${med.regimen || "?"} → ${med.newRegimen || "?"}${reason(med) ? ` (${reason(med)})` : ""}`));
+          add("Stopped:", by("stop").map((med) => `${medText(med)}${reason(med) ? ` (${reason(med)})` : ""}`));
+          add("New this admission:", by("new").map((med) => `${medText(med)}${reason(med) ? ` (${reason(med)})` : ""}`));
+          add("Not yet reviewed:", by("").map((med) => medText(med)));
+          return ["Medication reconciliation", ...sections.flatMap(([title, items]) => ["", title, ...items.map((item) => `- ${item}`)])].join("\n");
+        }
+        add("START taking:", by("new").map((med) => `${medText(med)}${reason(med) ? ` (for ${reason(med)})` : ""}`));
+        add("CHANGE how you take:", by("change").map((med) => `${med.name}: now ${med.newRegimen || "?"} (was ${med.regimen || "?"})`));
+        add("STOP taking:", by("stop").map((med) => medText(med)));
+        add("DO NOT TAKE until your doctor tells you to restart:", by("hold").map((med) => medText(med)));
+        add("CONTINUE taking:", by("continue").map((med) => medText(med)));
+        add("[Not yet reviewed]:", by("").map((med) => medText(med)));
+        return sections.flatMap(([title, items], index) => [...(index ? [""] : []), title, ...items.map((item) => `- ${item}`)]).join("\n");
+      }
+
+      function render(focusField) {
+        const has = mr.meds.length > 0;
+        $("mr-empty").hidden = has;
+        $("mr-card").hidden = !has;
+        if (has) {
+          mr.index = Math.max(0, Math.min(mr.meds.length - 1, mr.index));
+          const med = current();
+          const card = $("mr-card");
+          card.dataset.decision = med.decision;
+          $("mr-kind").textContent = med.isNew ? "New med" : "Home med";
+          $("mr-name").value = med.name;
+          $("mr-regimen").value = med.regimen;
+          $("mr-actions").hidden = med.isNew;
+          $("mr-actions").querySelectorAll("[data-decision]").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.decision === med.decision)));
+          $("mr-change-wrap").hidden = med.decision !== "change";
+          $("mr-new-regimen").value = med.newRegimen;
+          const showReason = ["hold", "stop", "change", "new"].includes(med.decision);
+          $("mr-reason-wrap").hidden = !showReason;
+          $("mr-reason-label").textContent = reasonLabels[med.decision] || "Reason";
+          $("mr-reason").value = med.reason;
+          $("mr-chips").replaceChildren(...(chipSets[med.decision] || []).map((text) => Object.assign(document.createElement("button"), { type: "button", textContent: text, className: "mr-chip" })));
+          $("mr-count").textContent = `${mr.index + 1} of ${mr.meds.length} · ${mr.meds.filter((item) => !item.decision).length} left`;
+          $("mr-prev").disabled = mr.index === 0;
+          $("mr-next").disabled = mr.index === mr.meds.length - 1;
+          $("mr-dots").replaceChildren(...mr.meds.map((item, index) => {
+            const dot = document.createElement("button");
+            dot.type = "button";
+            dot.className = "mr-dot";
+            dot.dataset.index = String(index);
+            dot.dataset.decision = item.decision;
+            dot.title = `${medText(item)}${item.decision ? ` — ${decisionLabels[item.decision]}` : ""}`;
+            if (index === mr.index) dot.setAttribute("aria-current", "true");
+            return dot;
+          }));
+          if (focusField) $(focusField)?.focus();
+        }
+        renderTable();
+        renderPreview();
+      }
+      function renderTable() {
+        const body = $("mr-table").tBodies[0];
+        if (!mr.meds.length) {
+          body.innerHTML = '<tr class="mr-table-empty"><td colspan="3">No medications yet.</td></tr>';
+          return;
+        }
+        body.replaceChildren(...mr.meds.map((med, index) => {
+          const row = body.ownerDocument.createElement("tr");
+          row.dataset.index = String(index);
+          if (index === mr.index) row.setAttribute("aria-current", "true");
+          const name = row.insertCell();
+          name.textContent = medText(med);
+          const decision = row.insertCell();
+          const tag = Object.assign(document.createElement("span"), { className: "mr-tag", textContent: med.decision ? decisionLabels[med.decision] : "to review" });
+          tag.dataset.decision = med.decision;
+          decision.append(tag);
+          row.insertCell().textContent = [med.decision === "change" ? `→ ${med.newRegimen || "?"}` : "", med.reason].filter(Boolean).join("; ");
+          return row;
+        }));
+      }
+      function renderPreview() {
+        const text = templateText();
+        $("mr-preview").textContent = text || "The template appears here as you decide on each medication.";
+      }
+      function go(index, focusField) {
+        mr.index = index;
+        render(focusField);
+      }
+      function nextUndecided() {
+        const order = [...mr.meds.keys()].slice(mr.index + 1).concat([...mr.meds.keys()].slice(0, mr.index + 1));
+        const found = order.find((index) => !mr.meds[index].decision);
+        if (found === undefined) {
+          $("mr-status").textContent = "Every medication has a decision. Copy the template when ready.";
+          return false;
+        }
+        go(found);
+        return true;
+      }
+      function decide(decision) {
+        const med = current();
+        if (!med || med.isNew) return;
+        med.decision = med.decision === decision ? "" : decision;
+        if (med.decision !== "change") med.newRegimen = "";
+        render();
+        if (med.decision === "continue") setTimeout(() => { if (current() === med) nextUndecided() || render(); }, 140);
+        else if (med.decision === "change") $("mr-new-regimen").focus();
+        else if (med.decision === "hold" || med.decision === "stop") $("mr-reason").focus();
+      }
+
+      $("mr-load").addEventListener("click", () => {
+        const parsed = $("mr-paste").value.split(/\r?\n/).map(parseMedLine).filter(Boolean);
+        if (!parsed.length) {
+          $("mr-load-status").textContent = "No medications recognized. Put one med per line.";
+          return;
+        }
+        const replace = !mr.meds.length || window.confirm("Replace the current list? Choose Cancel to add these meds to it.");
+        if (replace) mr.meds = [];
+        const start = mr.meds.length;
+        mr.meds.push(...parsed.map((med) => makeMed(med)));
+        mr.index = start;
+        $("mr-paste").value = "";
+        $("mr-load-status").textContent = `Loaded ${parsed.length} med${parsed.length === 1 ? "" : "s"}. Check names and doses, then decide on each.`;
+        render();
+        $("mr-review").focus({ preventScroll: true });
+      });
+      $("mr-add-home").addEventListener("click", () => {
+        mr.meds.push(makeMed({}));
+        go(mr.meds.length - 1, "mr-name");
+      });
+      $("mr-add-new").addEventListener("click", () => {
+        mr.meds.push(makeMed({ isNew: true, decision: "new" }));
+        go(mr.meds.length - 1, "mr-name");
+      });
+      $("mr-prev").addEventListener("click", () => go(mr.index - 1));
+      $("mr-next").addEventListener("click", () => go(mr.index + 1));
+      $("mr-next-undecided").addEventListener("click", nextUndecided);
+      $("mr-remove").addEventListener("click", () => {
+        const med = current();
+        if (!med) return;
+        mr.meds.splice(mr.index, 1);
+        render();
+      });
+      $("mr-actions").addEventListener("click", (event) => {
+        const button = event.target.closest("[data-decision]");
+        if (button) decide(button.dataset.decision);
+      });
+      $("mr-dots").addEventListener("click", (event) => {
+        const dot = event.target.closest(".mr-dot");
+        if (dot) go(Number(dot.dataset.index));
+      });
+      $("mr-table").addEventListener("click", (event) => {
+        const row = event.target.closest("tr[data-index]");
+        if (row) go(Number(row.dataset.index));
+      });
+      $("mr-chips").addEventListener("click", (event) => {
+        const chip = event.target.closest(".mr-chip");
+        const med = current();
+        if (!chip || !med) return;
+        med.reason = med.reason.trim() ? `${med.reason.trim().replace(/[,;]$/, "")}, ${chip.textContent}` : chip.textContent;
+        $("mr-reason").value = med.reason;
+        renderTable();
+        renderPreview();
+        $("mr-reason").focus();
+      });
+      const bind = (id, key, transform = (value) => value) => {
+        $(id).addEventListener("input", () => {
+          const med = current();
+          if (!med) return;
+          med[key] = $(id).value;
+          renderTable();
+          renderPreview();
+        });
+        $(id).addEventListener("change", () => {
+          const med = current();
+          if (!med) return;
+          med[key] = transform($(id).value);
+          $(id).value = med[key];
+          render();
+        });
+        $(id).addEventListener("keydown", (event) => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            $(id).dispatchEvent(new Event("change"));
+            if (!nextUndecided()) render();
+          }
+        });
+      };
+      bind("mr-name", "name", (value) => value.trim());
+      bind("mr-regimen", "regimen", tidyRegimen);
+      bind("mr-new-regimen", "newRegimen", tidyRegimen);
+      bind("mr-reason", "reason", (value) => value.trim());
+
+      // One-key decisions while reviewing (not while typing in a box).
+      document.addEventListener("keydown", (event) => {
+        if ($("med-rec-panel").hidden || !mr.meds.length) return;
+        if (event.altKey || event.metaKey || event.ctrlKey) return;
+        if (event.target.closest("input, textarea, select, [contenteditable], details[open]")) return;
+        const key = event.key.toLowerCase();
+        const map = { c: "continue", h: "hold", s: "stop", d: "change" };
+        if (map[key]) {
+          event.preventDefault();
+          decide(map[key]);
+        } else if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+          event.preventDefault();
+          go(mr.index + (event.key === "ArrowRight" ? 1 : -1));
+        } else if (event.key === "Enter" && event.target.closest("#mr-review, body, main")) {
+          if (!event.target.closest("button")) {
+            event.preventDefault();
+            nextUndecided();
+          }
+        }
+      });
+
+      document.querySelectorAll("[data-mr-format]").forEach((button) => button.addEventListener("click", () => {
+        mr.format = button.dataset.mrFormat;
+        document.querySelectorAll("[data-mr-format]").forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+        renderPreview();
+      }));
+      $("mr-copy").addEventListener("click", async () => {
+        const text = templateText();
+        if (!text) {
+          $("mr-status").textContent = "Add medications first.";
+          return;
+        }
+        const left = mr.meds.filter((med) => !med.decision).length;
+        $("mr-status").textContent = await copyPlainText(text)
+          ? `Template copied.${left ? ` ${left} med${left === 1 ? " is" : "s are"} still marked not yet reviewed.` : ""} Paste into the chart and adjust there.`
+          : "Copy unavailable.";
+      });
+
+      function fillSendTargets() {
+        const select = $("mr-send-target");
+        const sheets = rsSheetsList();
+        const currentId = roundingTabs.current()?.dataset.sheetId;
+        const keep = select.value;
+        select.replaceChildren(...sheets.map((rsSheet) => new Option(rsSheet.querySelector("[data-patient-name]").textContent, rsSheet.dataset.sheetId, false, rsSheet.dataset.sheetId === (keep || currentId))));
+      }
+      $("mr-send-target").addEventListener("focus", fillSendTargets);
+      $("mr-send-target").addEventListener("mousedown", fillSendTargets);
+      $("med-rec-tab").addEventListener("click", fillSendTargets);
+      document.addEventListener("tool-tab-shown", () => { if (!$("med-rec-panel").hidden) fillSendTargets(); });
+      function writeHomeMeds(target) {
+        const meds = mr.meds.filter((med) => (med.name || med.regimen) && med.decision);
+        if (!target || !meds.length) return false;
+        const by = (decision) => meds.filter((med) => med.decision === decision);
+        const lines = [];
+        if (by("continue").length) lines.push(`Continue: ${by("continue").map((med) => medText(med)).join("; ")}`);
+        by("hold").forEach((med) => lines.push(`Hold ${medText(med)}${med.reason ? ` (${med.reason})` : ""}`));
+        by("change").forEach((med) => lines.push(`Change ${med.name}: ${med.regimen || "?"} \u2192 ${med.newRegimen || "?"}${med.reason ? ` (${med.reason})` : ""}`));
+        by("stop").forEach((med) => lines.push(`Stop ${medText(med)}${med.reason ? ` (${med.reason})` : ""}`));
+        by("new").forEach((med) => lines.push(`Started ${medText(med)}${med.reason ? ` (${med.reason})` : ""}`));
+        let card = [...target.querySelectorAll("[data-problem]")].find((problem) => /\bhome med/i.test(problem.querySelector("[data-problem-title]").value));
+        if (!card) {
+          [...target.querySelectorAll("[data-problem]")].forEach((problem) => {
+            if (!problem.querySelector("[data-problem-title]").value.trim() && !problem.querySelector("[data-problem-plan]").value.trim()) problem.remove();
+          });
+          card = addPreRoundsProblem(target);
+          card.querySelector("[data-problem-title]").value = "Home meds";
+        }
+        card.querySelector("[data-problem-plan]").value = lines.join("\n");
+        renumberPreRoundsProblems(target);
+        return true;
+      }
+      // Used by Pre-Charting: start Med Rec from the H&P medication box, and carry decisions on Send to Pre-Rounds.
+      window.medRecWriteTo = writeHomeMeds;
+      window.medRecSource = () => mr.source || "";
+      window.medRecStart = (text, sourceId) => {
+        if (mr.meds.length && !window.confirm("Med Rec already has a list. Replace it with the meds from Pre-Charting?")) return false;
+        mr.meds = [];
+        mr.source = sourceId || "";
+        $("mr-paste").value = text;
+        $("mr-load").click();
+        return true;
+      };
+      $("mr-send").addEventListener("click", () => {
+        fillSendTargets();
+        const target = rsSheetsList().find((rsSheet) => rsSheet.dataset.sheetId === $("mr-send-target").value) || rsSheetsList()[0];
+        if (!writeHomeMeds(target)) {
+          $("mr-status").textContent = "Decide on at least one medication first.";
+          return;
+        }
+        $("mr-status").textContent = `Sent to ${target.querySelector("[data-patient-name]").textContent} as "# Home meds" in the A&P.`;
+      });
+      $("mr-clear").addEventListener("click", () => {
+        if (mr.meds.length && !window.confirm("Clear every medication and decision?")) return;
+        mr.meds = [];
+        mr.index = 0;
+        mr.source = "";
+        $("mr-load-status").textContent = "";
+        $("mr-status").textContent = "Cleared.";
+        render();
+      });
+      render();
+      window.__medRec = { mr, templateText, parseMedLine, tidyRegimen };
+    })();
 
     createPcSheet();
     pcTabs.render();
@@ -4227,7 +5442,7 @@
     // ---------- Unsaved-data warning ----------
     window.addEventListener("beforeunload", (event) => {
       const hasText = [...document.querySelectorAll('main input, main textarea, main [data-field="power"]')].some((element) => element.type !== "checkbox" && element.value.trim());
-      const hasSelections = document.querySelector('main [data-state="affirmative"], main [data-state="negative"]');
+      const hasSelections = document.querySelector('main [data-state="affirmative"], main [data-state="negative"]') || (window.medRecHasWork && window.medRecHasWork());
       if (!hasText && !hasSelections) return;
       event.preventDefault();
       event.returnValue = "";
