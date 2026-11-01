@@ -734,10 +734,12 @@
     .pre-rounds-problem:hover .rs-problem-tools, .pre-rounds-problem:focus-within .rs-problem-tools { opacity: 1; }
     .rs-problem-tools .pre-rounds-problem-move { width: 20px; height: 20px; padding: 0; color: var(--muted); background: #fff; border: 1px solid var(--line); border-radius: 4px; font-size: 11px; line-height: 1; }
     .rs-fish-row[hidden], .rs-fish[hidden] { display: none !important; }
-    .rs-calcs:empty, .rs-net:empty { display: none; }
+    .rs-calcs:empty { display: none; }
     .rs-calcs { display: flex; gap: 4px 14px; justify-content: flex-start; padding-left: var(--tag-w, 4em); font-size: .88em; }
     .rs-calc { color: #334155; white-space: nowrap; }
-    .rs-net { flex: 0 0 auto; align-self: baseline; font-size: .9em; }
+    .rs-vital-net { cursor: help; }
+    .rs-net-value { flex: 1 1 auto; min-width: 24px; min-height: 1.2em; padding: 0 2px; border-bottom: 1px dotted #9aa9b9; white-space: nowrap; }
+    html[data-theme="dark"] .rs-net-value { border-bottom-color: #5f636b; }
     html[data-theme="dark"] .rs-calc { color: #c9cdd6; }
     @media print { .rs-calc { color: #000 !important; } }
     .rs-fish-value.is-abn, .rs-trend-value.is-abn, .lab-abn { font-weight: 800 !important; }
@@ -1494,7 +1496,7 @@
       ["Hgb", "hgb"], ["Hct", "hct"], ["Plts", "plts"]
     ];
     const preRoundsVitals = [
-      ["Temp", "temp", 1], ["HR", "hr", 1], ["RR", "rr", .8], ["BP", "bp", 1.4], ["SpO2", "o2", 1], ["O2", "o2dev", 1.1, "RA"], ["Wt", "weight", 1], ["In", "intake", 1], ["Out", "output", 1]
+      ["Temp", "temp", 1], ["HR", "hr", 1], ["RR", "rr", .8], ["BP", "bp", 1.4], ["SpO2", "o2", 1], ["O2", "o2dev", 1.1, "RA"], ["In", "intake", 1], ["Out", "output", 1]
     ];
 
     function preRoundsFieldValue(card, field) {
@@ -1788,8 +1790,7 @@
       }
       box.replaceChildren(...parts);
       const net = sheet.querySelector("[data-calc-net]");
-      net.textContent = calcs.net ? `Net ${calcs.net}` : "";
-      net.title = calcs.net ? "In \u2212 Out (numbers without a unit are read as mL; add L for liters)" : "";
+      net.textContent = calcs.net || "";
     }
 
     function stripLabFlags(text) {
@@ -2598,7 +2599,6 @@
       add("T", field("temp")); add("HR", field("hr")); add("RR", field("rr")); add("BP", field("bp"));
       const spo2 = field("o2"), device = field("o2dev");
       if (spo2 || device) vitals.push(`SpO2 ${[spo2 && (/%$/.test(spo2) ? spo2 : `${spo2}%`), device && `on ${device}`].filter(Boolean).join(" ")}`);
-      add("Wt", field("weight"));
       const calcs = sheetCalcs(sheet);
       if (field("intake") || field("output")) vitals.push(`I/O ${field("intake") || "?"} / ${field("output") || "?"}${calcs.net ? ` (net ${calcs.net})` : ""}`);
       if (vitals.length) objective.push(`Vitals: ${vitals.join(", ")}`);
@@ -2727,7 +2727,7 @@
       const vitalsList = document.createElement("div");
       vitalsList.className = "pre-rounds-vitals-bar";
       const calcs = sheetCalcs(card);
-      for (const [label, field] of [...preRoundsVitals, ...(calcs.net ? [["Net", "__net"]] : [])]) {
+      for (const [label, field] of [...preRoundsVitals, ["Net", "__net"]]) {
         const item = document.createElement("span");
         item.className = "pre-rounds-vital-item";
         const name = document.createElement("strong");
@@ -3852,13 +3852,13 @@
         input.autocomplete = "off";
         if (hint) input.placeholder = hint;
         if (field === "o2dev") input.title = "Oxygen: RA, 2L NC, HFNC 40L/60%...";
-        if (field === "weight") input.title = "Daily weight (useful for HF, cirrhosis, dialysis)";
         item.append(name, input);
         vitals.append(item);
       }
       const net = document.createElement("span");
-      net.className = "rs-calc rs-net";
-      net.dataset.calcNet = "";
+      net.className = "rs-vital rs-vital-net";
+      net.title = "Net I/O = In \u2212 Out, calculated for you (numbers without a unit are read as mL; add L for liters)";
+      net.innerHTML = '<strong>Net</strong><span class="rs-net-value" data-calc-net></span>';
       vitals.append(net);
       makePreRoundsExamChecklist(sheet.querySelector("[data-exam-checklist]"));
       makePreRoundsRosChecklist(sheet.querySelector("[data-ros-checklist]"));
@@ -4784,7 +4784,6 @@
         const calcs = sheetCalcs(sheet);
         const vitals = [["T", "temp"], ["HR", "hr"], ["RR", "rr"], ["BP", "bp"]].map(([label, name]) => field(name) && `${label} ${field(name)}`);
         if (field("o2") || field("o2dev")) vitals.push(`SpO2 ${field("o2")}${field("o2dev") ? ` on ${field("o2dev")}` : ""}`);
-        if (field("weight")) vitals.push(`Wt ${field("weight")}`);
         if (field("intake") || field("output")) vitals.push(`I/O ${field("intake") || "?"} / ${field("output") || "?"}${calcs.net ? ` (net ${calcs.net})` : ""}`);
         parts.push(section("Vitals", vitals.filter(Boolean).join("   ")));
         if (opts.lines) parts.push(section("Lines / drains", field("lines")));
