@@ -2417,7 +2417,7 @@
     function renumberPreRoundsProblems(card) {
       const problems = [...card.querySelectorAll("[data-problem]")];
       problems.forEach((problem, index) => {
-        problem.querySelector("[data-problem-number]").textContent = "#";
+        problem.querySelector("[data-problem-number]").textContent = `#${index + 1}`;
         problem.querySelector('[data-move-problem="-1"]').disabled = index === 0;
         problem.querySelector('[data-move-problem="1"]').disabled = index === problems.length - 1;
       });
@@ -2755,8 +2755,8 @@
       if (oneLiner || problems.length || otherAp) {
         out.push("", "ASSESSMENT AND PLAN");
         if (oneLiner) out.push(oneLiner);
-        for (const problem of problems) {
-          out.push("", `# ${problem.title || "Problem"}`);
+        for (const [index, problem] of problems.entries()) {
+          out.push("", `#${index + 1} ${problem.title || "Problem"}`);
           problem.lines.forEach((line) => out.push(`- ${line}`));
         }
         if (otherAp) out.push("", otherAp);
@@ -3030,7 +3030,7 @@
         block.className = "pre-rounds-ap-problem";
         const title = document.createElement("div");
         title.className = "pre-rounds-ap-title";
-        title.textContent = `# ${problem.title || "Problem"}`;
+        title.textContent = `#${index + 1} ${problem.title || "Problem"}`;
         block.append(title);
         for (const planLine of problem.lines) {
           const line = document.createElement("div");
@@ -4551,7 +4551,7 @@
         [value("label"), value("room"), value("hd"), value("power")].forEach((text) => { row.insertCell().textContent = text; });
         const problems = row.insertCell();
         problems.className = "rs-census-problems";
-        preRoundsProblems(sheet).forEach((problem) => problems.append(Object.assign(document.createElement("div"), { textContent: `# ${problem.title || "Problem"}` })));
+        preRoundsProblems(sheet).forEach((problem, index) => problems.append(Object.assign(document.createElement("div"), { textContent: `#${index + 1} ${problem.title || "Problem"}` })));
         const todo = row.insertCell();
         if (sheet._opts?.pending && value("pending")) todo.textContent = `Pending: ${value("pending")}`;
       }
@@ -4828,7 +4828,7 @@
       block("LABS / IMAGING", v("labs"));
       const problems = preRoundsProblems(sheet);
       if (problems.length) {
-        sections.push(`ASSESSMENT AND PLAN\n${problems.map((problem, index) => [`# ${problem.title || "Problem"}`, ...problem.lines.map((item) => `- ${item}`)].join("\n")).join("\n")}`);
+        sections.push(`ASSESSMENT AND PLAN\n${problems.map((problem, index) => [`#${index + 1} ${problem.title || "Problem"}`, ...problem.lines.map((item) => `- ${item}`)].join("\n")).join("\n")}`);
       }
       return sections.join("\n\n");
     }
@@ -5007,8 +5007,8 @@
         const problems = preRoundsProblems(sheet);
         if (problems.length) {
           const ap = el("div");
-          problems.forEach((problem) => {
-            ap.append(el("p", "present-problem", `# ${problem.title || "Problem"}`));
+          problems.forEach((problem, index) => {
+            ap.append(el("p", "present-problem", `#${index + 1} ${problem.title || "Problem"}`));
             if (problem.lines.length) {
               const list = el("ul", "present-plan");
               problem.lines.forEach((line) => list.append(el("li", "", line)));
@@ -5148,7 +5148,7 @@
       ];
       const value = (rsSheet, name) => (rsSheet.querySelector(`[data-field="${name}"]`)?.value || "").trim();
       function summaryFrom(rsSheet) {
-        const problems = preRoundsProblems(rsSheet).map((problem) => `# ${problem.title || "Problem"}`).join("  ");
+        const problems = preRoundsProblems(rsSheet).map((problem, index) => `#${index + 1} ${problem.title || "Problem"}`).join("  ");
         return [value(rsSheet, "power"), problems].filter(Boolean).join("\n");
       }
       function actionsFrom(rsSheet) {
