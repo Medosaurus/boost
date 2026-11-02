@@ -435,7 +435,66 @@
     .rs-bar-divider { width: 1px; height: 18px; margin: 0 4px; background: var(--line); }
     .rs-remove:hover { color: var(--brand-maroon); border-color: var(--brand-maroon); }
     .rs-more { position: relative; }
+    .sections-menu { position: relative; }
+    .sections-menu > summary { display: inline-block; list-style: none; cursor: pointer; white-space: nowrap; }
+    .sections-menu > summary::-webkit-details-marker { display: none; }
+    .sections-count { color: var(--brand-teal-ink); font-weight: 800; }
+    .sections-count:empty { display: none; }
+    .sections-body { position: absolute; right: 0; top: calc(100% + 4px); z-index: 60; display: grid; grid-template-columns: 1.35fr 1fr; gap: 10px 16px; width: min(560px, 92vw); padding: 10px 12px; color: var(--ink); background: #fff; border: 1px solid #b8c5d4; border-radius: 9px; box-shadow: 0 12px 32px rgba(15, 23, 42, .22); font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+    .sections-col { display: grid; align-content: start; gap: 10px; }
+    .sections-title { display: block; margin-bottom: 4px; color: var(--muted); font-size: 10.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+    .sections-picker .sys-picker-actions { margin-bottom: 4px; }
+    .sections-picker .sys-picker-grid { grid-template-columns: 1fr 1fr; }
+    .sections-picker--labs .sys-picker-grid { grid-template-columns: 1fr; }
+    .sections-check { display: flex; align-items: center; gap: 5px; padding: 2px 0; font-size: 12.5px; cursor: pointer; }
+    html[data-theme="dark"] .sections-body { background: #2a2b30; border-color: #45474e; box-shadow: 0 12px 32px rgba(0, 0, 0, .55); }
+    @media (max-width: 640px) { .sections-body { grid-template-columns: 1fr; } }
     .rs-special-print { display: none !important; }
+    .mr-progress { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+    .mr-progress[hidden] { display: none; }
+    .mr-progress-bar { display: flex; flex: 1 1 auto; height: 10px; overflow: hidden; background: #e5ebf2; border-radius: 999px; }
+    .mr-seg { flex: 1 1 0; min-width: 4px; }
+    .mr-seg + .mr-seg { border-left: 2px solid #fff; }
+    .mr-seg[data-decision="continue"] { background: #16a34a; } .mr-seg[data-decision="change"], .mr-seg[data-decision="new"] { background: var(--brand-teal); }
+    .mr-seg[data-decision="hold"] { background: #d97706; } .mr-seg[data-decision="stop"] { background: #dc2626; } .mr-seg[data-decision=""] { background: #cbd5e1; }
+    .mr-progress-label { color: var(--muted); font-size: 12px; font-weight: 800; white-space: nowrap; }
+    .mr-h { font-weight: 800; }
+    .mr-h--continue { color: #15803d; } .mr-h--hold { color: #b45309; } .mr-h--stop { color: #b91c1c; } .mr-h--change, .mr-h--new { color: var(--brand-teal-ink); } .mr-h--pending { color: #64748b; } .mr-h--title { color: var(--brand-blue); }
+    html[data-theme="dark"] .mr-progress-bar { background: #2e3035; }
+    html[data-theme="dark"] .mr-seg + .mr-seg { border-left-color: #1f2024; }
+    html[data-theme="dark"] .mr-h--continue { color: #4ade80; } html[data-theme="dark"] .mr-h--hold { color: #fbbf24; } html[data-theme="dark"] .mr-h--stop { color: #f87171; } html[data-theme="dark"] .mr-h--title { color: #e6e7eb; }
+    .present-jump { display: flex; flex-wrap: wrap; gap: 4px; padding: 6px max(18px, calc((100vw - 980px) / 2)); background: #fff; border-bottom: 1px solid var(--line); }
+    .present-jump[hidden] { display: none; }
+    .present-jump-btn { padding: 3px 11px; color: var(--brand-teal-ink); background: var(--brand-teal-pale); border: 1px solid #A9CFEA; border-radius: 999px; font: 700 12.5px Inter, ui-sans-serif, system-ui, sans-serif; cursor: pointer; }
+    .present-jump-btn:hover { background: #d8eaf7; }
+    html[data-theme="dark"] .present-jump { background: #212226; }
+    html[data-theme="dark"] .present-jump-btn { color: #A7D3F2; border-color: #3C7DAE; }
+    @media print {
+      #sign-out-panel .so-list { grid-template-columns: 1fr 1fr; gap: 6pt; }
+      #sign-out-panel .so-sheet { font-size: 7.6pt; }
+      #sign-out-panel .so-card-head { padding: 2pt 4pt; }
+      #sign-out-panel .so-bed { font-size: 9.5pt; }
+      #sign-out-panel .so-code { font-size: 7.5pt; }
+      #sign-out-panel .so-field { padding: 1pt 4pt 2pt; }
+      #sign-out-panel .so-field > span { font-size: 6.5pt; }
+      #sign-out-panel .so-field .print-mirror { min-height: 0.3in; line-height: 1.3; }
+      #sign-out-panel .so-head { margin-bottom: 5pt; }
+      #sign-out-panel .so-sev button { padding: 0 5pt; font-size: 7pt; }
+    }
+    .rs-vital input.is-vital-abn { color: #a11a1a; background: #fdecec; font-weight: 800; border-bottom-color: #a11a1a; }
+    .rs-vital:has(.is-vital-abn) strong { color: #a11a1a; }
+    html[data-theme="dark"] .rs-vital input.is-vital-abn { color: #fca5a5; background: rgba(248, 113, 113, .16); border-bottom-color: #fca5a5; }
+    html[data-theme="dark"] .rs-vital:has(.is-vital-abn) strong { color: #fca5a5; }
+    @media print { .rs-vital input.is-vital-abn { color: #000 !important; background: #e5e5e5 !important; } .rs-vital:has(.is-vital-abn) strong { color: #000 !important; } }
+    .present-vitals { display: flex; flex-wrap: wrap; gap: .2em 1.1em; }
+    .present-vital-abn { padding: 0 .2em; color: #a11a1a; background: #fdecec; border-radius: 3px; }
+    html[data-theme="dark"] .present-vital-abn { color: #fca5a5; background: rgba(248, 113, 113, .16); }
+    /* Quieter hints: lighter everywhere; long examples only appear in the box you're typing in */
+    .rs-sheet :is(input, textarea)::placeholder { color: #b9c4d0; }
+    .rs-oneliner-text:empty::before { color: #b9c4d0; }
+    .rs-sheet :is([data-field="ros-pp"], [data-field="exam-pp"], [data-field="lines"], [data-field="pending"], [data-field="dc-notes"], [data-field="notes"], [data-problem-plan]):not(:focus)::placeholder { color: transparent; }
+    .rs-sheet .rs-oneliner-text:empty:not(:focus)::before { color: transparent; }
+    html[data-theme="dark"] .rs-sheet :is(input, textarea)::placeholder, html[data-theme="dark"] .rs-oneliner-text:empty::before { color: #5d626b; }
     .so-sheets { max-width: 1000px; margin: 0 auto; zoom: var(--so-zoom, 1); }
     .so-sheet { position: relative; padding: 14px; color: #172536; background: #fff; border: 1px solid #d5deea; border-radius: 8px; box-shadow: 0 3px 12px rgba(15, 23, 42, .08); font-family: Arial, sans-serif; font-size: 13px; }
     .so-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px; margin-bottom: 10px; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
@@ -502,10 +561,19 @@
     .present-sec:last-child { border-bottom: 0; }
     .present-label { display: block; margin-bottom: .15em; color: var(--brand-teal-ink); font-size: .62em; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
     .present-sec p { margin: 0; white-space: pre-wrap; }
-    .present-problem { margin: .35em 0 .2em; font-weight: 800; }
-    .present-plan { margin: 0 0 .3em 1.2em; padding: 0; }
+    .present-problem { margin: .9em 0 .25em; padding: .1em 0 .1em .45em; border-left: 4px solid var(--brand-teal); font-size: 1.12em; font-weight: 800; line-height: 1.3; }
+    .present-sec .present-problem:first-of-type { margin-top: .2em; }
+    .present-plan { margin: 0 0 .3em 1.6em; padding: 0; }
     .present-plan li { margin: 0; }
     .present-abn { font-weight: 800; }
+    .present-trend td[data-abn="high"] { color: #a11a1a; background: #fdecec; font-weight: 900; }
+    .present-trend td[data-abn="low"] { color: #1c4fa8; background: #e8f1fd; font-weight: 900; }
+    .present-trend td[data-abn="abn"] { background: #fff4e0; font-weight: 900; }
+    .present-trend td[data-dir="up"], .present-trend td[data-dir="down"] { font-weight: 800; }
+    .present-dir { font-weight: 900; }
+    html[data-theme="dark"] .present-trend td[data-abn="high"] { color: #fca5a5; background: rgba(248, 113, 113, .16); }
+    html[data-theme="dark"] .present-trend td[data-abn="low"] { color: #93c5fd; background: rgba(96, 165, 250, .16); }
+    html[data-theme="dark"] .present-trend td[data-abn="abn"] { background: rgba(251, 191, 36, .14); }
     .present-trend { border-collapse: collapse; font-size: .8em; }
     .present-trend th, .present-trend td { padding: .1em .55em; border: 1px solid #cfdae6; text-align: center; }
     .present-trend th:first-child, .present-trend td:first-child { text-align: left; font-weight: 700; }
@@ -674,18 +742,7 @@
     .rs-dc-item::before { content: "\2610"; margin-right: 3px; }
     .rs-dc-item[aria-pressed="true"]::before { content: "\2611"; color: #15803d; }
     .rs-dc-item[aria-pressed="true"] { font-weight: 700; }
-    .rs-counters { display: flex; flex-wrap: wrap; gap: 3px 14px; }
-    .rs-counters:empty { display: none; }
-    .rs-counter { display: inline-flex; align-items: baseline; gap: 4px; }
-    .rs-counter input { padding: 0 2px; color: inherit; background: transparent; border: 0; border-bottom: 1px solid #c3cfdb; border-radius: 0; font: inherit; }
-    .rs-counter-name { width: 8em; font-weight: 700 !important; }
-    .rs-counter-start { width: 3.6em; font-size: .9em !important; color: #475569 !important; }
-    .rs-counter-day { min-width: 2.4em; padding: 0 5px; color: #fff; background: var(--brand-teal); border-radius: 4px; font-weight: 800; text-align: center; }
-    .rs-counter-day:empty { display: none; }
-    .rs-counter .rs-tt-x { position: static; transform: none; opacity: .7; }
-    html[data-theme="dark"] .rs-counter input { border-bottom-color: #5f636b; }
-    html[data-theme="dark"] .rs-counter-start { color: #a9adb6 !important; }
-    @media print { .rs-counter-day { color: #000 !important; background: none !important; border: 1px solid #000; } .rs-dc-item[aria-pressed="true"]::before { color: #000; } }
+    @media print { .rs-dc-item[aria-pressed="true"]::before { color: #000; } }
     .rs-inline-row { display: flex; align-items: baseline; gap: 4px; margin-top: 1px; }
     .rs-inline-row > span { flex: 0 0 auto; font-size: .82em; font-weight: 700; white-space: nowrap; }
     .rs-inline-field { flex: 1 1 auto; min-height: 0 !important; text-indent: 0 !important; }
@@ -740,10 +797,32 @@
     .rs-vital-net { cursor: help; }
     .rs-net-value { flex: 1 1 auto; min-width: 24px; min-height: 1.2em; padding: 0 2px; border-bottom: 1px dotted #9aa9b9; white-space: nowrap; }
     html[data-theme="dark"] .rs-net-value { border-bottom-color: #5f636b; }
+    .rs-net-value:empty::before { content: "\00a0"; }
     html[data-theme="dark"] .rs-calc { color: #c9cdd6; }
     @media print { .rs-calc { color: #000 !important; } }
     .rs-fish-value.is-abn, .rs-trend-value.is-abn, .lab-abn { font-weight: 800 !important; }
     .rs-trends:empty { display: none; }
+    .rs-trend-table td[data-abn="high"] { background: #fdecec; }
+    .rs-trend-table td[data-abn="low"] { background: #e8f1fd; }
+    .rs-trend-table td[data-abn="abn"] { background: #fff4e0; }
+    .rs-trend-table td[data-abn="high"] input { color: #a11a1a; font-weight: 900 !important; }
+    .rs-trend-table td[data-abn="low"] input { color: #1c4fa8; font-weight: 900 !important; }
+    .rs-trend-table td[data-abn="abn"] input { font-weight: 900 !important; }
+    .rs-trend-table td[data-dir="up"], .rs-trend-table td[data-dir="down"] { padding-right: 15px; }
+    .rs-trend-table td[data-dir] input { font-weight: 800; }
+    .rs-trend-table td[data-dir="up"]::after, .rs-trend-table td[data-dir="down"]::after { position: absolute; top: 50%; right: 2px; transform: translateY(-54%); color: #13294B; font-family: Inter, ui-sans-serif, system-ui, sans-serif; font-size: 1.15em; font-weight: 900; }
+    html[data-theme="dark"] .rs-trend-table td[data-dir]::after { color: #e6e7eb; }
+    @media print { .rs-trend-table td[data-dir]::after { color: #000 !important; } }
+    .rs-trend-table td[data-dir="up"]::after { content: "\2191"; }
+    .rs-trend-table td[data-dir="down"]::after { content: "\2193"; }
+    .rs-trend-table td[data-dir=""]::after { content: none; }
+    .rs-trend-legend { margin: 2px 0 0; color: var(--muted); font-size: .82em; }
+    html[data-theme="dark"] .rs-trend-table td[data-abn="high"] { background: rgba(248, 113, 113, .16); }
+    html[data-theme="dark"] .rs-trend-table td[data-abn="low"] { background: rgba(96, 165, 250, .16); }
+    html[data-theme="dark"] .rs-trend-table td[data-abn="abn"] { background: rgba(251, 191, 36, .14); }
+    html[data-theme="dark"] .rs-trend-table td[data-abn="high"] input { color: #fca5a5; }
+    html[data-theme="dark"] .rs-trend-table td[data-abn="low"] input { color: #93c5fd; }
+    @media print { .rs-trend-table td[data-abn="high"] input, .rs-trend-table td[data-abn="low"] input { color: #000 !important; } }
     .rs-trends:not(:empty) + .rs-add-row [data-add-trend] { display: none; }
     .rs-add-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
     .rs-add-row .rs-add { margin: 3px 0 2px; }
@@ -1016,7 +1095,47 @@
       .preview { animation-delay: .08s; }
       @keyframes arrive { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     }
-  </style>
+  
+    /* ---- Pre-Charting in the Pre-Rounds style: framed boxes with small corner tags ---- */
+    .pc-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin: -4px -4px 10px; padding: 0 0 8px; border-bottom: 1px solid var(--line); font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+    .pc-bar .sheet-tabs { display: inline-flex; flex-wrap: wrap; gap: 2px; border: 0; padding: 0; margin: 0; }
+    .pc-bar .sheet-tab { padding: 4px 10px; border: 1px solid transparent; border-radius: 6px; font-size: 13px; font-weight: 700; }
+    .pc-bar .sheet-tab[aria-selected="true"] { color: var(--brand-blue); background: var(--brand-teal-pale); border-color: #A9CFEA; box-shadow: none; }
+    .pc-bar .quiet-button, .pc-bar .copy-button, .pc-bar .sys-picker > summary { padding: 4px 8px; font-size: 12px; }
+    .pc-bar .sheet-toolbar-spacer { flex: 1 1 auto; }
+    .pc-head { margin: 0 0 8px; padding: 3px 6px; border: 1px solid #5b6b7c; }
+    .pc-head input { padding: 1px 3px; background: transparent; border: 0; border-bottom: 1px solid #c3cfdb; border-radius: 0; }
+    .pc-head label { color: #23384e; font-size: .78em; letter-spacing: .03em; text-transform: uppercase; }
+    .pc-head label input { font-size: 1.35em; letter-spacing: 0; text-transform: none; font-weight: 700; }
+    .pc-col { gap: 0; }
+    .pc-box { padding: 0 6px 3px; background: transparent; border: 1px solid #5b6b7c; }
+    .pc-col > .pc-box + .pc-box { border-top: 0; }
+    .pc-box h3 { display: flex; align-items: center; gap: 6px; min-height: 1.3em; margin: 0 -6px 1px; padding: 0 4px 0 0; color: inherit; background: transparent; border: 0; font-size: 1em; font-weight: 400; }
+    .pc-tag { align-self: flex-start; padding: 0 4px; color: #23384e; background: #e5edf5; border-right: 1px solid #aebdce; border-bottom: 1px solid #aebdce; font-size: .68em; font-weight: 700; line-height: 1.55; letter-spacing: .03em; text-transform: uppercase; white-space: nowrap; }
+    .pc-box h3 .pc-hint { font-size: .78em; }
+    .pc-box h3 .pc-mini, .pc-box h3 .pc-guide { margin-top: 2px; }
+    .pc-box textarea, .pc-exam textarea { padding: 2px 0; background: transparent; border: 0; border-radius: 0; }
+    .pc-box textarea::placeholder, .pc-exam textarea::placeholder { color: #b9c4d0; }
+    .pc-inline { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: start; padding-left: 0; }
+    .pc-inline h3 { margin: 0; padding: 0; min-height: 0; }
+    .pc-inline textarea { padding-left: 8px; border: 0; }
+    .pc-ros, .pc-vitals, .pc-exam-checks, .pc-problems { padding: 2px 0; border: 0; }
+    .pc-exam-row { border: 0; border-top: 1px dotted #c3cfdb; }
+    .pc-exam-row textarea { border-left: 1px dotted #c3cfdb; padding-left: 6px; }
+    html[data-theme="dark"] .pc-head, html[data-theme="dark"] .pc-box { border-color: var(--sheet-line); }
+    html[data-theme="dark"] .pc-head label { color: var(--tag-ink); }
+    html[data-theme="dark"] .pc-box h3, html[data-theme="dark"] .pc-inline h3 { background: transparent; }
+    html[data-theme="dark"] .pc-tag { color: var(--tag-ink); background: var(--tag-bg); border-color: var(--sheet-line); }
+    html[data-theme="dark"] :is(.pc-head input, .pc-box textarea, .pc-exam textarea, .pc-ros, .pc-vitals, .pc-exam-checks, .pc-problems) { background: transparent; }
+    html[data-theme="dark"] .pc-head input { border-bottom-color: #5f636b; }
+    html[data-theme="dark"] .pc-bar .sheet-tab[aria-selected="true"] { color: #e6e7eb; border-color: #3C7DAE; }
+    @media print {
+      .pc-box h3 { background: transparent !important; }
+      .pc-tag { background: #e8e8e8 !important; border-color: #888; color: #000; }
+      .pc-box, .pc-head { border-color: #333; }
+      .pc-box .print-mirror, .pc-exam .print-mirror, .pc-inline .print-mirror, .pc-exam-row .print-mirror { border: 0 !important; }
+    }
+</style>
 </head>
 <body>
 
@@ -1045,7 +1164,7 @@
 
 
   <main class="page workspace-panel" id="pre-charting-panel" role="tabpanel" aria-labelledby="pre-charting-tab" tabindex="0" hidden>
-    <div class="sheet-toolbar">
+    <div class="pc-bar screen-only" id="pc-bar">
       <div class="sheet-tabs" id="pc-tabs" role="tablist" aria-label="Admissions"></div>
       <button class="quiet-button" id="pc-add" type="button">+ Admission</button>
       <button class="quiet-button" id="pc-remove" type="button">Remove</button>
@@ -1136,14 +1255,24 @@
             <button class="quiet-button rs-add-patient" type="button" data-add-patient title="Add a new patient sheet">+ Patient</button>
           </span>
           <span class="rs-patient-tools">
-            <span class="pre-rounds-toggle-label">Show:</span>
-            <span data-local-picker="exam"></span>
-            <span data-local-picker="ros"></span>
-            <span data-local-picker="labs"></span>
-            <button class="quiet-button pre-rounds-toggle" type="button" data-toggle-opt="lines" aria-pressed="false" title="Lines, drains, tele: still needed?">Lines</button>
-            <button class="quiet-button pre-rounds-toggle" type="button" data-toggle-opt="pending" aria-pressed="false" title="Results and consults you are waiting on">Pending</button>
-            <button class="quiet-button pre-rounds-toggle" type="button" data-toggle-opt="dc" aria-pressed="false" title="Add a discharge readiness checklist">Discharge</button>
-            <button class="quiet-button pre-rounds-toggle" type="button" data-toggle-opt="notes" aria-pressed="true" title="Show or hide the Notes box">Notes</button>
+            <details class="sections-menu">
+              <summary class="quiet-button" title="Choose what appears on this patient's sheet">Sections <span class="sections-count" data-sections-count></span> &#x25be;</summary>
+              <div class="sections-body">
+                <div class="sections-col">
+                  <div class="sections-group"><span class="sections-title">Exam checklist</span><div data-section-picker="exam"></div></div>
+                  <div class="sections-group"><span class="sections-title">ROS checklist</span><div data-section-picker="ros"></div></div>
+                </div>
+                <div class="sections-col">
+                  <div class="sections-group"><span class="sections-title">Lab fishbones</span><div data-section-picker="labs"></div></div>
+                  <div class="sections-group"><span class="sections-title">Extra boxes</span>
+                    <label class="sections-check"><input type="checkbox" data-toggle-opt="lines"> Lines / drains</label>
+                    <label class="sections-check"><input type="checkbox" data-toggle-opt="pending"> Pending</label>
+                    <label class="sections-check"><input type="checkbox" data-toggle-opt="dc"> Discharge readiness</label>
+                    <label class="sections-check"><input type="checkbox" data-toggle-opt="notes" checked> Notes</label>
+                  </div>
+                </div>
+              </div>
+            </details>
             <span class="rs-bar-divider" aria-hidden="true"></span>
             <button class="quiet-button" type="button" data-present title="Presentation mode: large, clean view in rounds order (Esc to close)">Present</button>
             <button class="quiet-button" type="button" data-copy-note title="Copy as a progress note (plain text, ready to paste into the EHR)">Copy note</button>
@@ -1227,8 +1356,6 @@
             <label class="rs-inline-row"><span>Barriers / plan:</span><textarea class="rs-field rs-inline-field" data-field="dc-notes" rows="1" aria-label="Discharge barriers and plan" placeholder="e.g. SNF bed pending, needs home O2 qualification"></textarea></label>
           </div>
           <div class="rs-box rs-c12 rs-opt-notes rs-notes"><span class="rs-tag">Notes</span><textarea class="rs-field" data-field="notes" rows="3" aria-label="Notes" placeholder="To-dos, subjective, anything else"></textarea>
-            <div class="rs-counters" data-counters></div>
-            <button class="rs-add screen-only" type="button" data-add-counter title="Count antibiotic days, line days, Foley days... Day 1 is the start date.">+ Day counter</button>
           </div>
         </div>
       </article>
@@ -1254,6 +1381,10 @@
 
           <section class="mr-box mr-review" id="mr-review" tabindex="-1">
             <h3>Review one at a time <span class="mr-h3-hint">keys: C continue · H hold · S stop · D change dose · ← → move</span></h3>
+            <div class="mr-progress" id="mr-progress" hidden>
+              <div class="mr-progress-bar" id="mr-progress-bar"></div>
+              <span class="mr-progress-label" id="mr-progress-label"></span>
+            </div>
             <div class="mr-empty" id="mr-empty">Paste the home list and press <b>Load meds</b>, or add meds one by one.</div>
             <div class="mr-card" id="mr-card" hidden>
               <div class="mr-card-nav">
@@ -1349,6 +1480,7 @@
       <button type="button" class="quiet-button" id="present-larger" aria-label="Larger text">A+</button>
       <button type="button" class="quiet-button" id="present-close">&#x2715; Close (Esc)</button>
     </div>
+    <nav class="present-jump" id="present-jump" aria-label="Jump to section"></nav>
     <div class="present-body" id="present-body"></div>
   </div>
 
@@ -1729,6 +1861,32 @@
       setLabInputFlag(input, flag);
     }
     const flaggedValue = (input) => input ? `${input.value.trim()}${input.dataset.flag && input.value.trim() ? ` ${input.dataset.flag}` : ""}` : "";
+
+    // ---------- Abnormal vital flags (simple fixed cutoffs) ----------
+    const vitalCutoffText = "Flagged when: T \u2265 38.0 \u00b0C (100.4 \u00b0F) or < 35 \u00b0C (95 \u00b0F) \u00b7 HR > 100 or < 50 \u00b7 RR > 22 or < 8 \u00b7 SBP < 90 or > 180 \u00b7 SpO2 < 92%";
+    function vitalFlag(field, raw) {
+      const text = String(raw || "");
+      const numbers = (part) => (part.match(/\d+(?:\.\d+)?/g) || []).map(Number);
+      if (field === "temp") {
+        const reasons = numbers(text).map((n) => (n > 45 ? (n >= 100.4 ? "fever" : n < 95 ? "hypothermia" : "") : (n >= 38 ? "fever" : n < 35 && n > 25 ? "hypothermia" : "")));
+        return reasons.find(Boolean) || "";
+      }
+      if (field === "hr") return numbers(text).some((n) => n > 100) ? "tachycardia" : numbers(text).some((n) => n < 50 && n > 0) ? "bradycardia" : "";
+      if (field === "rr") return numbers(text).some((n) => n > 22) ? "tachypnea" : numbers(text).some((n) => n < 8 && n > 0) ? "bradypnea" : "";
+      if (field === "bp") {
+        const systolic = (text.match(/(\d{2,3}(?:\s*[-\u2013]\s*\d{2,3})?)\s*\//g) || []).flatMap((part) => numbers(part));
+        return systolic.some((n) => n < 90) ? "hypotension" : systolic.some((n) => n > 180) ? "severe hypertension" : "";
+      }
+      if (field === "o2") return numbers(text).some((n) => n < 92 && n > 40) ? "hypoxemia" : "";
+      return "";
+    }
+    function updateVitalFlags(sheet) {
+      sheet?.querySelectorAll?.(".rs-vital input").forEach((input) => {
+        const flag = vitalFlag(input.dataset.field, input.value);
+        input.classList.toggle("is-vital-abn", Boolean(flag));
+        input.closest(".rs-vital").title = flag ? `Flagged: ${flag}. ${vitalCutoffText}` : "";
+      });
+    }
 
     // ---------- Small automatic calculations ----------
     const numberIn = (text) => {
@@ -2521,7 +2679,7 @@
       return [pp && `Pertinent positives: ${pp.replace(/\s*\n\s*/g, "; ")}`, checklist].filter(Boolean).join("\n");
     }
 
-    // ---------- Day counters (antibiotics, lines): Day 1 = start date ----------
+    // ---------- Short dates (M/D) ----------
     function parseShortDate(text) {
       const match = String(text || "").trim().match(/^(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?$/);
       if (!match) return null;
@@ -2531,37 +2689,6 @@
       if (!match[3] && date - now > 31 * 864e5) date = new Date(year - 1, Number(match[1]) - 1, Number(match[2]));
       return Number.isNaN(date.getTime()) ? null : date;
     }
-    function counterDay(startText) {
-      const start = parseShortDate(startText);
-      if (!start) return "";
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const day = Math.round((today - start) / 864e5) + 1;
-      return day >= 1 ? `D${day}` : "";
-    }
-    function addCounter(sheet, focus = false) {
-      const row = document.createElement("span");
-      row.className = "rs-counter";
-      row.dataset.counter = "";
-      row.innerHTML = '<input class="rs-counter-name" data-counter-name autocomplete="off" placeholder="e.g. Ceftriaxone" aria-label="What to count"><span class="rs-counter-since">since</span><input class="rs-counter-start" data-counter-start autocomplete="off" aria-label="Start date (Day 1)" title="Start date = Day 1 (M/D)"><span class="rs-counter-day" data-counter-day></span><button type="button" class="rs-tt-x screen-only" data-remove-counter aria-label="Remove counter" title="Remove">\u00d7</button>';
-      row.querySelector("[data-counter-start]").value = shortDate(new Date());
-      sheet.querySelector("[data-counters]").append(row);
-      updateCounter(row);
-      if (focus) row.querySelector("[data-counter-name]").focus();
-      return row;
-    }
-    function updateCounter(row) {
-      row.querySelector("[data-counter-day]").textContent = counterDay(row.querySelector("[data-counter-start]").value);
-    }
-    function sheetCounters(sheet) {
-      return [...sheet.querySelectorAll("[data-counter]")].map((row) => ({
-        name: row.querySelector("[data-counter-name]").value.trim(),
-        start: row.querySelector("[data-counter-start]").value.trim(),
-        day: counterDay(row.querySelector("[data-counter-start]").value)
-      })).filter((item) => item.name);
-    }
-    const counterText = (item) => `${item.name}${item.day ? ` ${item.day}` : ""}${item.start ? ` (started ${item.start})` : ""}`;
-    setInterval(() => document.querySelectorAll("[data-counter]").forEach(updateCounter), 10 * 60 * 1000);
     function sheetDischarge(sheet) {
       const items = [...sheet.querySelectorAll("[data-dc-item]")];
       return {
@@ -2620,8 +2747,6 @@
       const imaging = field("imaging");
       if (imaging) objective.push(`Imaging: ${imaging}`);
       if (opts.pending && field("pending")) objective.push(`Pending: ${field("pending").replace(/\s*\n\s*/g, "; ")}`);
-      const counters = sheetCounters(sheet);
-      if (counters.length) objective.push(`Day counts: ${counters.map(counterText).join("; ")}`);
       if (objective.length) out.push("", "OBJECTIVE", ...objective);
 
       const oneLiner = field("power");
@@ -2735,6 +2860,10 @@
         const value = document.createElement("span");
         value.className = "pre-rounds-vital-value";
         value.textContent = (field === "__net" ? calcs.net : preRoundsFieldValue(card, field)) || "\u00a0";
+        if (vitalFlag(field, preRoundsFieldValue(card, field))) {
+          value.style.fontWeight = "800";
+          value.style.background = "#fdecec";
+        }
         item.append(name, value);
         vitalsList.append(item);
       }
@@ -2847,13 +2976,17 @@
           cellStyle(label);
           label.style.fontWeight = "700";
           label.style.textAlign = "left";
+          const marks = trendMarks(name, inputs.map((input) => ({ value: input.value, flag: input.dataset.flag || "" })));
           inputs.forEach((input, index) => {
             if (!used[index]) return;
             const cell = row.insertCell();
             cellStyle(cell);
             const value = input.value.trim();
-            cell.textContent = value && input.dataset.flag ? `${value} ${input.dataset.flag}` : value;
-            if (value && input.dataset.flag) cell.style.fontWeight = "800";
+            const arrow = value && marks[index].dir ? (marks[index].dir === "up" ? " \u2191" : " \u2193") : "";
+            cell.textContent = `${value && input.dataset.flag ? `${value} ${input.dataset.flag}` : value}${arrow}`;
+            if (value && (input.dataset.flag || arrow)) cell.style.fontWeight = "800";
+            if (value && marks[index].abn === "high") cell.style.background = "#fdecec";
+            if (value && marks[index].abn === "low") cell.style.background = "#e8f1fd";
           });
         });
         labCell.append(trendTableCopy);
@@ -2928,8 +3061,6 @@
         row.className = "pre-rounds-row-notes";
         const notesCell = appendPreRoundsSection(row, "Notes", preRoundsFieldValue(card, "notes"), 12);
         notesCell.classList.add("pre-rounds-handwrite--notes");
-        const counters = sheetCounters(card);
-        if (counters.length) notesCell.append(Object.assign(document.createElement("div"), { textContent: counters.map(counterText).join("   ") }));
       }
 
       sheet.append(table);
@@ -3002,11 +3133,11 @@
     }
 
     function sheetHasContent(sheet) {
-      return [...sheet.querySelectorAll('input, textarea, [data-field="power"]')].some((element) => element.type !== "checkbox" && !element.closest(".sheet-foot, .rs-patient-bar") && element.value.trim())
+      return [...sheet.querySelectorAll('input, textarea, [data-field="power"]')].some((element) => element.type !== "checkbox" && !element.closest(".sheet-foot, .rs-patient-bar, .pc-bar") && element.value.trim())
         || sheet.querySelector('[data-state="pos"], [data-state="neg"], [data-checked="true"], [data-dc-item][aria-pressed="true"]');
     }
 
-    function makeSheetTabs({ tabs, container, sheetSelector, labelFor, onShow }) {
+    function makeSheetTabs({ tabs, container, sheetSelector, labelFor, onShow, beforeShow }) {
       let selected = "";
       const sheets = () => [...container.querySelectorAll(sheetSelector)];
       function render(focusTab = false) {
@@ -3025,7 +3156,8 @@
           sheet.hidden = !isSelected;
           return tab;
         }));
-        const current = container.querySelector(`[data-sheet-id="${selected}"]`);
+        const current = container.querySelector(`${sheetSelector}[data-sheet-id="${selected}"]`);
+        beforeShow?.(current);
         if (focusTab) tabs.querySelector('[aria-selected="true"]')?.focus();
         window.requestAnimationFrame(() => {
           refreshSheet(current);
@@ -3053,10 +3185,10 @@
       return {
         render,
         select(id) { selected = id; render(); },
-        current() { return container.querySelector(`[data-sheet-id="${selected}"]`); },
+        current() { return container.querySelector(`${sheetSelector}[data-sheet-id="${selected}"]`); },
         updateLabels() {
           [...tabs.children].forEach((tab, index) => {
-            const sheet = container.querySelector(`[data-sheet-id="${tab.dataset.sheetId}"]`);
+            const sheet = container.querySelector(`${sheetSelector}[data-sheet-id="${tab.dataset.sheetId}"]`);
             if (sheet) tab.textContent = labelFor(sheet, index);
           });
         }
@@ -3374,6 +3506,7 @@
           details.classList.toggle("is-on", selected.size > 0);
           boxes.forEach((box, index) => { box.checked = selected.has(systems[index]); });
           window.requestAnimationFrame(() => refreshSheet(sheet));
+          if (sheet._pickers) updateSectionsCount(sheet);
           return;
         }
         sheet.querySelectorAll(`.rs-opt-${kind} .pre-rounds-exam-line[data-system]`).forEach((line) => { line.hidden = !selected.has(line.dataset.system); });
@@ -3382,6 +3515,7 @@
         details.classList.toggle("is-on", selected.size > 0);
         boxes.forEach((box, index) => { box.checked = selected.has(systems[index]); });
         window.requestAnimationFrame(() => refreshSheet(sheet));
+        if (sheet._pickers) updateSectionsCount(sheet);
       };
       for (const [text, on] of [["All", true], ["None", false]]) {
         const button = document.createElement("button");
@@ -3420,8 +3554,16 @@
     const labPanelOf = { BMP: "Electrolytes", CBC: "CBC", "Ca / Mg / PO4": "Electrolytes" };
 
     // Turn a fishbone panel back on if it is hidden but holds values (e.g. after pasting labs).
+    function updateSectionsCount(sheet) {
+      const opts = sheet._opts;
+      const extras = [opts.exam.size && "Exam", opts.ros.size && "ROS", opts.lines && "Lines", opts.pending && "Pending", opts.dc && "Discharge"].filter(Boolean);
+      const badge = sheet.querySelector("[data-sections-count]");
+      if (badge) badge.textContent = extras.length ? `+${extras.length}` : "";
+      const summary = sheet.querySelector(".sections-menu > summary");
+      if (summary) summary.title = `On this sheet: ${["Pertinent exam", "Labs", ...extras, opts.notes && "Notes"].filter(Boolean).join(", ")}. Click to change.`;
+    }
     function showLabPanelsWithValues(sheet) {
-      const picker = sheet.querySelector(".sys-picker--labs");
+      const picker = sheet._pickers?.labs;
       let changed = false;
       sheet.querySelectorAll(".rs-fish[data-panel]").forEach((fish) => {
         if (!sheet._opts.labs.has(fish.dataset.panel) && [...fish.querySelectorAll("input")].some((input) => input.value.trim())) {
@@ -3520,7 +3662,7 @@
       table.createTBody();
       const tools = document.createElement("div");
       tools.className = "rs-tt-tools screen-only";
-      tools.innerHTML = '<button type="button" data-add-trend-row title="Add a lab row">+ Lab</button><button type="button" data-add-trend-day title="Add a day column (up to 5)">+ Day</button><button type="button" data-fill-today title="Copy today\'s fishbone and other-lab values into today\'s column">Fill today</button><span class="rs-tt-msg" data-tt-msg role="status"></span>';
+      tools.innerHTML = '<button type="button" data-add-trend-row title="Add a lab row">+ Lab</button><button type="button" data-add-trend-day title="Add a day column (up to 5)">+ Day</button><button type="button" data-fill-today title="Copy today\'s fishbone and other-lab values into today\'s column">Fill today</button><span class="rs-tt-msg" data-tt-msg role="status"></span><span class="rs-trend-legend">Bold/shaded = abnormal (red high, blue low) \u00b7 \u2191\u2193 = meaningful change from the day before</span>';
       wrap.replaceChildren(table, tools);
       syncTrendTools(sheet);
       return table;
@@ -3547,7 +3689,10 @@
       if (hasValues && !window.confirm("Remove this day and its values?")) return;
       [...table.rows].forEach((row) => row.cells[index]?.remove());
       if (!trendDayCount(table)) sheet.querySelector("[data-trends]").replaceChildren();
-      else syncTrendTools(sheet);
+      else {
+        syncTrendTools(sheet);
+        refreshTrendMarks(sheet);
+      }
     }
     function removeTrendRow(sheet, row) {
       if ([...row.querySelectorAll("input")].some((input) => input.value.trim()) && !window.confirm("Remove this lab from the trends?")) return;
@@ -3585,6 +3730,7 @@
         setLabInputFlag(cell, found.flag);
         filled += 1;
       }
+      refreshTrendMarks(sheet);
       return filled;
     }
     function sheetTrends(sheet) {
@@ -3604,6 +3750,36 @@
       const table = trendTable(sheet);
       return table ? [...table.tHead.querySelectorAll("[data-trend-date]")].map((input) => input.value.trim()) : [];
     }
+    // Meaningful day-to-day change: lab-specific steps (e.g. Cr 0.3, K 0.5, Hgb 1), otherwise 15%.
+    const trendStep = { na: 3, k: 0.5, cl: 4, hco3: 3, bun: 8, cr: 0.3, gluc: 60, ca: 0.5, mg: 0.3, po4: 0.6, wbc: 2, hgb: 1, hct: 3, plts: 50 };
+    function trendMarks(name, cells) {
+      const step = trendStep[fishFieldForLab(name)];
+      let previous = null;
+      return cells.map(({ value, flag }) => {
+        const number = numberIn(value);
+        const mark = { abn: /^H/.test(flag) ? "high" : /^L/.test(flag) ? "low" : flag ? "abn" : "", dir: "" };
+        if (number !== null && previous !== null) {
+          const delta = number - previous;
+          const big = step ? Math.abs(delta) >= step - 1e-9 : previous !== 0 && Math.abs(delta) / Math.abs(previous) >= 0.15;
+          if (big) mark.dir = delta > 0 ? "up" : "down";
+        }
+        if (number !== null) previous = number;
+        return mark;
+      });
+    }
+    function refreshTrendMarks(sheet) {
+      sheet?.querySelectorAll?.("[data-trend]").forEach((row) => {
+        const inputs = [...row.querySelectorAll("[data-trend-value]")];
+        const marks = trendMarks(row.querySelector("[data-trend-name]").value, inputs.map((input) => ({ value: input.value, flag: input.dataset.flag || "" })));
+        inputs.forEach((input, index) => {
+          const cell = input.closest("td");
+          cell.dataset.abn = marks[index].abn;
+          cell.dataset.dir = marks[index].dir;
+          cell.title = [marks[index].abn && `${marks[index].abn === "high" ? "High" : marks[index].abn === "low" ? "Low" : "Abnormal"}`, marks[index].dir && `${marks[index].dir === "up" ? "Rose" : "Fell"} meaningfully since the previous day`].filter(Boolean).join(" \u00b7 ");
+        });
+      });
+    }
+
     function trendText(trend) {
       return `${trend.name || "Lab"}: ${trend.points.map((point) => `${point.value}${point.flag ? ` ${point.flag}` : ""}${point.date ? ` (${point.date})` : ""}`).join(" → ")}`;
     }
@@ -3865,11 +4041,18 @@
       makeChecklistInteractive(sheet);
       sheet._opts = { exam: new Set(), ros: new Set(), labs: new Set(labPanelNames), notes: true, lines: false, pending: false, dc: false };
       sheet.classList.add("show-notes");
-      sheet.querySelectorAll("[data-local-picker]").forEach((mount) => {
-        const picker = makeLocalPicker(sheet, mount.dataset.localPicker);
-        mount.replaceWith(picker);
+      // One "Sections" menu holds the exam/ROS/lab pickers and the optional boxes.
+      sheet._pickers = {};
+      sheet.querySelectorAll("[data-section-picker]").forEach((mount) => {
+        const kind = mount.dataset.sectionPicker;
+        const picker = makeLocalPicker(sheet, kind);
+        sheet._pickers[kind] = picker;
+        const body = picker.querySelector(".sys-picker-body");
+        mount.className = `sections-picker sections-picker--${kind}`;
+        mount.append(...body.childNodes);
         picker._apply();
       });
+      updateSectionsCount(sheet);
       addPreRoundsProblem(sheet);
       sheet.append(makeSheetFoot("pre-rounds"));
       addResizeHandles(sheet, "pre-rounds");
@@ -3936,7 +4119,6 @@
         const { parsed, unrecognized } = parseEmrLabs(`${row.name} ${points.find(Boolean)}`);
         const field = [...parsed.keys()][0] || "";
         const flagged = points.some((point) => splitLabFlag(point).flag || /\*\s*$/.test(point));
-        if (!flagged) continue;
         const label = field ? preRoundsLabFields.find(([, key]) => key === field)[0].replace("Gluc", "Glucose").replace("Plts", "PLT") : (unrecognized[0] ? classifyExtraLab(unrecognized[0].name).label : row.name);
         if (picked.some((item) => item.label === label)) continue;
         picked.push({ label, points, rank: field ? order.indexOf(field) : 100 + picked.length });
@@ -3960,6 +4142,7 @@
         });
       }
       syncTrendTools(sheet);
+      refreshTrendMarks(sheet);
       return picked.length;
     }
 
@@ -4017,7 +4200,7 @@
         : "";
       if (multi) {
         const trended = applyMultiDayTrends(sheet, multi);
-        status.textContent = `Found ${multi.dates.length} dates. Filled the sheet from ${newest} (${parsed.size} fishbone value${parsed.size === 1 ? "" : "s"}, ${withValues.length} other)${trended ? `; trends for ${trended} lab${trended === 1 ? "" : "s"} that were abnormal at some point.` : "."}`;
+        status.textContent = `Found ${multi.dates.length} dates. Filled the sheet from ${newest} (${parsed.size} fishbone value${parsed.size === 1 ? "" : "s"}, ${withValues.length} other)${trended ? `; trends for ${trended} lab${trended === 1 ? "" : "s"}; abnormal values and big changes are highlighted.` : "."}`;
       }
       showLabPanelsWithValues(sheet);
       renderSheetExtraLabs(sheet);
@@ -4136,7 +4319,8 @@
       if (!sheet) return;
       autoGrow(event.target);
       if (event.target.matches(".rs-fish-value, .rs-vital input")) updateCalcs(sheet);
-      if (event.target.matches("[data-counter-start]")) updateCounter(event.target.closest("[data-counter]"));
+      if (event.target.matches(".rs-vital input")) updateVitalFlags(sheet);
+      if (event.target.closest("[data-trend-table]")) refreshTrendMarks(sheet);
       if (event.target.matches("[data-emr-labs]")) {
         applySheetLabs(sheet);
         return;
@@ -4155,7 +4339,18 @@
     });
 
     preRoundsPatients.addEventListener("change", (event) => {
+      const optToggle = event.target.closest("input[data-toggle-opt]");
+      if (optToggle) {
+        const sheet = optToggle.closest(".rs-sheet");
+        const key = optToggle.dataset.toggleOpt;
+        sheet._opts[key] = optToggle.checked;
+        sheet.classList.toggle(`show-${key}`, sheet._opts[key]);
+        refreshSheet(sheet);
+        updateSectionsCount(sheet);
+        return;
+      }
       if (event.target.matches(".rs-fish-value, [data-trend-value]")) commitLabInput(event.target);
+      if (event.target.closest("[data-trend-table]")) refreshTrendMarks(event.target.closest(".rs-sheet"));
       if (event.target.matches("[data-trend-name]")) fillTrendToday(event.target.closest(".rs-sheet"), event.target.closest("[data-trend]"));
       updateCalcs(event.target.closest(".rs-sheet"));
     });
@@ -4169,16 +4364,7 @@
       if (event.target.closest("[data-page-next]")) { goToPage(own + 1); return; }
       const dot = event.target.closest(".rs-dot");
       if (dot) { goToPage(Number(dot.dataset.index)); return; }
-      const optToggle = event.target.closest("[data-toggle-opt]");
-      if (optToggle) {
-        const key = optToggle.dataset.toggleOpt;
-        sheet._opts[key] = !sheet._opts[key];
-        sheet.classList.toggle(`show-${key}`, sheet._opts[key]);
-        optToggle.setAttribute("aria-pressed", String(sheet._opts[key]));
-        refreshSheet(sheet);
-        if (sheet._opts[key]) sheet.querySelector(`.rs-opt-${key} textarea`)?.focus({ preventScroll: true });
-        return;
-      }
+      if (event.target.closest(".sections-menu")) return;
       if (event.target.closest("[data-present]")) {
         window.openPresentation(sheet);
         return;
@@ -4253,14 +4439,6 @@
         dcItem.setAttribute("aria-pressed", String(dcItem.getAttribute("aria-pressed") !== "true"));
         return;
       }
-      if (event.target.closest("[data-add-counter]")) {
-        addCounter(sheet, true);
-        return;
-      }
-      if (event.target.closest("[data-remove-counter]")) {
-        event.target.closest("[data-counter]").remove();
-        return;
-      }
       if (event.target.closest("[data-add-trend], [data-add-trend-row]")) {
         addTrendRow(sheet, true);
         return;
@@ -4301,13 +4479,13 @@
 
     document.addEventListener("keydown", (event) => {
       if (event.key !== "Escape") return;
-      document.querySelectorAll("details.rs-pop[open], details.pc-guide[open], details.sys-picker[open], details.tool-menu[open], details.rs-more[open], details.foot-menu[open]").forEach((details) => {
+      document.querySelectorAll("details.rs-pop[open], details.pc-guide[open], details.sys-picker[open], details.tool-menu[open], details.rs-more[open], details.foot-menu[open], details.sections-menu[open]").forEach((details) => {
         details.open = false;
         details.querySelector("summary").focus();
       });
     });
     document.addEventListener("click", (event) => {
-      document.querySelectorAll("details.rs-pop[open], details.pc-guide[open], details.sys-picker[open], details.tool-menu[open], details.rs-more[open], details.foot-menu[open]").forEach((details) => {
+      document.querySelectorAll("details.rs-pop[open], details.pc-guide[open], details.sys-picker[open], details.tool-menu[open], details.rs-more[open], details.foot-menu[open], details.sections-menu[open]").forEach((details) => {
         if (!details.contains(event.target)) details.open = false;
       });
     });
@@ -4493,6 +4671,15 @@
     function createPcSheet() {
       const fragment = pcTemplate.content.cloneNode(true);
       const sheet = fragment.querySelector(".pc-sheet");
+      sheet.querySelectorAll(".pc-box > h3").forEach((heading) => {
+        const first = heading.firstChild;
+        if (first && first.nodeType === Node.TEXT_NODE && first.textContent.trim()) {
+          const tag = document.createElement("span");
+          tag.className = "pc-tag";
+          tag.textContent = first.textContent.trim();
+          heading.replaceChild(tag, first);
+        }
+      });
       sheet.dataset.sheetId = `pre-charting-${++pcCount}`;
       const ros = sheet.querySelector("[data-pc-ros]");
       for (const [system, items] of pcRosSystems) {
@@ -4555,7 +4742,9 @@
       tabs: document.getElementById("pc-tabs"),
       container: pcSheets,
       sheetSelector: ".pc-sheet",
-      labelFor: (sheet, index) => bedTabLabel(sheet.querySelector('[data-pc="bed"]').value.trim(), index, "Admission")
+      labelFor: (sheet, index) => bedTabLabel(sheet.querySelector('[data-pc="bed"]').value.trim(), index, "Admission"),
+      // The admission tabs and buttons live at the top of whichever worksheet is showing.
+      beforeShow: (current) => { if (current && current.firstElementChild !== document.getElementById("pc-bar")) current.prepend(document.getElementById("pc-bar")); }
     });
 
     function setRosState(button, state) {
@@ -4653,6 +4842,7 @@
       const sheet = pcTabs.current();
       if (!sheet) return;
       if (sheetHasContent(sheet) && !window.confirm("Remove this admission worksheet?")) return;
+      pcSheets.before(document.getElementById("pc-bar"));
       sheet.remove();
       if (!pcSheets.querySelector(".pc-sheet")) createPcSheet();
       pcTabs.render();
@@ -4725,6 +4915,7 @@
       function section(label, content) {
         if (!content || (typeof content === "string" && !content.trim())) return null;
         const sec = el("section", "present-sec");
+        sec.dataset.jump = label;
         sec.append(el("span", "present-label", label));
         if (typeof content === "string") sec.append(el("p", "", content));
         else sec.append(content);
@@ -4762,7 +4953,17 @@
             if (!name && !inputs.some((input) => input.value.trim())) return;
             const tr = table.insertRow();
             tr.append(el("td", "", name || "Lab"));
-            inputs.forEach((input) => tr.append(el("td", input.dataset.flag ? "present-abn" : "", input.value.trim())));
+            const marks = trendMarks(name, inputs.map((input) => ({ value: input.value, flag: input.dataset.flag || "" })));
+            inputs.forEach((input, index) => {
+              const value = input.value.trim();
+              const td = el("td", "", value);
+              if (value) {
+                td.dataset.abn = marks[index].abn;
+                td.dataset.dir = marks[index].dir;
+                if (marks[index].dir) td.append(el("span", "present-dir", marks[index].dir === "up" ? " \u2191" : " \u2193"));
+              }
+              tr.append(td);
+            });
           });
           wrap.append(table);
         }
@@ -4782,10 +4983,22 @@
         if (field("power")) parts.push(el("p", "present-oneliner", field("power")));
         parts.push(section("Overnight / subjective", [field("subjective"), field("ros-pp") && `ROS: ${field("ros-pp")}`, opts.ros?.size ? rosNoteText(sheet.querySelector(".rs-opt-ros")) : ""].filter(Boolean).join("\n")));
         const calcs = sheetCalcs(sheet);
-        const vitals = [["T", "temp"], ["HR", "hr"], ["RR", "rr"], ["BP", "bp"]].map(([label, name]) => field(name) && `${label} ${field(name)}`);
-        if (field("o2") || field("o2dev")) vitals.push(`SpO2 ${field("o2")}${field("o2dev") ? ` on ${field("o2dev")}` : ""}`);
-        if (field("intake") || field("output")) vitals.push(`I/O ${field("intake") || "?"} / ${field("output") || "?"}${calcs.net ? ` (net ${calcs.net})` : ""}`);
-        parts.push(section("Vitals", vitals.filter(Boolean).join("   ")));
+        const vitalLine = el("p", "present-vitals");
+        const addVital = (label, name, suffix = "") => {
+          if (!field(name)) return;
+          const item = el("span", "present-vital");
+          item.append(`${label} `);
+          item.append(el("span", vitalFlag(name, field(name)) ? "present-abn present-vital-abn" : "", field(name)));
+          if (suffix) item.append(suffix);
+          vitalLine.append(item);
+        };
+        addVital("T", "temp"); addVital("HR", "hr"); addVital("RR", "rr"); addVital("BP", "bp");
+        if (field("o2") || field("o2dev")) {
+          if (field("o2")) addVital("SpO2", "o2", field("o2dev") ? ` on ${field("o2dev")}` : "");
+          else vitalLine.append(el("span", "present-vital", `O2: ${field("o2dev")}`));
+        }
+        if (field("intake") || field("output")) vitalLine.append(el("span", "present-vital", `I/O ${field("intake") || "?"} / ${field("output") || "?"}${calcs.net ? ` (net ${calcs.net})` : ""}`));
+        parts.push(vitalLine.childNodes.length ? section("Vitals", vitalLine) : null);
         if (opts.lines) parts.push(section("Lines / drains", field("lines")));
         parts.push(section("Exam", rsExamText(sheet).replace(/^Pertinent positives: /, "")));
         parts.push(section("Labs", labsBlock(sheet)));
@@ -4804,8 +5017,6 @@
           });
           parts.push(section("Assessment & plan", ap));
         }
-        const counters = sheetCounters(sheet);
-        if (counters.length) parts.push(section("Day counts", counters.map(counterText).join("   ")));
         if (opts.dc) {
           const dc = sheetDischarge(sheet);
           parts.push(section("Discharge", [dc.open.length && `Outstanding: ${dc.open.join(", ")}`, dc.notes && `Barriers / plan: ${dc.notes}`].filter(Boolean).join("\n")));
@@ -4813,6 +5024,15 @@
         const filled = parts.filter(Boolean);
         body.replaceChildren(...(filled.length ? filled : [el("p", "present-empty", "Nothing on this sheet yet.")]));
         body.scrollTop = 0;
+        const short = { "Overnight / subjective": "Subjective", "Lines / drains": "Lines", "Assessment & plan": "A&P" };
+        const jump = document.getElementById("present-jump");
+        jump.replaceChildren(...[...body.querySelectorAll("[data-jump]")].map((sec) => {
+          const button = el("button", "present-jump-btn", short[sec.dataset.jump] || sec.dataset.jump);
+          button.type = "button";
+          button.addEventListener("click", () => body.scrollTo({ top: sec.offsetTop - body.offsetTop - 8, behavior: "smooth" }));
+          return button;
+        }));
+        jump.hidden = !jump.childNodes.length;
       }
       window.openPresentation = (sheet) => {
         index = Math.max(0, rsSheetsList().indexOf(sheet));
@@ -4888,6 +5108,11 @@
           return;
         }
         if (event.key === "Escape" && document.getElementById("present").hidden) {
+          // An Esc that closes a menu or pop-up does not count toward "Esc twice".
+          if (document.querySelector("details[open]")) {
+            lastEscape = 0;
+            return;
+          }
           const now = Date.now();
           if (now - lastEscape < 650) {
             lastEscape = 0;
@@ -5175,7 +5400,36 @@
       }
       function renderPreview() {
         const text = templateText();
-        $("mr-preview").textContent = text || "The template appears here as you decide on each medication.";
+        const preview = $("mr-preview");
+        if (!text) {
+          preview.textContent = "The template appears here as you decide on each medication.";
+        } else {
+          // Color the group headings on screen only; the copied text stays plain.
+          const kindOf = (line) => /^(continued|continue taking)/i.test(line) ? "continue" : /^(held|do not take)/i.test(line) ? "hold" : /^(stopped|stop taking)/i.test(line) ? "stop" : /^(changed|change how)/i.test(line) ? "change" : /^(new this|start taking)/i.test(line) ? "new" : /not yet reviewed/i.test(line) ? "pending" : /^medication reconciliation/i.test(line) ? "title" : "";
+          preview.replaceChildren(...text.split("\n").flatMap((line, index) => {
+            const kind = !line.startsWith("- ") ? kindOf(line) : "";
+            const node = kind ? Object.assign(document.createElement("span"), { className: `mr-h mr-h--${kind}`, textContent: line }) : document.createTextNode(line);
+            return index ? [document.createTextNode("\n"), node] : [node];
+          }));
+        }
+        renderProgress();
+      }
+      function renderProgress() {
+        const total = mr.meds.length;
+        $("mr-progress").hidden = !total;
+        if (!total) return;
+        const order = ["continue", "change", "hold", "stop", "new", ""];
+        const counts = order.map((decision) => [decision, mr.meds.filter((med) => med.decision === decision).length]);
+        $("mr-progress-bar").replaceChildren(...counts.filter(([, count]) => count).map(([decision, count]) => {
+          const segment = document.createElement("span");
+          segment.className = "mr-seg";
+          segment.dataset.decision = decision;
+          segment.style.flexGrow = String(count);
+          segment.title = `${decision ? decisionLabels[decision] : "Not yet reviewed"}: ${count}`;
+          return segment;
+        }));
+        const decided = mr.meds.filter((med) => med.decision).length;
+        $("mr-progress-label").textContent = decided === total ? `All ${total} decided` : `${decided} of ${total} decided`;
       }
       function go(index, focusField) {
         mr.index = index;
@@ -5405,7 +5659,7 @@
       document.body.dataset.print = panelId === "pre-rounds-panel" ? "pre-rounds" : panelId === "pre-charting-panel" ? "pre-charting" : "other";
       document.querySelectorAll(".workspace-panel").forEach((panel) => panel.classList.toggle("print-active", panel.id === panelId));
       const scope = document.getElementById(panelId);
-      scope?.querySelectorAll(".rs-sheet textarea, .pc-sheet textarea").forEach((area) => {
+      scope?.querySelectorAll(".rs-sheet textarea, .pc-sheet textarea, .so-sheet textarea").forEach((area) => {
         const mirror = document.createElement("div");
         mirror.className = `${area.className} print-mirror`;
         const checklist = area.matches('[data-field="todos"], [data-pc="questions"]');
@@ -5432,7 +5686,7 @@
     });
 
     document.addEventListener("tool-tab-shown", () => {
-      preRoundsPatients.querySelectorAll(".rs-sheet").forEach(refreshSheet);
+      preRoundsPatients.querySelectorAll(".rs-sheet").forEach((sheet) => { refreshSheet(sheet); updateVitalFlags(sheet); });
       refreshSheet(pcTabs.current());
     });
 
