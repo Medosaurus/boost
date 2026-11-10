@@ -137,7 +137,9 @@
     .pre-rounds-sheet .pre-rounds-lab-value { min-width: 0; }
     .pre-rounds-sheet .pre-rounds-lab-value strong { margin-right: 4px; }
     .pre-rounds-sheet .pre-rounds-cell-content { min-height: 24px; white-space: pre-wrap; }
-    .pre-rounds-exam-checklist { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3px 8px; font-size: 9px; line-height: 1.2; }
+    .pre-rounds-exam-checklist { display: block; columns: 2; column-gap: 12px; font-size: 9px; line-height: 1.2; }
+    .pre-rounds-exam-checklist > .pre-rounds-exam-line, .pre-rounds-ros-checklist > .pre-rounds-exam-line { break-inside: avoid; page-break-inside: avoid; margin-bottom: 3px; }
+    .pre-rounds-ros-checklist > .pre-rounds-ros-allneg { column-span: all; margin-top: 2px; }
     .pre-rounds-exam-line { display: flex; flex-wrap: wrap; gap: 1px 5px; }
     .pre-rounds-exam-system { min-width: 42px; font-weight: 700; }
     .pre-rounds-exam-choice { display: inline-block; white-space: nowrap; }
@@ -203,7 +205,7 @@
     .pre-rounds-sheet .pre-rounds-extra-lab b { font-weight: 700; }
     .pre-rounds-sheet .pre-rounds-extra-lab small { color: #5b6b7c; font-size: .82em; }
     .pre-rounds-sheet .pre-rounds-flag { font-weight: 800; }
-    .pre-rounds-sheet .pre-rounds-ros-checklist { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px 8px; font-size: 9px; line-height: 1.25; }
+    .pre-rounds-sheet .pre-rounds-ros-checklist { display: block; columns: 3; column-gap: 12px; font-size: 9px; line-height: 1.25; }
     .pre-rounds-status { min-height: 1.4em; margin: 9px 0 0; color: var(--brand-green); font-size: 12px; font-weight: 700; }
 
     .page { max-width: 1600px; margin: 0 auto; padding: 20px 24px 36px; }
@@ -709,11 +711,23 @@
     .mr-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
     .mr-table th, .mr-table td { padding: 3px 6px; border: 1px solid #d5deea; text-align: left; vertical-align: top; }
     .mr-table th { color: var(--muted); background: #f1f5f9; font-size: 11px; letter-spacing: .04em; text-transform: uppercase; }
-    .mr-table th:nth-child(1) { width: 42%; } .mr-table th:nth-child(2) { width: 14%; }
+    .mr-table th:nth-child(1) { width: 38%; } .mr-table th:nth-child(2) { width: 150px; }
     .mr-table tbody tr { cursor: pointer; }
     .mr-table tbody tr:hover { background: var(--brand-teal-pale); }
     .mr-table tbody tr[aria-current="true"] { box-shadow: inset 3px 0 0 var(--brand-teal); background: #f2f8fd; }
     .mr-table .mr-tag { font-weight: 700; }
+    .mr-row-decisions { display: inline-flex; gap: 3px; }
+    .mr-row-decisions button { width: 28px; height: 26px; padding: 0; color: var(--muted); background: transparent; border: 1px solid #d5deea; border-radius: 5px; font: 800 12.5px Inter, ui-sans-serif, system-ui, sans-serif; cursor: pointer; }
+    .mr-row-decisions button:hover { border-color: var(--brand-teal); }
+    .mr-row-decisions button[aria-pressed="true"][data-decision="continue"] { color: #fff; background: #15803d; border-color: #15803d; }
+    .mr-row-decisions button[aria-pressed="true"][data-decision="hold"] { color: #fff; background: #b45309; border-color: #b45309; }
+    .mr-row-decisions button[aria-pressed="true"][data-decision="stop"] { color: #fff; background: #b91c1c; border-color: #b91c1c; }
+    .mr-row-decisions button[aria-pressed="true"][data-decision="change"] { color: #fff; background: var(--brand-teal); border-color: var(--brand-teal); }
+    .mr-row-input { display: block; width: 100%; margin: 1px 0; padding: 2px 5px; color: inherit; background: transparent; border: 1px solid #d5deea; border-radius: 4px; font: 12.5px Inter, ui-sans-serif, system-ui, sans-serif; }
+    .mr-row-input:focus { outline: 2px solid rgba(75, 156, 211, .35); border-color: var(--brand-teal); }
+    html[data-theme="dark"] :is(.mr-row-decisions button, .mr-row-input) { border-color: #45474e; }
+    .mr-print-tag { display: none; }
+    @media print { .mr-print-tag { display: inline; } .mr-row-decisions { display: none !important; } .mr-row-input { border: 0; padding: 0; } }
     .mr-tag[data-decision="continue"] { color: #15803d; } .mr-tag[data-decision="hold"] { color: #b45309; } .mr-tag[data-decision="stop"] { color: #b91c1c; } .mr-tag[data-decision="change"], .mr-tag[data-decision="new"] { color: var(--brand-teal-ink); } .mr-tag[data-decision=""] { color: var(--muted); font-weight: 400; font-style: italic; }
     .mr-table-empty td { color: var(--muted); text-align: center; cursor: default; }
     .mr-preview { min-height: 4em; max-height: 340px; margin: 0; padding: 8px 10px; overflow: auto; color: inherit; background: #fafbfd; border: 1px solid #c3cfdb; border-radius: 5px; font: 12.5px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; white-space: pre-wrap; }
@@ -806,7 +820,9 @@
     .rs-vital strong { flex: 0 0 auto; }
     .rs-vital input { flex: 1 1 auto; width: 100%; min-width: 24px; padding: 0 2px; color: inherit; background: transparent; border: 0; border-bottom: 1px solid #9aa9b9; border-radius: 0; font: inherit; }
     .rs-checks .pre-rounds-exam-checklist, .rs-checks .pre-rounds-ros-checklist { padding-top: 1.5em; font-size: .76em; }
-    .rs-checks .pre-rounds-ros-checklist { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px 8px; line-height: 1.25; }
+    .rs-checks .pre-rounds-ros-checklist { display: block; columns: 3; column-gap: 12px; line-height: 1.25; }
+    .rs-opt-ros.rs-checks .pre-rounds-ros-checklist { padding-top: 2.2em; }
+    @media print { .rs-opt-ros.rs-checks .pre-rounds-ros-checklist { padding-top: 1.6em; } }
     .rs-sheet .pre-rounds-exam-choice { cursor: pointer; border-radius: 3px; }
     .rs-sheet .pre-rounds-exam-choice:hover { background: #EAF4FB; }
     .rs-sheet .pre-rounds-exam-choice[data-checked="true"] { color: #000; font-weight: 700; }
@@ -814,9 +830,44 @@
     .pre-rounds-exam-choice[data-mark="abn"], .pre-rounds-ros-choice[data-state="pos"] { color: #b91c1c !important; font-weight: 800 !important; }
     html[data-theme="dark"] .pre-rounds-exam-choice[data-mark="norm"], html[data-theme="dark"] .pre-rounds-ros-choice[data-state="neg"] { color: #6ee7a0 !important; }
     html[data-theme="dark"] .pre-rounds-exam-choice[data-mark="abn"], html[data-theme="dark"] .pre-rounds-ros-choice[data-state="pos"] { color: #fca5a5 !important; }
+    /* Checklist chips (Pre-Rounds exam + ROS): one row per system, name on the left, findings as chips. */
+    .rs-checks .pre-rounds-exam-checklist, .rs-checks .pre-rounds-ros-checklist { column-gap: 22px; column-rule: 1px solid #e3e9f0; }
+    .rs-checks :is(.pre-rounds-exam-checklist, .pre-rounds-ros-checklist) > .pre-rounds-exam-line { position: relative; gap: 3px 4px; margin: 0; padding: 4px 0 4px 5.4em; border-bottom: 1px solid #edf1f5; }
+    .rs-checks .pre-rounds-ros-checklist > .pre-rounds-exam-line { padding-left: 4.6em; }
+    .rs-checks :is(.pre-rounds-exam-checklist, .pre-rounds-ros-checklist) > .pre-rounds-exam-line:last-child { border-bottom: 0; }
+    .rs-checks .pre-rounds-ros-checklist > .pre-rounds-ros-allneg { padding-left: 0; border-bottom: 0; }
+    .rs-checks :is(.pre-rounds-exam-system, .pre-rounds-ros-system) { position: absolute; left: 0; top: 5px; min-width: 0; color: var(--brand-blue); font-size: .92em; font-weight: 800; letter-spacing: .02em; text-transform: uppercase; }
+    .rs-checks :is(.pre-rounds-exam-system, .pre-rounds-ros-system)[role="button"]:hover { color: var(--brand-teal-ink); text-decoration: underline; cursor: pointer; }
+    .rs-checks :is(.pre-rounds-exam-choice, .pre-rounds-ros-choice) { display: inline-flex; align-items: center; gap: 3px; padding: 1px 7px; color: #334155; background: #fff; border: 1px solid #d3dce6; border-radius: 999px; font-weight: 500; line-height: 1.4; white-space: nowrap; cursor: pointer; transition: background-color .1s ease, border-color .1s ease; }
+    .rs-checks :is(.pre-rounds-exam-choice, .pre-rounds-ros-choice):hover { background: #f1f7fc; border-color: #9cc6e6; }
+    .rs-checks :is(.pre-rounds-exam-choice, .pre-rounds-ros-choice):focus-visible { outline: 2px solid var(--brand-teal); outline-offset: 1px; }
+    .rs-checks :is(.pre-rounds-exam-choice[data-mark="norm"], .pre-rounds-ros-choice[data-state="neg"], .pre-rounds-exam-choice[data-all-negative][data-checked="true"]) { color: #166534 !important; background: #e7f6ec; border-color: #9fd6b0; font-weight: 600 !important; }
+    .rs-checks :is(.pre-rounds-exam-choice[data-mark="abn"], .pre-rounds-ros-choice[data-state="pos"]) { color: #b91c1c !important; background: #fdeaea; border-color: #f0a3a3; font-weight: 700 !important; }
+    .rs-checks :is(.pre-rounds-exam-choice, .pre-rounds-ros-choice) .ck-g { display: none; font-weight: 800; }
+    .rs-checks :is([data-mark="norm"], [data-mark="abn"], [data-state="neg"], [data-state="pos"], [data-checked="true"]) > .ck-g { display: inline; }
+    .ck-key { display: inline-block; padding: 0 6px; border: 1px solid; border-radius: 999px; font-weight: 600; line-height: 1.35; }
+    .ck-key-n { color: #166534; background: #e7f6ec; border-color: #9fd6b0; }
+    .ck-key-a { color: #b91c1c; background: #fdeaea; border-color: #f0a3a3; }
+    html[data-theme="dark"] .rs-checks :is(.pre-rounds-exam-checklist, .pre-rounds-ros-checklist) { column-rule-color: #3a3d44; }
+    html[data-theme="dark"] .rs-checks :is(.pre-rounds-exam-checklist, .pre-rounds-ros-checklist) > .pre-rounds-exam-line { border-bottom-color: #34373d; }
+    html[data-theme="dark"] .rs-checks :is(.pre-rounds-exam-system, .pre-rounds-ros-system) { color: #8ec5ee; }
+    html[data-theme="dark"] .rs-checks :is(.pre-rounds-exam-choice, .pre-rounds-ros-choice) { color: var(--ink); background: #2a2c31; border-color: #464950; }
+    html[data-theme="dark"] .rs-checks :is(.pre-rounds-exam-choice, .pre-rounds-ros-choice):hover { background: rgba(90, 169, 222, .16); border-color: #3C7DAE; }
+    html[data-theme="dark"] .rs-checks :is(.pre-rounds-exam-choice[data-mark="norm"], .pre-rounds-ros-choice[data-state="neg"], .pre-rounds-exam-choice[data-all-negative][data-checked="true"]) { color: #6ee7a0 !important; background: rgba(34, 197, 94, .14); border-color: #2f7a4c; }
+    html[data-theme="dark"] .rs-checks :is(.pre-rounds-exam-choice[data-mark="abn"], .pre-rounds-ros-choice[data-state="pos"]) { color: #fca5a5 !important; background: rgba(239, 68, 68, .15); border-color: #8f3a3a; }
+    html[data-theme="dark"] .ck-key-n { color: #6ee7a0; background: rgba(34, 197, 94, .14); border-color: #2f7a4c; }
+    html[data-theme="dark"] .ck-key-a { color: #fca5a5; background: rgba(239, 68, 68, .15); border-color: #8f3a3a; }
+    @media print {
+      /* Paper keeps the compact □ list so blank sheets can be ticked by hand. */
+      .rs-checks :is(.pre-rounds-exam-checklist, .pre-rounds-ros-checklist) { column-rule: 0; column-gap: 8pt; }
+      .rs-checks :is(.pre-rounds-exam-checklist, .pre-rounds-ros-checklist) > .pre-rounds-exam-line { padding-top: 0; padding-bottom: 0; border-bottom: 0; gap: 0 4pt; }
+      .rs-checks :is(.pre-rounds-exam-system, .pre-rounds-ros-system) { top: 0; color: #000 !important; font-size: 1em; letter-spacing: 0; text-transform: none; }
+      .rs-checks :is(.pre-rounds-exam-choice, .pre-rounds-ros-choice) { display: inline; padding: 0; color: #000; background: none !important; border: 0; border-radius: 0; font-weight: 400; line-height: inherit; }
+      .rs-checks :is(.pre-rounds-exam-choice, .pre-rounds-ros-choice) .ck-g { display: inline; }
+    }
     .pre-rounds-ros-system[role="button"] { cursor: pointer; border-radius: 3px; }
     .pre-rounds-ros-system[role="button"]:hover { color: var(--brand-teal-ink); text-decoration: underline; }
-    .rs-check-hint { margin: 2px 0 0; padding-left: var(--tag-w, 4em); color: #8494a7; font: 10.5px Inter, ui-sans-serif, system-ui, sans-serif; }
+    .rs-check-hint { margin: 2px 0 0; padding-left: var(--tag-w, 4em); color: #5b6b7e; font: 10.5px Inter, ui-sans-serif, system-ui, sans-serif; }
     .rs-check-hint b { color: var(--brand-teal-ink); }
     .rs-exam .rs-checks .pre-rounds-exam-checklist, .rs-exam.rs-checks .pre-rounds-exam-checklist { padding-top: .3em; }
     .rs-sheet:not(.show-exam) [data-exam-to-pp] { display: none; }
@@ -828,7 +879,7 @@
     .rs-labs { padding-bottom: 4px; }
     .rs-box-tools { position: absolute; top: 1px; right: 3px; z-index: 5; display: inline-flex; align-items: center; gap: 4px; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
     .rs-box-tools button { padding: 1px 7px; color: var(--brand-teal-ink); background: var(--brand-teal-pale); border: 1px solid #A9CFEA; border-radius: 4px; font-size: 11px; font-weight: 700; }
-    .rs-box-hint { color: #8494a7; font-size: 10.5px; }
+    .rs-box-hint { color: #5b6b7e; font-size: 10.5px; }
     .rs-dc-items { display: flex; flex-wrap: wrap; gap: 3px 10px; padding-left: var(--tag-w, 4em); }
     .rs-dc-item { padding: 0; color: inherit; background: none; border: 0; font: inherit; font-size: .92em; cursor: pointer; }
     .rs-dc-item::before { content: "\2610"; margin-right: 3px; }
@@ -978,7 +1029,7 @@
     .pc-inline { display: grid; grid-template-columns: 9.5em minmax(0, 1fr); align-items: stretch; }
     .pc-inline h3 { align-items: flex-start; padding-top: 5px; background: transparent; border-bottom: 0; }
     .pc-inline textarea { border-top: 1px solid #b8c5d4; }
-    .pc-hint { margin-left: 4px; color: #6b7c90; font-size: .85em; font-weight: 400; }
+    .pc-hint { margin-left: 4px; color: #5b6b7e; font-size: .85em; font-weight: 400; }
     .pc-mini { margin-left: auto; padding: 1px 6px; color: #166534; background: var(--brand-green-pale); border: 1px solid #86d4a2; border-radius: 4px; font-family: Inter, ui-sans-serif, system-ui, sans-serif; font-size: 10.5px; font-weight: 700; }
     .pc-guide { margin-left: auto; }
     .pc-mini + .pc-guide { margin-left: 4px; }
@@ -1015,7 +1066,7 @@
     @media screen and (max-width: 900px) {
       .pc-cols { grid-template-columns: 1fr; }
       .rs-fish-row { grid-template-columns: 1fr 1fr; }
-      .rs-checks .pre-rounds-ros-checklist { grid-template-columns: 1fr 1fr; }
+      .rs-checks .pre-rounds-ros-checklist { columns: 2; }
     }
     body.is-fullscreen .page .encounter-bar { display: none !important; }
     body.is-fullscreen .privacy-note { display: none; }
@@ -1064,7 +1115,7 @@
       html[data-theme="dark"] .sys-picker > summary { color: var(--ink); background: #2e3035; border-color: #45474e; }
       html[data-theme="dark"] :is(.sys-picker-body, .rs-pop-body, .pc-guide-body) { color: var(--ink); background: #2a2b30; border-color: #45474e; box-shadow: 0 12px 32px rgba(0, 0, 0, .55); }
       html[data-theme="dark"] :is(.sys-picker-actions button, .rs-box-tools button, .rs-pop > summary, .pc-copy) { color: #A7D3F2; background: var(--brand-teal-pale); border-color: #3C7DAE; }
-      html[data-theme="dark"] .rs-box-hint, html[data-theme="dark"] .pc-hint { color: #80858f; }
+      html[data-theme="dark"] .rs-box-hint, html[data-theme="dark"] .pc-hint, html[data-theme="dark"] .rs-check-hint, html[data-theme="dark"] .ep-mine-tip { color: #a7acb5; }
       html[data-theme="dark"] .rs-pop-body textarea, html[data-theme="dark"] .pre-rounds-manual-lab :is(select, input) { color: var(--ink); background: #1f2024; border-color: #45474e; }
       html[data-theme="dark"] .pre-rounds-skipped, html[data-theme="dark"] .rs-pop-status, html[data-theme="dark"] .rs-pop-label { color: var(--muted); }
       html[data-theme="dark"] .pre-rounds-status { color: var(--brand-green); }
@@ -1159,6 +1210,7 @@
       .rs-ap { min-height: 0.75in; }
       .rs-fish { max-width: 2.2in; }
       .rs-checks .pre-rounds-exam-checklist, .rs-checks .pre-rounds-ros-checklist { gap: 1pt 4pt; line-height: 1.12; }
+      .rs-checks :is(.pre-rounds-exam-checklist, .pre-rounds-ros-checklist) > .pre-rounds-exam-line { margin-bottom: 1pt; }
       .pre-rounds-problem:hover .rs-problem-tools { opacity: 0; }
       .rs-exam-other input { border-bottom-color: #999; }
       .rs-oneliner-text:empty::before { content: none; }
@@ -1365,7 +1417,7 @@
     .ep-frow:first-child { border-top: 0; }
     .ep-frow-head { display: flex; align-items: baseline; gap: 4px 10px; }
     .ep-frow-head b { flex: 0 0 auto; color: #23384e; font-size: .95em; }
-    .ep-cue { flex: 1 1 auto; min-width: 0; color: #6b7a8c; font-size: .86em; line-height: 1.35; }
+    .ep-cue { flex: 1 1 auto; min-width: 0; color: #5b6b7e; font-size: .86em; line-height: 1.35; }
     .ep-frow-head .ep-hint { flex: 0 0 auto; }
     .ep-frow textarea { min-height: 1.5em; }
     .ep-top-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
@@ -1386,7 +1438,7 @@
     .ep-mine-empty[hidden] { display: none; }
     .ep-sheet .ep-sys textarea[data-ep-sys-list] { min-height: 4.4em; }
     .ep-sys-systemic { border-style: dashed; background: transparent; }
-    .ep-mine-tip { color: #8494a7; font-size: 11.5px; }
+    .ep-mine-tip { color: #5b6b7e; font-size: 11.5px; }
     .ep-mine-tip b { color: #b91c1c; }
     .ep-flags { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; margin-top: 6px; font: 12.5px Inter, ui-sans-serif, system-ui, sans-serif; }
     .ep-flags[hidden] { display: none; }
@@ -1566,6 +1618,23 @@
     .rs-guide-foot { margin: 7px 0 0; color: var(--muted); font-size: 11.5px; }
     .rs-guide-more { display: block; margin-top: 5px; padding: 0; color: var(--brand-teal-ink); background: none; border: 0; font: 700 12px Inter, ui-sans-serif, system-ui, sans-serif; cursor: pointer; }
     html[data-theme="dark"] .rs-guide-more { color: #A7D3F2; }
+    /* Bigger click and tap areas for small buttons, without changing how they look */
+    /* Only on touch screens: with a mouse, a larger invisible area can steal clicks from neighboring buttons. */
+    @media (pointer: coarse) {
+      :is(.pre-rounds-problem-move, .ep-top-remove, .ep-sys-x, .ep-confirm, .ep-to-mr, .ep-hint > summary) { position: relative; }
+      :is(.pre-rounds-problem-move, .rs-tt-x, .ep-top-remove, .ep-sys-x, .ep-confirm, .ep-to-mr, .ep-hint > summary)::after { content: ""; position: absolute; inset: -7px -3px; }
+      .rs-tt-x::after { inset: -4px; }
+      /* The med-log × sits in the line of text: give it a positioned box so its tap area stays its own size. */
+      .ml-item .rs-tt-x { position: relative; }
+    }
+    /* Checklist items: no text selection or iOS callout when pressing and holding */
+    :is(.pre-rounds-exam-choice, .pre-rounds-ros-choice, .pre-rounds-exam-system, .pre-rounds-ros-system) { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; touch-action: manipulation; }
+    /* Touch screens have no hover: keep the small tools visible and a little larger */
+    @media (hover: none) {
+      .rs-problem-tools, .rs-trend-table .rs-tt-x, .ep-top-remove, .ep-sys-x, .ml-item .rs-tt-x { opacity: .8 !important; }
+      .rs-problem-tools .pre-rounds-problem-move { width: 28px; height: 28px; font-size: 13px; }
+      .rs-tt-x { width: 22px; height: 22px; font-size: 13px; }
+    }
     /* ---- Tips page ---- */
     .tips-sheets { max-width: 1000px; margin: 0 auto; }
     .tips-sheet { position: relative; padding: 22px 26px 14px; color: #172536; background: #fff; border: 1px solid #d5deea; border-radius: 8px; box-shadow: 0 3px 12px rgba(15, 23, 42, .08); font: 14px/1.5 Inter, ui-sans-serif, system-ui, sans-serif; }
@@ -1980,21 +2049,21 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
             <div class="rs-field rs-oneliner-text" data-field="power" role="textbox" aria-multiline="true" aria-label="One-liner" data-placeholder="e.g. 68M w/ HFrEF, CKD3 admitted for CAP, now on RA"></div>
           </div>
           <div class="rs-box rs-c12 rs-subjective"><span class="rs-tag">Overnight / Subj</span><textarea class="rs-field" data-field="subjective" rows="2" aria-label="Overnight events and subjective"></textarea>
-            <label class="rs-inline-row"><span>ROS:</span><textarea class="rs-field rs-inline-field" data-field="ros-pp" rows="1" aria-label="Pertinent positive and negative ROS" placeholder="pertinent + / − (e.g. + cough, − chest pain, − fever)"></textarea></label></div>
+            <label class="rs-inline-row"><span>ROS:</span><textarea class="rs-field rs-inline-field" data-field="ros-pp" rows="1" aria-label="Pertinent positive and negative ROS" placeholder="Endorses: cough. Denies: fever, chest pain. (or mark the ROS checklist, then → Written ROS)"></textarea></label></div>
+          <div class="rs-box rs-c12 rs-opt-ros rs-checks"><span class="rs-tag">ROS</span>
+            <span class="rs-box-tools screen-only"><span class="rs-box-hint">tap: ✓ denies → ✗ endorses → clear</span><button type="button" data-ros-rest title="Mark every unmarked symptom as denied">Rest normal</button><button type="button" data-ros-to-pp title="Write the marked symptoms into the ROS line as Endorses: … / Denies: …">→ Written ROS</button><button type="button" data-copy-ros>Copy ROS</button></span>
+            <div data-ros-checklist></div>
+          </div>
           <div class="rs-box rs-c12 rs-vitals"><span class="rs-tag">Vitals</span><div class="rs-vitals-bar" data-vitals></div></div>
           <div class="rs-box rs-c12 rs-opt-lines rs-lines"><span class="rs-tag">Lines / drains</span><textarea class="rs-field" data-field="lines" rows="1" aria-label="Lines, drains and tele" placeholder="e.g. PIV x2, Foley (d3), R IJ CVC (d5), tele. Still needed?"></textarea></div>
           <div class="rs-box rs-c12 rs-exam rs-checks"><span class="rs-tag">Exam</span>
-            <span class="rs-box-tools screen-only"><button type="button" data-exam-to-pp title="Write the marked findings into the Pertinent line as pertinent positives and negatives">→ Pertinent ±</button><button type="button" data-copy-exam>Copy exam</button></span>
-            <label class="rs-inline-row rs-pp-row"><span>Pertinent:</span><textarea class="rs-field rs-inline-field" data-field="exam-pp" rows="1" aria-label="Pertinent positive and negative exam findings" placeholder="+ crackles R base, 2+ LE edema; − no JVD (or mark the checklist: Show → Exam, then → Pertinent ±)"></textarea></label>
+            <span class="rs-box-tools screen-only"><button type="button" data-exam-to-pp title="Write the marked findings as an exam by system, with the abnormal findings on one line at the top">→ Written exam</button><button type="button" data-copy-exam>Copy exam</button></span>
+            <label class="rs-inline-row rs-pp-row"><span>Findings:</span><textarea class="rs-field rs-inline-field" data-field="exam-pp" rows="1" aria-label="Exam findings" placeholder="Exam notable for: crackles R base, 2+ LE edema (or mark the checklist under Sections → Exam, then → Written exam)"></textarea></label>
             <div class="rs-opt-exam">
-              <p class="rs-check-hint screen-only">Left-click: ✓ normal / reassuring. Right-click: ✗ abnormal. Click a system name for all its normals. Then <b>→ Pertinent ±</b>.</p>
+              <p class="rs-check-hint screen-only">Tap to cycle: <span class="ck-key ck-key-n">✓ normal</span> → <span class="ck-key ck-key-a">✗ abnormal</span> → clear. Tap a system name for all its normals. Then <b>→ Written exam</b>.</p>
               <div data-exam-checklist></div>
               <label class="rs-exam-other"><span>Other:</span><input data-field="exam-other" autocomplete="off" aria-label="Other exam findings"></label>
             </div>
-          </div>
-          <div class="rs-box rs-c12 rs-opt-ros rs-checks"><span class="rs-tag">ROS</span>
-            <span class="rs-box-tools screen-only"><span class="rs-box-hint">left-click ✓ denies (normal) · right-click ✗ reports (abnormal)</span><button type="button" data-ros-rest title="Mark every unmarked symptom as denied">Rest normal</button><button type="button" data-ros-to-pp title="Write the marked symptoms into the ROS line as pertinent positives and negatives">→ ROS line</button><button type="button" data-copy-ros>Copy ROS</button></span>
-            <div data-ros-checklist></div>
           </div>
           <div class="rs-box rs-c12 rs-labs"><span class="rs-tag">Labs</span>
             <div class="rs-fish-row" data-fishbones></div>
@@ -2181,7 +2250,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
           </section>
 
           <section class="mr-box mr-table-box">
-            <h3>All medications <span class="mr-h3-hint">click a row to review it</span></h3>
+            <h3>All medications <span class="mr-h3-hint">decide right here with C · H · S · Δ, or click a medication to review it on the card</span></h3>
             <table class="mr-table" id="mr-table"><thead><tr><th>Medication</th><th>Decision</th><th>Details</th></tr></thead><tbody></tbody></table>
           </section>
 
@@ -3326,21 +3395,30 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       }).filter(Boolean);
     }
 
+    // Head to toe. Order here is the order on the sheet (top to bottom, left column first) and in the written ROS.
     const rosChecklistSystems = [
-      ["Const", [["Fever"], ["Chills"], ["Fatigue"], ["Wt change", "weight change"]]],
-      ["HEENT", [["Vision change"], ["Sore throat"], ["Congestion"]]],
-      ["CV", [["Chest pain"], ["Palpitations"], ["Edema"], ["Orthopnea"]]],
-      ["Resp", [["Dyspnea"], ["Cough"], ["Sputum"], ["Wheezing"]]],
-      ["GI", [["Nausea"], ["Vomiting"], ["Abd pain", "abdominal pain"], ["Diarrhea"], ["Constipation"], ["Melena/BRBPR", "melena/BRBPR"]]],
+      ["Const", [["Fever"], ["Chills"], ["Night sweats"], ["Fatigue"], ["Wt change", "weight change"], ["Poor appetite", "poor appetite"]]],
+      ["HEENT", [["Vision change"], ["Hearing change"], ["Sore throat"], ["Congestion"]]],
+      ["CV", [["Chest pain"], ["Palpitations"], ["Edema"], ["Orthopnea"], ["PND", "PND"], ["Syncope"]]],
+      ["Resp", [["Dyspnea"], ["Cough"], ["Sputum"], ["Hemoptysis"], ["Wheezing"]]],
+      ["GI", [["Nausea"], ["Vomiting"], ["Abd pain", "abdominal pain"], ["Diarrhea"], ["Constipation"], ["Melena/BRBPR", "melena/BRBPR"], ["Dysphagia"]]],
       ["GU", [["Dysuria"], ["Frequency"], ["Retention", "urinary retention"], ["Hematuria"]]],
       ["MSK", [["Myalgias"], ["Joint pain"], ["Back pain"]]],
+      ["Skin", [["Rash"], ["Wound"], ["Pruritus"]]],
       ["Neuro", [["Headache"], ["Dizziness"], ["Numbness"], ["Weakness"], ["Confusion"]]],
       ["Psych", [["Low mood"], ["Anxiety"], ["Poor sleep"]]],
-      ["Skin", [["Rash"], ["Wound"], ["Pruritus"]]],
-      ["Heme", [["Bleeding"], ["Bruising"]]],
-      ["Endo", [["Polyuria"], ["Polydipsia"], ["Heat/cold intol.", "heat/cold intolerance"]]]
+      ["Endo", [["Polyuria"], ["Polydipsia"], ["Heat/cold intol.", "heat/cold intolerance"]]],
+      ["Heme", [["Bleeding"], ["Bruising"]]]
     ];
     const rosGlyphs = { "": "\u25a1", pos: "\u2717", neg: "\u2713" };
+    // The tick/cross sits in its own span so the screen can hide the empty box (the chip itself shows it's
+    // clickable) while print keeps □ to tick by hand. textContent still reads "✓ text".
+    function setChoiceGlyph(element, glyph, text) {
+      const mark = document.createElement("span");
+      mark.className = "ck-g";
+      mark.textContent = glyph;
+      element.replaceChildren(mark, document.createTextNode(` ${text}`));
+    }
 
     function makePreRoundsRosChecklist(container) {
       const checklist = document.createElement("div");
@@ -3359,7 +3437,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
           option.dataset.state = "";
           option.dataset.label = choice;
           option.dataset.note = noteText || choice.toLowerCase();
-          option.textContent = `${rosGlyphs[""]} ${choice}`;
+          setChoiceGlyph(option, rosGlyphs[""], choice);
           line.append(option);
         }
         checklist.append(line);
@@ -3369,25 +3447,28 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       const negativeChoice = document.createElement("span");
       negativeChoice.className = "pre-rounds-exam-choice";
       negativeChoice.dataset.allNegative = "";
-      negativeChoice.textContent = "□ All other systems reviewed and negative";
+      setChoiceGlyph(negativeChoice, "\u25a1", "All other systems reviewed and negative");
       negative.append(negativeChoice);
       checklist.append(negative);
       container.append(checklist);
     }
 
+    // Head to toe. "Item*" = a normal finding (can only be marked normal). A plain item is abnormal-phrased:
+    // ✓ writes "no <item>", ✗ writes "<item>". [label, abnormal text, normal text] spells both out
+    // (special tests: "positive Murphy sign" / "negative Murphy sign").
     const examChecklistSystems = [
-      ["General", ["Well-appearing*", "NAD*", "Ill-appearing", "Distressed", "Diaphoretic"]],
-      ["HEENT", ["NC/AT*", "PERRL*", "EOMI*", "MMM*", "Dry mucous membranes", "Scleral icterus"]],
-      ["Neck", ["Supple*", "No JVD*", "JVD", "LAD"]],
-      ["CV", ["RRR*", "Normal S1/S2*", "No m/r/g*", "Irregularly irregular", "Tachycardic", "Murmur"]],
-      ["Resp", ["CTAB*", "Normal effort*", "Wheezes", "Crackles", "Rhonchi", "Diminished", "Increased WOB"]],
-      ["Abd", ["Soft*", "NT*", "ND*", "+BS*", "Tender", "Distended", "Guarding"]],
-      ["GU", ["No CVA tenderness*", "No suprapubic tenderness*", "CVA tenderness", "Foley"]],
-      ["Ext", ["Warm/well-perfused*", "No edema*", "Pulses intact*", "Edema", "Cool extremities"]],
-      ["MSK", ["Normal ROM*", "Limited ROM", "Joint swelling", "Tenderness"]],
-      ["Neuro", ["A&Ox3*", "No focal deficits*", "Moves all extremities*", "Weakness", "Confused", "Asterixis"]],
-      ["Skin", ["Warm/dry*", "No rashes*", "Rash", "Wound", "Jaundice"]],
-      ["Psych", ["Normal mood/affect*", "Anxious", "Depressed", "Agitated"]]
+      ["General", ["Well-appearing*", "NAD*", "Ill-appearing", "Distressed", "Diaphoretic", "Lethargic", "Cachectic"]],
+      ["HEENT", ["NC/AT*", "PERRL*", "EOMI*", "Anicteric sclera*", "MMM*", "Oropharynx clear*", "Dry mucous membranes", "Scleral icterus", "Conjunctival pallor", "Oral thrush", "Poor dentition"]],
+      ["Neck", ["Supple*", "No JVD*", "JVD", ["HJR", "positive hepatojugular reflux", "negative hepatojugular reflux"], "LAD", "Thyromegaly"]],
+      ["CV", ["RRR*", "Normal S1/S2*", "No m/r/g*", "Irregularly irregular", "Tachycardic", "Bradycardic", "Murmur", "S3", "S4", "Friction rub", "Displaced PMI"]],
+      ["Resp", ["CTAB*", "Normal effort*", "Wheezes", "Crackles", "Rhonchi", "Diminished", "Increased WOB", "Accessory muscle use", "Dullness to percussion", "Egophony"]],
+      ["GI", ["Soft*", "NT*", "ND*", "+BS*", "Tender", "Distended", "Guarding", "Rebound", "Hepatomegaly", "Splenomegaly", ["Fluid wave", "positive fluid wave", "no fluid wave"], ["Murphy sign", "positive Murphy sign", "negative Murphy sign"], ["McBurney pt", "McBurney point tenderness", "no McBurney point tenderness"], ["Rovsing sign", "positive Rovsing sign", "negative Rovsing sign"]]],
+      ["GU", ["No CVA tenderness*", "No suprapubic tenderness*", "CVA tenderness", "Suprapubic tenderness", ["Foley", "Foley in place", "no Foley"]]],
+      ["Ext", ["Warm/well-perfused*", "No edema*", "Pulses intact*", "Edema", "Cool extremities", "Clubbing", "Cyanosis", "Calf tenderness", "Asymmetric leg swelling"]],
+      ["MSK", ["Normal ROM*", "Limited ROM", "Joint swelling", "Joint effusion", "Tenderness", "Midline spinal tenderness", ["SLR", "positive straight leg raise", "negative straight leg raise"]]],
+      ["Skin", ["Warm/dry*", "No rashes*", "Rash", "Wound", "Jaundice", "Erythema", "Petechiae", "Ecchymoses", "Pressure injury"]],
+      ["Neuro", ["A&Ox3*", "CN II\u2013XII intact*", "Strength 5/5*", "Sensation intact*", "No focal deficits*", "Moves all extremities*", "Weakness", "Confused", "Asterixis", "Pronator drift", ["Finger-to-nose", "dysmetria on finger-to-nose", "finger-to-nose intact"], ["Babinski", "upgoing toes (Babinski)", "downgoing toes"], ["Romberg", "positive Romberg", "negative Romberg"], ["Kernig/Brudzinski", "positive Kernig/Brudzinski", "negative Kernig/Brudzinski"], "Nuchal rigidity", "Tremor"]],
+      ["Psych", ["Normal mood/affect*", "Anxious", "Depressed", "Agitated", "Flat affect"]]
     ];
 
     function makePreRoundsExamChecklist(container) {
@@ -3402,14 +3483,16 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         label.textContent = `${system}:`;
         label.title = `Mark normal ${system} findings`;
         line.append(label);
-        for (const raw of choices) {
+        for (const item of choices) {
           const option = document.createElement("span");
           option.className = "pre-rounds-exam-choice";
+          const raw = Array.isArray(item) ? item[0] : item;
+          if (Array.isArray(item)) { option.dataset.abnText = item[1]; option.dataset.normText = item[2]; }
           const isNormal = raw.endsWith("*");
           if (isNormal) option.dataset.normal = "";
           option.dataset.label = raw.replace(/\*$/, "");
           option.dataset.mark = "";
-          option.textContent = `□ ${option.dataset.label}`;
+          setChoiceGlyph(option, "\u25a1", option.dataset.label);
           line.append(option);
         }
         checklist.append(line);
@@ -3430,7 +3513,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
     function setRosChoiceState(choice, state) {
       choice.dataset.state = state;
       const label = choice.dataset.label;
-      choice.textContent = state === "neg" ? `${rosGlyphs.neg} no ${label.charAt(0).toLowerCase()}${label.slice(1)}` : `${rosGlyphs[state]} ${label}`;
+      setChoiceGlyph(choice, rosGlyphs[state], state === "neg" ? `no ${label.charAt(0).toLowerCase()}${label.slice(1)}` : label);
       choice.setAttribute("aria-pressed", String(Boolean(state)));
       choice.setAttribute("aria-label", `${label}: ${state === "pos" ? "reports (abnormal)" : state === "neg" ? "denies (normal)" : "not asked"}`);
     }
@@ -3439,6 +3522,8 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
     const lowerFirst = (text) => /^[A-Z][a-z]/.test(text) ? `${text.charAt(0).toLowerCase()}${text.slice(1)}` : text;
     function examChoiceText(choice, mark = choice.dataset.mark) {
       const label = choice.dataset.label || choice.textContent.slice(2);
+      if (mark === "norm" && choice.dataset.normText) return choice.dataset.normText;
+      if (mark === "abn" && choice.dataset.abnText) return choice.dataset.abnText;
       if (mark === "norm" && !("normal" in choice.dataset)) return `no ${lowerFirst(label)}`;
       return label;
     }
@@ -3447,7 +3532,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       choice.dataset.checked = String(Boolean(mark));
       choice.setAttribute("aria-pressed", String(Boolean(mark)));
       const text = examChoiceText(choice, mark);
-      choice.textContent = `${mark === "norm" ? "\u2713" : mark === "abn" ? "\u2717" : "\u25a1"} ${mark === "norm" && !("normal" in choice.dataset) ? text.charAt(0).toUpperCase() + text.slice(1) : text}`;
+      setChoiceGlyph(choice, mark === "norm" ? "\u2713" : mark === "abn" ? "\u2717" : "\u25a1", mark && !("normal" in choice.dataset) ? text.charAt(0).toUpperCase() + text.slice(1) : text);
       choice.setAttribute("aria-label", `${choice.dataset.label}: ${mark === "norm" ? "normal" : mark === "abn" ? "abnormal" : "not examined"}`);
     }
     function setExamChoice(choice, checked) {
@@ -3461,8 +3546,9 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
     function handleChecklistActivate(target, root, abnormal = false) {
       const rosChoice = target.closest(".pre-rounds-ros-choice");
       if (rosChoice) {
-        const want = abnormal ? "pos" : "neg";
-        setRosChoiceState(rosChoice, rosChoice.dataset.state === want ? "" : want);
+        const state = rosChoice.dataset.state;
+        // Click cycles: blank → ✓ denies → ✗ endorses → blank. Right-click / hold jumps to ✗ (or clears it).
+        setRosChoiceState(rosChoice, abnormal ? (state === "pos" ? "" : "pos") : ({ "": "neg", neg: "pos", pos: "" })[state] ?? "");
         return true;
       }
       const rosSystem = target.closest(".pre-rounds-ros-system");
@@ -3485,63 +3571,64 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         if (!choice.dataset.label) { if (!abnormal) toggleChecklistChoice(choice); return true; }
         if (abnormal && "normal" in choice.dataset) {
           const status = choice.closest(".pc-sheet") ? null : document.getElementById("pre-rounds-status");
-          if (status) status.textContent = `\u201c${choice.dataset.label}\u201d is a normal finding, so it can only be marked normal (left-click). Right-click its abnormal partner or type it under Other.`;
+          if (status) status.textContent = `\u201c${choice.dataset.label}\u201d is a normal finding, so it can only be marked normal. Mark its abnormal partner instead, or type it under Other.`;
           return true;
         }
-        const want = abnormal ? "abn" : "norm";
-        setExamMark(choice, choice.dataset.mark === want ? "" : want);
+        const mark = choice.dataset.mark;
+        // Click cycles: blank → ✓ normal → ✗ abnormal → blank (normal-only items: blank ↔ ✓).
+        // Right-click / hold jumps to ✗ (or clears it).
+        const next = abnormal ? (mark === "abn" ? "" : "abn")
+          : "normal" in choice.dataset ? (mark === "norm" ? "" : "norm")
+          : ({ "": "norm", norm: "abn", abn: "" })[mark] ?? "";
+        setExamMark(choice, next);
         return true;
       }
       return false;
     }
 
+    const capFirst = (text) => text ? text.charAt(0).toUpperCase() + text.slice(1) : text;
+    // Marked findings -> a written exam like the EHR's: abnormal findings summed up on one line at the top,
+    // then one line per system with only the marked findings (abnormal first). Unmarked items are left out.
     function examNoteText(examContainer, otherText = "") {
+      const notable = [];
       const lines = [...examContainer.querySelectorAll(".pre-rounds-exam-checklist .pre-rounds-exam-line:not([hidden])")].map((line) => {
         const choices = [...line.querySelectorAll('.pre-rounds-exam-choice[data-checked="true"]')];
-        // Reassuring findings first, then the abnormal ones.
-        const marked = [...choices.filter((c) => c.dataset.mark !== "abn"), ...choices.filter((c) => c.dataset.mark === "abn")]
-          .map((choice) => examChoiceText(choice))
-          .map((text, index) => index ? lowerFirst(text) : text.charAt(0).toUpperCase() + text.slice(1));
+        const abn = choices.filter((c) => c.dataset.mark === "abn").map((c) => examChoiceText(c));
+        const norm = choices.filter((c) => c.dataset.mark !== "abn").map((c) => examChoiceText(c));
+        notable.push(...abn.map(lowerFirst));
+        const marked = [...abn, ...norm].map((text, index) => index ? lowerFirst(text) : capFirst(text));
         return marked.length ? `${line.querySelector(".pre-rounds-exam-system").textContent} ${marked.join(", ")}.` : "";
       }).filter(Boolean);
-      if (otherText.trim()) lines.push(`Other: ${otherText.trim().replace(/\s*\n\s*/g, "; ")}`);
-      return lines.join("\n");
+      const other = otherText.trim().replace(/\s*\n\s*/g, "; ");
+      if (other) notable.push(other);
+      return [notable.length && `Exam notable for: ${notable.join(", ")}.`, ...lines].filter(Boolean).join("\n");
     }
 
+    // Marked symptoms -> "Endorses: ..." / "Denies: ...", head to toe.
     function rosNoteText(rosContainer) {
+      if (!rosContainer) return "";
       const pick = (state) => [...rosContainer.querySelectorAll(`.pre-rounds-exam-line:not([hidden]) > .pre-rounds-ros-choice[data-state="${state}"]`)].map((choice) => choice.dataset.note);
       const positives = pick("pos");
       const negatives = pick("neg");
       const allNegative = rosContainer.querySelector('[data-all-negative][data-checked="true"]');
       return [
-        positives.length && `Positive for ${positives.join(", ")}.`,
-        negatives.length && `Negative for ${negatives.join(", ")}.`,
+        positives.length && `Endorses: ${positives.join(", ")}.`,
+        negatives.length && `Denies: ${negatives.join(", ")}.`,
         allNegative && "All other systems reviewed and negative."
-      ].filter(Boolean).join(" ");
+      ].filter(Boolean).join("\n");
     }
 
     function rsExamText(sheet) {
-      const pp = (sheet.querySelector('[data-field="exam-pp"]')?.value || "").trim();
-      const checklist = sheet._opts?.exam?.size && !usesGenerated(sheet, "exam-pp") ? examNoteText(sheet.querySelector(".rs-opt-exam"), sheet.querySelector('[data-field="exam-other"]').value) : "";
-      const ppLine = pp && (/^pertinent/i.test(pp) ? pp.replace(/\s*\n\s*/g, " ") : `Pertinent: ${pp.replace(/\s*\n\s*/g, "; ")}`);
-      return [ppLine, checklist].filter(Boolean).join("\n");
+      const written = (sheet.querySelector('[data-field="exam-pp"]')?.value || "").trim();
+      const checklist = sheet._opts?.exam?.size && !usesGenerated(sheet, "exam-pp") ? examPertinentText(sheet) : "";
+      return [written, checklist].filter(Boolean).join("\n");
     }
-    // Marked checklist items -> pertinent positives (abnormal) and negatives (reassuring).
+    // What the → buttons write: the written exam and the written ROS.
     function examPertinentText(sheet) {
-      const choices = [...sheet.querySelectorAll('.rs-opt-exam .pre-rounds-exam-line:not([hidden]) .pre-rounds-exam-choice[data-checked="true"]')];
-      const abn = choices.filter((c) => c.dataset.mark === "abn").map((c) => lowerFirst(examChoiceText(c)));
-      const neg = choices.filter((c) => c.dataset.mark === "norm" && !("normal" in c.dataset)).map((c) => examChoiceText(c));
-      const nl = choices.filter((c) => c.dataset.mark === "norm" && "normal" in c.dataset).map((c) => lowerFirst(examChoiceText(c)));
-      const other = (sheet.querySelector('[data-field="exam-other"]')?.value || "").trim();
-      if (other) abn.push(other.replace(/\s*\n\s*/g, "; "));
-      return [abn.length && `+ ${abn.join(", ")}.`, neg.length && `\u2212 ${neg.join(", ")}.`, nl.length && `Normal: ${nl.join(", ")}.`].filter(Boolean).join(" ");
+      return examNoteText(sheet.querySelector(".rs-opt-exam"), sheet.querySelector('[data-field="exam-other"]')?.value || "");
     }
     function rosPertinentText(sheet) {
-      const root = sheet.querySelector(".rs-opt-ros");
-      const pick = (state) => [...root.querySelectorAll(`.pre-rounds-exam-line:not([hidden]) > .pre-rounds-ros-choice[data-state="${state}"]`)].map((choice) => choice.dataset.note);
-      const pos = pick("pos"), neg = pick("neg");
-      const allNegative = root.querySelector('[data-all-negative][data-checked="true"]');
-      return [pos.length && `+ ${pos.join(", ")}`, neg.length && `\u2212 ${neg.join(", ")}`, allNegative && "all other systems negative"].filter(Boolean).join("; ");
+      return rosNoteText(sheet.querySelector(".rs-opt-ros"));
     }
     // True when a line already holds what → wrote from the checklist (so notes don't list the checklist twice).
     // Compared with what → would write now, so later checklist changes still reach the note.
@@ -3595,11 +3682,11 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
 
       const subjective = field("subjective");
       const rosChecklist = opts.ros?.size && !usesGenerated(sheet, "ros-pp") ? rosNoteText(sheet.querySelector(".rs-opt-ros")) : "";
-      const ros = [field("ros-pp"), rosChecklist].filter(Boolean).join(" ");
+      const ros = [field("ros-pp"), rosChecklist].filter(Boolean).join("\n");
       if (subjective || ros) {
         out.push("", "SUBJECTIVE");
         if (subjective) out.push(subjective);
-        if (ros) out.push(`ROS: ${ros}`);
+        if (ros) out.push(ros.includes("\n") ? `ROS:\n${ros}` : `ROS: ${ros}`);
       }
 
       const objective = [];
@@ -3727,6 +3814,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       const subjCell = appendPreRoundsSection(row, "Overnight / Subj", preRoundsFieldValue(card, "subjective"), 12);
       subjCell.classList.add("pre-rounds-handwrite--subjective");
       subjCell.append(Object.assign(document.createElement("div"), { innerHTML: "<b>ROS:</b> " }));
+      subjCell.lastChild.style.whiteSpace = "pre-wrap";
       subjCell.lastChild.append(document.createTextNode(preRoundsFieldValue(card, "ros-pp")));
 
       row = table.insertRow();
@@ -3759,24 +3847,25 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       }
 
       const sheetOptions = card._opts || { exam: new Set(), ros: new Set(), labs: new Set(labPanelNames), notes: true };
-      row = table.insertRow();
-      row.className = "pre-rounds-row-exam";
-      const examTableCell = appendPreRoundsSection(row, "Exam", "", 12);
-      examTableCell.append(Object.assign(document.createElement("div"), { innerHTML: "<b>Pertinent +:</b> " }));
-      examTableCell.lastChild.append(document.createTextNode(preRoundsFieldValue(card, "exam-pp")));
-      if (sheetOptions.exam.size) {
-        makePreRoundsExamChecklist(examTableCell);
-        examTableCell.querySelectorAll(".pre-rounds-exam-line[data-system]").forEach((line) => { if (!sheetOptions.exam.has(line.dataset.system)) line.remove(); });
-        const examOther = preRoundsFieldValue(card, "exam-other");
-        if (examOther) examTableCell.append(Object.assign(document.createElement("div"), { textContent: `Other: ${examOther}` }));
-      }
-
       if (sheetOptions.ros.size) {
         row = table.insertRow();
         row.className = "pre-rounds-row-ros";
         const rosTableCell = appendPreRoundsSection(row, "ROS", "", 12);
         makePreRoundsRosChecklist(rosTableCell);
         rosTableCell.querySelectorAll(".pre-rounds-exam-line[data-system]").forEach((line) => { if (!sheetOptions.ros.has(line.dataset.system)) line.remove(); });
+      }
+
+      row = table.insertRow();
+      row.className = "pre-rounds-row-exam";
+      const examTableCell = appendPreRoundsSection(row, "Exam", "", 12);
+      examTableCell.append(Object.assign(document.createElement("div"), { innerHTML: "<b>Findings:</b> " }));
+      examTableCell.lastChild.style.whiteSpace = "pre-wrap";
+      examTableCell.lastChild.append(document.createTextNode(preRoundsFieldValue(card, "exam-pp")));
+      if (sheetOptions.exam.size) {
+        makePreRoundsExamChecklist(examTableCell);
+        examTableCell.querySelectorAll(".pre-rounds-exam-line[data-system]").forEach((line) => { if (!sheetOptions.exam.has(line.dataset.system)) line.remove(); });
+        const examOther = preRoundsFieldValue(card, "exam-other");
+        if (examOther) examTableCell.append(Object.assign(document.createElement("div"), { textContent: `Other: ${examOther}` }));
       }
 
       row = table.insertRow();
@@ -4085,7 +4174,9 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       const checked = choice.dataset.checked !== "true";
       choice.dataset.checked = String(checked);
       choice.setAttribute("aria-pressed", String(checked));
-      choice.textContent = `${checked ? "☑" : "□"}${choice.textContent.slice(1)}`;
+      const glyph = choice.querySelector(".ck-g");
+      if (glyph) glyph.textContent = checked ? "\u2611" : "\u25a1";
+      else choice.textContent = `${checked ? "☑" : "□"}${choice.textContent.slice(1)}`;
     }
 
     function handleProblemClick(event, root) {
@@ -4518,7 +4609,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       const badge = sheet.querySelector("[data-sections-count]");
       if (badge) badge.textContent = extras.length ? `+${extras.length}` : "";
       const summary = sheet.querySelector(".sections-menu > summary");
-      if (summary) summary.title = `On this sheet: ${["Pertinent exam", "Labs", ...extras, opts.notes && "Notes"].filter(Boolean).join(", ")}. Click to change.`;
+      if (summary) summary.title = `On this sheet: ${["Exam findings", "Labs", ...extras, opts.notes && "Notes"].filter(Boolean).join(", ")}. Click to change.`;
     }
     function showLabPanelsWithValues(sheet) {
       const picker = sheet._pickers?.labs;
@@ -5391,16 +5482,16 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       }
       if (event.target.closest("[data-exam-to-pp]")) {
         const text = examPertinentText(sheet);
-        if (!text) { preRoundsStatus.textContent = "Mark exam findings first: left-click normal, right-click abnormal."; return; }
+        if (!text) { preRoundsStatus.textContent = "Mark exam findings first: tap once for normal, twice for abnormal."; return; }
         writeGenerated(sheet, "exam-pp", text);
-        preRoundsStatus.textContent = "Pertinent exam findings written. Edit them freely; pressing → again updates what was written.";
+        preRoundsStatus.textContent = "Exam written by system. Edit it freely; pressing → again updates what was written.";
         return;
       }
       if (event.target.closest("[data-ros-to-pp]")) {
         const text = rosPertinentText(sheet);
-        if (!text) { preRoundsStatus.textContent = "Mark ROS items first: left-click denies, right-click reports."; return; }
+        if (!text) { preRoundsStatus.textContent = "Mark ROS items first: tap once for denies, twice for endorses."; return; }
         writeGenerated(sheet, "ros-pp", text);
-        preRoundsStatus.textContent = "ROS line written. Edit it freely; pressing → again updates what was written.";
+        preRoundsStatus.textContent = "ROS written. Edit it freely; pressing → again updates what was written.";
         return;
       }
       if (event.target.closest("[data-add-lab]")) {
@@ -5449,10 +5540,45 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         handleChecklistActivate(event.target, event.target.closest(".rs-sheet"), event.shiftKey);
       }
     });
-    // Right-click (or long-press on touch screens) marks a finding abnormal.
+    // Right-click marks a finding abnormal. On touch screens, press and hold does the same:
+    // iPhone and iPad Safari never send a right-click (contextmenu) event, so the hold is timed here.
+    let press = null;
+    const checklistItem = ".pre-rounds-exam-choice, .pre-rounds-ros-choice";
+    preRoundsPatients.addEventListener("pointerdown", (event) => {
+      if (event.pointerType === "mouse") return;
+      const target = event.target.closest(checklistItem);
+      if (!target) return;
+      clearTimeout(press?.timer);
+      press = { target, x: event.clientX, y: event.clientY, fired: false };
+      press.timer = setTimeout(() => {
+        if (!press || press.target !== target) return;
+        press.fired = true;
+        handleChecklistActivate(target, target.closest(".rs-sheet"), true);
+        try { navigator.vibrate?.(15); } catch (error) { /* not supported */ }
+      }, 450);
+    });
+    preRoundsPatients.addEventListener("pointermove", (event) => {
+      if (press && !press.fired && Math.hypot(event.clientX - press.x, event.clientY - press.y) > 10) { clearTimeout(press.timer); press = null; }
+    });
+    ["pointerup", "pointercancel"].forEach((type) => preRoundsPatients.addEventListener(type, () => {
+      if (!press) return;
+      clearTimeout(press.timer);
+      if (!press.fired) { press = null; return; }
+      const done = press;
+      setTimeout(() => { if (press === done) press = null; }, 500);
+    }));
+    // The click that follows a completed hold should not also mark the item normal.
+    preRoundsPatients.addEventListener("click", (event) => {
+      if (press?.fired && event.target.closest(checklistItem)) { event.stopPropagation(); event.preventDefault(); press = null; }
+    }, true);
     preRoundsPatients.addEventListener("contextmenu", (event) => {
       if (!event.target.closest(".pre-rounds-exam-choice, .pre-rounds-ros-choice, .pre-rounds-exam-system, .pre-rounds-ros-system")) return;
       event.preventDefault();
+      // Android sends contextmenu on a long press too: let the timed hold handle it once.
+      if (press && press.target === event.target.closest(checklistItem)) {
+        if (!press.fired) { clearTimeout(press.timer); press.fired = true; handleChecklistActivate(press.target, press.target.closest(".rs-sheet"), true); }
+        return;
+      }
       handleChecklistActivate(event.target, event.target.closest(".rs-sheet"), true);
     });
 
@@ -6069,7 +6195,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         document.getElementById("present-next").disabled = index === sheets.length - 1;
         const parts = [];
         if (field("power")) parts.push(el("p", "present-oneliner", field("power")));
-        parts.push(section("Overnight / subjective", [field("subjective"), field("ros-pp") && `ROS: ${field("ros-pp")}`, opts.ros?.size && !usesGenerated(sheet, "ros-pp") ? rosNoteText(sheet.querySelector(".rs-opt-ros")) : ""].filter(Boolean).join("\n")));
+        parts.push(section("Overnight / subjective", [field("subjective"), field("ros-pp") && (field("ros-pp").includes("\n") ? `ROS:\n${field("ros-pp")}` : `ROS: ${field("ros-pp")}`), opts.ros?.size && !usesGenerated(sheet, "ros-pp") ? rosNoteText(sheet.querySelector(".rs-opt-ros")) : ""].filter(Boolean).join("\n")));
         const calcs = sheetCalcs(sheet);
         const vitalLine = el("p", "present-vitals");
         const addVital = (label, name, suffix = "") => {
@@ -6890,10 +7016,40 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
           const name = row.insertCell();
           name.textContent = medText(med);
           const decision = row.insertCell();
-          const tag = Object.assign(document.createElement("span"), { className: "mr-tag", textContent: med.decision ? decisionLabels[med.decision] : "to review" });
-          tag.dataset.decision = med.decision;
-          decision.append(tag);
-          row.insertCell().textContent = [med.decision === "change" ? `→ ${med.newRegimen || "?"}` : "", med.reason].filter(Boolean).join("; ");
+          if (med.isNew) {
+            const tag = Object.assign(document.createElement("span"), { className: "mr-tag", textContent: decisionLabels.new });
+            tag.dataset.decision = "new";
+            decision.append(tag);
+          } else {
+            // One-click decisions in the table, for long lists.
+            const group = Object.assign(document.createElement("span"), { className: "mr-row-decisions" });
+            group.setAttribute("role", "group");
+            group.setAttribute("aria-label", `Decision for ${medText(med) || "this medication"}`);
+            [["continue", "C", "Continue"], ["hold", "H", "Hold"], ["stop", "S", "Stop"], ["change", "\u0394", "Change dose"]].forEach(([value, letter, label]) => {
+              const button = Object.assign(document.createElement("button"), { type: "button", textContent: letter, title: label });
+              button.dataset.rowDecision = value;
+              button.dataset.decision = value;
+              button.setAttribute("aria-label", label);
+              button.setAttribute("aria-pressed", String(med.decision === value));
+              group.append(button);
+            });
+            const printTag = Object.assign(document.createElement("span"), { className: "mr-tag mr-print-tag", textContent: med.decision ? decisionLabels[med.decision] : "to review" });
+            printTag.dataset.decision = med.decision;
+            decision.append(group, printTag);
+          }
+          const details = row.insertCell();
+          if (med.decision === "change") {
+            const regimen = Object.assign(document.createElement("input"), { className: "mr-row-input", value: med.newRegimen || "", placeholder: "New dose / route / frequency", autocomplete: "off" });
+            regimen.dataset.rowField = "newRegimen";
+            regimen.setAttribute("aria-label", "New dose, route and frequency");
+            details.append(regimen);
+          }
+          if (["hold", "stop", "change", "new"].includes(med.decision) || med.isNew) {
+            const reason = Object.assign(document.createElement("input"), { className: "mr-row-input", value: med.reason || "", placeholder: reasonLabels[med.isNew ? "new" : med.decision] || "Reason", autocomplete: "off" });
+            reason.dataset.rowField = "reason";
+            reason.setAttribute("aria-label", reasonLabels[med.isNew ? "new" : med.decision] || "Reason");
+            details.append(reason);
+          }
           return row;
         }));
       }
@@ -6998,7 +7154,43 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       });
       $("mr-table").addEventListener("click", (event) => {
         const row = event.target.closest("tr[data-index]");
-        if (row) go(Number(row.dataset.index));
+        if (!row) return;
+        const index = Number(row.dataset.index);
+        const choice = event.target.closest("[data-row-decision]");
+        if (choice) {
+          const med = mr.meds[index];
+          med.decision = med.decision === choice.dataset.rowDecision ? "" : choice.dataset.rowDecision;
+          if (med.decision !== "change") med.newRegimen = "";
+          mr.index = index;
+          render();
+          const field = med.decision === "change" ? "newRegimen" : ["hold", "stop"].includes(med.decision) ? "reason" : "";
+          if (field) $("mr-table").querySelector(`tr[data-index="${index}"] [data-row-field="${field}"]`)?.focus();
+          return;
+        }
+        if (event.target.closest("input")) return;
+        go(index);
+      });
+      $("mr-table").addEventListener("input", (event) => {
+        const input = event.target.closest("[data-row-field]");
+        if (!input) return;
+        const index = Number(input.closest("tr").dataset.index);
+        mr.meds[index][input.dataset.rowField] = input.value;
+        if (index === mr.index) {
+          if (input.dataset.rowField === "reason") $("mr-reason").value = input.value;
+          else $("mr-new-regimen").value = input.value;
+        }
+        renderPreview();
+      });
+      $("mr-table").addEventListener("change", (event) => {
+        const input = event.target.closest('[data-row-field="newRegimen"]');
+        if (!input) return;
+        const med = mr.meds[Number(input.closest("tr").dataset.index)];
+        med.newRegimen = tidyRegimen(input.value);
+        input.value = med.newRegimen;
+        renderPreview();
+      });
+      $("mr-table").addEventListener("keydown", (event) => {
+        if (event.key === "Enter" && event.target.matches("[data-row-field]")) { event.preventDefault(); event.target.blur(); }
       });
       $("mr-chips").addEventListener("click", (event) => {
         const chip = event.target.closest(".mr-chip");
