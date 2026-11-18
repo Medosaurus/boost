@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; font-src 'none'; connect-src 'none'; form-action 'none'; base-uri 'none'">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#111827">
   <title>IM Tools</title>
@@ -345,7 +344,6 @@
     /* ---------- App bar with tool dropdown ---------- */
     .app-bar { position: relative; z-index: 40; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 24px; background: rgba(255, 255, 255, .94); border-bottom: 1px solid var(--line); }
     .app-bar .top-controls { position: static; }
-    .app-bar { display: none !important; }
     .tool-menu { position: relative; }
     .tool-menu > summary { display: inline-flex; align-items: center; gap: 8px; padding: 7px 13px; color: var(--brand-blue); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow-raised, 0 6px 18px rgba(15, 23, 42, .18)); font-size: 15px; font-weight: 700; cursor: pointer; list-style: none; }
     .tool-menu > summary::-webkit-details-marker { display: none; }
@@ -400,7 +398,8 @@
     .rs-field::placeholder, .rs-sheet input::placeholder, .rs-sheet textarea::placeholder { color: #a3afbd; }
     .rs-subjective .rs-field { min-height: 2.9em; }
     .rs-oneliner { padding-bottom: 2px; }
-    .rs-bedbox { float: right; display: flex; margin: -2px -5px 0 10px; border-left: 1px solid #5b6b7c; border-bottom: 1px solid #5b6b7c; background: #fff; }
+    .rs-bedbox { position: absolute; right: 0; bottom: 0; z-index: 3; display: flex; margin: 0; border-left: 1px solid #5b6b7c; border-top: 1px solid #5b6b7c; border-top-left-radius: 5px; background: #fff; }
+    .rs-notes { padding-bottom: 1.75em !important; }
     .rs-bedbox label { display: flex; align-items: baseline; gap: 4px; padding: 0 6px; line-height: 1.25; }
     .rs-bedbox label + label { border-left: 1px solid #5b6b7c; }
     .rs-bedbox span { color: #23384e; font-size: .68em; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; }
@@ -783,6 +782,124 @@
     .foot-pop { position: absolute; bottom: calc(100% + 6px); z-index: 70; display: grid; gap: 3px; min-width: 200px; padding: 6px; color: var(--ink); background: #fff; border: 1px solid #b8c5d4; border-radius: 9px; box-shadow: 0 12px 32px rgba(15, 23, 42, .22); }
     .tool-switch .foot-pop { left: 0; }
     .print-menu .foot-pop { right: 0; width: 250px; }
+
+    /* Reasoning & Clear menus in .sheet-foot */
+    .reasoning-menu .foot-pop {
+      right: 0;
+      width: min(420px, 88vw);
+      padding: 10px 12px;
+      font-size: 12.5px;
+      line-height: 1.45;
+    }
+    .clear-menu > summary.rs-remove {
+      color: var(--brand-maroon);
+    }
+    html[data-theme="dark"] .clear-menu > summary.rs-remove {
+      color: #fca5a5;
+    }
+    .clear-menu .foot-pop {
+      right: 0;
+      width: min(340px, 90vw);
+      padding: 10px;
+      gap: 6px;
+    }
+    .clear-menu-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--line);
+    }
+    .clear-menu-title {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+    }
+    .clear-preset-btns {
+      display: inline-flex;
+      gap: 4px;
+    }
+    .clear-preset-btn {
+      padding: 2px 6px;
+      font: 600 11px Inter, system-ui, sans-serif;
+      color: var(--brand-blue);
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .clear-preset-btn:hover {
+      background: var(--brand-teal-pale);
+      border-color: var(--brand-teal);
+    }
+    html[data-theme="dark"] .clear-preset-btn {
+      color: #a7d3f2;
+      background: #1f242d;
+      border-color: #3f4451;
+    }
+    .clear-checks-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px 8px;
+      padding: 2px 0;
+    }
+    .clear-check-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: var(--ink);
+      cursor: pointer;
+      user-select: none;
+      padding: 2px 3px;
+      border-radius: 4px;
+    }
+    .clear-check-item:hover {
+      background: rgba(13, 148, 136, 0.08);
+    }
+    .clear-check-item input {
+      margin: 0;
+      accent-color: var(--brand-teal);
+    }
+    .clear-menu-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 5px;
+      padding-top: 4px;
+      border-top: 1px solid var(--line);
+    }
+    .clear-menu-actions .foot-item {
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 8px;
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+    }
+    .clear-menu-actions .foot-item:hover {
+      background: var(--brand-teal-pale);
+      border-color: var(--brand-teal);
+    }
+    html[data-theme="dark"] .clear-menu-actions .foot-item {
+      background: #1f242d;
+      border-color: #3f4451;
+    }
+    .clear-menu-divider {
+      height: 1px;
+      background: var(--line);
+      margin: 2px 0;
+    }
+    .clear-menu .foot-item.rs-remove {
+      color: var(--brand-maroon);
+      font-weight: 650;
+    }
+    html[data-theme="dark"] .clear-menu .foot-item.rs-remove {
+      color: #fca5a5;
+    }
+
     .foot-item { padding: 7px 9px; color: var(--ink); background: transparent; border: 0; border-radius: 5px; font: inherit; font-size: 13px; text-align: left; cursor: pointer; }
     .foot-item:hover { background: var(--brand-teal-pale); }
     .foot-item[aria-current="true"] { color: var(--brand-teal-ink); background: var(--brand-teal-pale); font-weight: 700; }
@@ -923,7 +1040,15 @@
     .rs-pop-actions { display: flex; align-items: center; gap: 8px; margin-top: 7px; }
     .rs-pop-actions .rs-pop-status { margin: 0; }
     .rs-problems { display: grid; gap: 3px; padding-top: 1px; }
-    .rs-ap .rs-problems > .pre-rounds-problem:first-child .pre-rounds-problem-head { padding-left: var(--tag-w, 3em); }
+    .rs-ap .rs-problems > .pre-rounds-problem:first-child > .pre-rounds-problem-head:first-child { padding-left: var(--tag-w, 3em); }
+    .pre-rounds-problem-subheads { display: grid; gap: 2px; }
+    .pre-rounds-problem-subheads:empty { display: none; }
+    .rs-subhead-add, .rs-merge-btn, .rs-split-btn, .rs-plan-toggle { width: auto !important; padding: 0 5px !important; font-weight: 800; color: var(--brand-teal-ink) !important; }
+    .pre-rounds-plan-heading { padding: 1px 2px 0 1.2em; color: #23384e; font-size: .72em; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; user-select: none; }
+    html[data-theme="dark"] .pre-rounds-plan-heading { color: var(--tag-ink); }
+    .pre-rounds-problem.no-plan-head [data-plan-heading] { display: none; }
+    @media print { .pre-rounds-plan-heading { color: #000 !important; font-size: 6.8pt; } }
+    .present-problem { white-space: pre-wrap; }
     .rs-ap .rs-problems { display: block; columns: 2; column-gap: 20px; background: linear-gradient(#c3cfdb, #c3cfdb) no-repeat center / 1px 100%; }
     .rs-ap .rs-problems > .pre-rounds-problem { break-inside: avoid; page-break-inside: avoid; margin-bottom: 5px; }
     .rs-sheet .pre-rounds-problem, .pc-sheet .pre-rounds-problem { padding: 0; background: transparent; border: 0; border-radius: 0; }
@@ -1215,7 +1340,7 @@
       .rs-exam-other input { border-bottom-color: #999; }
       .rs-oneliner-text:empty::before { content: none; }
       .rs-bedbox, .rs-bedbox label + label { border-color: #333; }
-      .rs-bedbox { margin: -1pt -3pt 0 8pt; }
+      .rs-bedbox { margin: 0; }
       .rs-bedbox input { height: auto; line-height: 1.2; }
       .pre-rounds-ros-choice[data-state="pos"] { color: #000; }
 
@@ -1607,8 +1732,9 @@
       .pre-rounds-problem:not(.has-assess) [data-problem-assess] + .print-mirror { display: none !important; }
       .rs-sheet .pre-rounds-problem [data-problem-assess] + .print-mirror { font-style: italic; }
     }
-    /* Import Problems: fixed-size paste box that scrolls; the window flips down when there is no room above. */
-    .rs-pop-body { max-height: min(78vh, 560px); overflow: auto; overscroll-behavior: contain; }
+    /* Import Problems & Other Labs: scrollable popovers that stay within the visible sheet and viewport. */
+    .rs-pop-body { max-height: min(72vh, 500px); overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; padding-bottom: 16px; box-sizing: border-box; }
+    .pre-rounds-manual-labs { padding-bottom: 6px; }
     .rs-pop-body textarea[data-ap-paste] { height: 11em; max-height: 40vh; overflow: auto; overscroll-behavior: contain; }
     .rs-ap .rs-pop.rs-pop-inline.pop-down > .rs-pop-body { top: calc(100% + 4px); bottom: auto; }
     .rs-ap-guide > .rs-pop-body { width: min(420px, 86vw); }
@@ -1679,23 +1805,592 @@
       .tips-ap h3 { margin-top: 5px; font-size: 9.5pt; }
       .tips-ap li { margin-bottom: 1px; }
     }
+
+    /* ---------- Modernized UI, Sticky Header, Census Strip, Toasts & Modals ---------- */
+    @media screen {
+      :root {
+        --surface-elevated: rgba(255, 255, 255, 0.88);
+        --sheet-border-screen: #cbd5e1;
+        --sheet-grid-screen: #cbd5e1;
+        --tag-bg-screen: #eef4fa;
+        --tag-ink-screen: #1e3a5f;
+        --tag-border-screen: #bfd2e6;
+      }
+      html[data-theme="dark"] {
+        --surface-elevated: rgba(33, 34, 38, 0.9);
+        --sheet-border-screen: #3d4048;
+        --sheet-grid-screen: #3a3d45;
+        --tag-bg-screen: #2c313c;
+        --tag-ink-screen: #b8d4f0;
+        --tag-border-screen: #434957;
+      }
+
+      /* Sticky Glassmorphic Top App Bar */
+      .app-bar {
+        position: sticky;
+        top: 0;
+        z-index: 80;
+        display: flex !important;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px 16px;
+        padding: 8px 20px;
+        background: var(--surface-elevated);
+        -webkit-backdrop-filter: blur(14px);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid var(--line);
+        box-shadow: 0 2px 12px rgba(15, 23, 42, .05);
+      }
+      .app-brand-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+      }
+      .app-brand-logo {
+        width: 30px;
+        height: 30px;
+        display: grid;
+        place-items: center;
+        border-radius: 8px;
+        background: linear-gradient(135deg, var(--brand-teal) 0%, #2563eb 100%);
+        color: #fff;
+        font-weight: 800;
+        font-size: 17px;
+        box-shadow: 0 2px 6px rgba(37, 99, 235, .28);
+        flex-shrink: 0;
+      }
+      .app-brand-text {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.15;
+      }
+      .app-brand-title {
+        font-size: 14.5px;
+        font-weight: 800;
+        letter-spacing: -0.01em;
+        color: var(--brand-blue);
+      }
+      .app-brand-sub {
+        font-size: 10.5px;
+        font-weight: 600;
+        color: var(--muted);
+      }
+
+      /* Segmented Tool Tabs in Header */
+      .tool-menu {
+        display: flex;
+        align-items: center;
+      }
+      .tool-menu > summary {
+        display: none;
+      }
+      .tool-menu .tool-tabs {
+        position: static;
+        display: inline-flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 3px;
+        padding: 3px;
+        background: rgba(100, 116, 139, 0.1);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        box-shadow: none;
+        min-width: 0;
+      }
+      html[data-theme="dark"] .tool-menu .tool-tabs {
+        background: rgba(15, 23, 42, 0.45);
+      }
+      .tool-menu .tool-tab {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 5px 11px;
+        border-radius: 7px;
+        font-size: 12.5px;
+        font-weight: 650;
+        color: var(--muted);
+        border: 0;
+        transition: all .14s ease;
+        white-space: nowrap;
+      }
+      .tool-menu .tool-tab:hover {
+        color: var(--ink);
+        background: rgba(255, 255, 255, 0.55);
+      }
+      html[data-theme="dark"] .tool-menu .tool-tab:hover {
+        background: rgba(255, 255, 255, 0.06);
+      }
+      .tool-menu .tool-tab[aria-selected="true"] {
+        color: var(--brand-teal-ink);
+        background: var(--surface);
+        font-weight: 750;
+        box-shadow: 0 1px 4px rgba(15, 23, 42, .1);
+      }
+      html[data-theme="dark"] .tool-menu .tool-tab[aria-selected="true"] {
+        color: #8cc6ee;
+        background: #2f323a;
+      }
+      .tab-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 17px;
+        height: 17px;
+        padding: 0 5px;
+        border-radius: 999px;
+        font-size: 10.5px;
+        font-weight: 800;
+        background: rgba(75, 156, 211, 0.18);
+        color: var(--brand-teal-ink);
+      }
+      .tab-badge:empty {
+        display: none;
+      }
+      .tab-badge.is-warn {
+        background: rgba(217, 119, 6, 0.18);
+        color: #b45309;
+      }
+      html[data-theme="dark"] .tab-badge.is-warn {
+        color: #fbbf24;
+      }
+
+      /* Top Right Controls */
+      .app-bar .top-controls {
+        position: static;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 6px;
+      }
+      .top-pill-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 5px 10px;
+        color: var(--ink);
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        font: inherit;
+        font-size: 12px;
+        font-weight: 650;
+        transition: all .14s ease;
+      }
+      .top-pill-btn:hover {
+        border-color: var(--brand-teal);
+        background: var(--brand-teal-pale);
+        color: var(--brand-teal-ink);
+      }
+      .top-pill-btn--accent {
+        color: var(--brand-teal-ink);
+        background: var(--brand-teal-pale);
+        border-color: rgba(75, 156, 211, 0.45);
+      }
+      .top-kbd {
+        padding: 1px 4px;
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--muted);
+        background: rgba(100, 116, 139, 0.12);
+        border-radius: 4px;
+      }
+      .zoom-pill {
+        display: inline-flex;
+        align-items: center;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        overflow: hidden;
+      }
+      .zoom-pill button {
+        padding: 4px 7px;
+        border: 0;
+        background: transparent;
+        color: var(--ink);
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .zoom-pill button:hover {
+        background: var(--brand-teal-pale);
+        color: var(--brand-teal-ink);
+      }
+      .zoom-pill .zoom-readout {
+        min-width: 42px;
+        padding: 4px 4px;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--muted);
+        border-left: 1px solid var(--line);
+        border-right: 1px solid var(--line);
+        text-align: center;
+      }
+
+      /* Patient Census Strip above Pre-Rounds */
+      .rs-census-strip {
+        max-width: 1000px;
+        margin: 0 auto 10px;
+        padding: 7px 10px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 6px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+      }
+      .rs-census-strip-label {
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: .05em;
+        color: var(--muted);
+        margin-right: 2px;
+      }
+      .rs-census-pills {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 5px;
+        flex: 1 1 auto;
+      }
+      .rs-census-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: var(--canvas);
+        color: var(--ink);
+        font-size: 12px;
+        font-weight: 650;
+        transition: all .14s ease;
+      }
+      .rs-census-pill:hover {
+        border-color: var(--brand-teal);
+        background: var(--brand-teal-pale);
+      }
+      .rs-census-pill[aria-current="true"] {
+        background: var(--brand-teal);
+        color: #fff;
+        border-color: var(--brand-teal);
+        font-weight: 750;
+        box-shadow: 0 2px 6px rgba(75, 156, 211, .3);
+      }
+      .rs-census-pill-meta {
+        font-size: 10.5px;
+        opacity: .82;
+        font-weight: 600;
+      }
+      .rs-sev-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #94a3b8;
+      }
+      .rs-sev-dot[data-sev="stable"] { background: #16a34a; }
+      .rs-sev-dot[data-sev="watcher"] { background: #d97706; }
+      .rs-sev-dot[data-sev="unstable"] { background: #dc2626; }
+      .rs-census-pill[aria-current="true"] .rs-sev-dot[data-sev=""] {
+        background: rgba(255, 255, 255, 0.7);
+      }
+
+      /* Modernized Screen Sheet Styling (Print untouched) */
+      .rs-sheet, .pc-sheet, .ep-sheet, .hc-sheet, .mr-sheet, .so-sheet, .tips-sheet {
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        border-radius: 12px;
+        border-color: var(--sheet-border-screen);
+        box-shadow: 0 6px 24px -4px rgba(15, 23, 42, .07), 0 2px 6px -1px rgba(15, 23, 42, .04);
+      }
+      .rs-grid, .hc-grid, .ep-grid {
+        border-color: var(--sheet-grid-screen);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .rs-box, .hc-box, .ep-box, .pc-box, .pc-head, .ep-pair > div + div {
+        border-color: var(--sheet-grid-screen);
+      }
+      .rs-tag, .pc-tag, .ep-tag, .hc-tag {
+        color: var(--tag-ink-screen);
+        background: var(--tag-bg-screen);
+        border-color: var(--tag-border-screen);
+        border-bottom-right-radius: 5px;
+        padding: 1px 6px;
+        font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+        font-size: 10px;
+        font-weight: 750;
+        letter-spacing: .04em;
+      }
+
+      /* Color-coded abnormal fishbone values on screen */
+      .rs-fish-value {
+        border-radius: 4px;
+        transition: background-color .12s ease, color .12s ease;
+      }
+      .rs-fish-value:hover {
+        background: rgba(75, 156, 211, 0.12);
+      }
+      .rs-fish-value[data-flag^="H"] {
+        color: #b91c1c !important;
+        background: #fef2f2;
+        font-weight: 800 !important;
+      }
+      .rs-fish-value[data-flag^="L"] {
+        color: #1d4ed8 !important;
+        background: #eff6ff;
+        font-weight: 800 !important;
+      }
+      .rs-fish-value[data-flag="A"], .rs-fish-value[data-flag="C"] {
+        color: #9a3412 !important;
+        background: #fff7ed;
+        font-weight: 800 !important;
+      }
+      html[data-theme="dark"] .rs-fish-value[data-flag^="H"] {
+        color: #fca5a5 !important;
+        background: rgba(248, 113, 113, .16);
+      }
+      html[data-theme="dark"] .rs-fish-value[data-flag^="L"] {
+        color: #93c5fd !important;
+        background: rgba(96, 165, 250, .16);
+      }
+      html[data-theme="dark"] .rs-fish-value[data-flag="A"], html[data-theme="dark"] .rs-fish-value[data-flag="C"] {
+        color: #fdba74 !important;
+        background: rgba(251, 146, 60, .16);
+      }
+
+      /* Floating Toast Notification */
+      .app-toast {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 950;
+        max-width: min(420px, calc(100vw - 32px));
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 11px 15px;
+        color: #fff;
+        background: #0f172a;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-left: 4px solid #22c55e;
+        border-radius: 10px;
+        box-shadow: 0 14px 32px rgba(15, 23, 42, .28);
+        font-size: 13px;
+        font-weight: 600;
+        line-height: 1.4;
+        transform: translateY(16px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .2s ease, transform .2s ease;
+      }
+      .app-toast.is-visible {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .app-toast-close {
+        margin-left: auto;
+        padding: 2px 6px;
+        color: #94a3b8;
+        background: transparent;
+        border: 0;
+        border-radius: 4px;
+        font-size: 15px;
+        line-height: 1;
+      }
+      .app-toast-close:hover {
+        color: #fff;
+      }
+
+      /* In-page Confirmation Modal & Command Palette */
+      .ui-modal-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 980;
+        display: grid;
+        place-items: center;
+        padding: 16px;
+        background: rgba(15, 23, 42, 0.45);
+        -webkit-backdrop-filter: blur(4px);
+        backdrop-filter: blur(4px);
+      }
+      .ui-modal-backdrop[hidden] {
+        display: none !important;
+      }
+      .ui-modal-card {
+        width: min(440px, 94vw);
+        padding: 18px 20px;
+        background: var(--surface);
+        color: var(--ink);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        box-shadow: 0 20px 48px rgba(15, 23, 42, 0.28);
+        font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      }
+      .ui-modal-title {
+        margin: 0 0 6px;
+        font-size: 16px;
+        font-weight: 800;
+        color: var(--brand-blue);
+      }
+      .ui-modal-msg {
+        margin: 0 0 16px;
+        font-size: 13.5px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+      .ui-modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+      }
+      .ui-btn-danger {
+        background: #dc2626 !important;
+        color: #fff !important;
+      }
+      .ui-btn-danger:hover {
+        background: #b91c1c !important;
+      }
+
+      /* Command Palette (Ctrl+K / Cmd+K) */
+      .cmd-card {
+        width: min(540px, 94vw);
+        padding: 0;
+        overflow: hidden;
+      }
+      .cmd-search-wrap {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--line);
+      }
+      .cmd-search-input {
+        flex: 1 1 auto;
+        border: 0;
+        background: transparent;
+        color: var(--ink);
+        font-size: 14px;
+        outline: none;
+      }
+      .cmd-list {
+        max-height: 320px;
+        overflow-y: auto;
+        padding: 6px;
+        margin: 0;
+        list-style: none;
+      }
+      .cmd-item {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 8px 10px;
+        border: 0;
+        border-radius: 7px;
+        background: transparent;
+        color: var(--ink);
+        font-size: 13px;
+        text-align: left;
+      }
+      .cmd-item:hover, .cmd-item[aria-selected="true"] {
+        background: var(--brand-teal-pale);
+        color: var(--brand-teal-ink);
+      }
+      .cmd-item-cat {
+        font-size: 10.5px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+        color: var(--muted);
+      }
+
+      @media (max-width: 980px) {
+        .app-bar { padding: 8px 12px; }
+        .app-brand-sub { display: none; }
+        .tool-menu .tool-tabs { overflow-x: auto; max-width: 100%; flex-wrap: nowrap; }
+      }
+    }
+    @media print {
+      .rs-census-strip, .app-toast, .ui-modal-backdrop { display: none !important; }
+    }
+
+
+    /* ---------- Other Labs Checklist & Inline Click-to-Fill Boxes ---------- */
+    .rs-extra-checklist-wrap { margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+    .rs-extra-checklist-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px; margin-bottom: 5px; }
+    .rs-extra-checklist-title { color: var(--muted); font-size: 10.5px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+    .rs-extra-filter { width: 150px; padding: 2px 6px !important; font-size: 11.5px !important; border: 1px solid var(--line); border-radius: 5px; background: var(--surface, #fff); color: var(--ink); }
+    .rs-extra-checklist { display: block; max-height: 200px; overflow-y: auto; overscroll-behavior: contain; padding: 2px 4px 14px 0; font-size: 11px; line-height: 1.3; box-sizing: border-box; }
+    .rs-extra-check-row { position: relative; display: flex; flex-wrap: wrap; align-items: center; min-height: 24px; gap: 3px 4px; padding: 4px 0 4px 7.8em; border-bottom: 1px solid #edf1f5; box-sizing: border-box; }
+    html[data-theme="dark"] .rs-extra-check-row { border-bottom-color: #34373d; }
+    .rs-extra-check-row:last-child { border-bottom: 0; }
+    .rs-extra-check-group { position: absolute; left: 0; top: 4px; width: 7.4em; color: var(--brand-blue); font-size: .86em; font-weight: 800; letter-spacing: .02em; text-transform: uppercase; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .rs-extra-check-group:hover { color: var(--brand-teal-ink); text-decoration: underline; }
+    .rs-extra-chip { display: inline-flex; align-items: center; gap: 3px; padding: 1px 6px; color: #334155; background: #fff; border: 1px solid #d3dce6; border-radius: 999px; font-weight: 500; cursor: pointer; user-select: none; transition: all .1s ease; }
+    .rs-extra-chip:hover { background: #f1f7fc; border-color: #9cc6e6; }
+    .rs-extra-chip[aria-pressed="true"] { color: var(--brand-teal-ink); background: var(--brand-teal-pale); border-color: var(--brand-teal); font-weight: 700; }
+    html[data-theme="dark"] .rs-extra-chip { color: var(--ink); background: #2a2c31; border-color: #464950; }
+    html[data-theme="dark"] .rs-extra-chip[aria-pressed="true"] { color: #8ec5ee; background: rgba(90, 169, 222, .22); border-color: #5aa9de; }
+
+    /* Click-to-fill inline inputs inside [data-extra-labs] on the sheet */
+    .pre-rounds-sheet .pre-rounds-extra-lab { display: inline-flex; align-items: baseline; gap: 3px; margin-right: 8px; margin-bottom: 2px; white-space: nowrap; }
+    .rs-extra-lab-input { width: 4.4em; min-width: 3.2em; padding: 0 3px; color: inherit; background: transparent; border: 0; border-bottom: 1px solid #9aa9b9; border-radius: 2px; font: inherit; font-size: 1em; text-align: center; transition: background-color .12s ease, color .12s ease; }
+    .rs-extra-lab-input--micro { width: 11em; text-align: left; }
+    .rs-extra-lab-site { width: 5.2em; padding: 0 2px; color: var(--muted); background: transparent; border: 0; border-bottom: 1px dotted #9aa9b9; font: inherit; font-size: .92em; }
+    .rs-extra-lab-input:hover, .rs-extra-lab-site:hover { background: rgba(75, 156, 211, 0.1); }
+    .rs-extra-lab-input:focus, .rs-extra-lab-site:focus { outline: 2px solid rgba(75, 156, 211, .35); background: #F2F8FD; }
+    .rs-extra-lab-input[data-flag^="H"] { color: #b91c1c !important; background: #fef2f2; font-weight: 800 !important; border-bottom-color: #b91c1c; }
+    .rs-extra-lab-input[data-flag^="L"] { color: #1d4ed8 !important; background: #eff6ff; font-weight: 800 !important; border-bottom-color: #1d4ed8; }
+    .rs-extra-lab-input[data-flag="A"], .rs-extra-lab-input[data-flag="C"] { color: #9a3412 !important; background: #fff7ed; font-weight: 800 !important; }
+    html[data-theme="dark"] .rs-extra-lab-input, html[data-theme="dark"] .rs-extra-lab-site { border-bottom-color: #5f636b; }
+    html[data-theme="dark"] .rs-extra-lab-input:focus, html[data-theme="dark"] .rs-extra-lab-site:focus { background: var(--field-focus); }
+    html[data-theme="dark"] .rs-extra-lab-input[data-flag^="H"] { color: #fca5a5 !important; background: rgba(248, 113, 113, .16); }
+    html[data-theme="dark"] .rs-extra-lab-input[data-flag^="L"] { color: #93c5fd !important; background: rgba(96, 165, 250, .16); }
+    .rs-extra-lab-x { width: 14px; height: 14px; padding: 0; color: #94a3b8; background: transparent; border: 0; border-radius: 50%; font-size: 11px; line-height: 1; opacity: 0; cursor: pointer; }
+    .pre-rounds-extra-lab:hover .rs-extra-lab-x, .pre-rounds-extra-lab:focus-within .rs-extra-lab-x { opacity: .85; }
+    .rs-extra-lab-x:hover { color: var(--brand-maroon); opacity: 1 !important; }
+    @media print {
+      .rs-extra-lab-input { color: #000 !important; background: none !important; border-bottom: 1px solid #777; }
+      .rs-extra-lab-input:not([value=""]) { border-bottom: 0; }
+    }
+
 </style>
 </head>
 <body>
 
   <header class="app-bar">
+    <div class="app-brand-group">
+      <span class="app-brand-logo" aria-hidden="true">+</span>
+      <div class="app-brand-text">
+        <span class="app-brand-title">IM Tools</span>
+        <span class="app-brand-sub">Inpatient Clinical Workspace · Local-Only</span>
+      </div>
+    </div>
     <details class="tool-menu" id="tool-menu">
       <summary id="tool-menu-label" aria-label="Choose a tool">Pre-Rounds</summary>
-        <nav class="tool-tabs" role="tablist" aria-label="Documentation tools">
-        <button class="tool-tab" id="pre-rounds-tab" type="button" role="tab" aria-selected="true" aria-controls="pre-rounds-panel" tabindex="0">Pre-Rounds</button>
-        <button class="tool-tab" id="hospital-course-tab" type="button" role="tab" aria-selected="false" aria-controls="hospital-course-panel" tabindex="-1">Hospital Course</button>
-        <button class="tool-tab" id="encounter-prep-tab" type="button" role="tab" aria-selected="false" aria-controls="encounter-prep-panel" tabindex="-1">Encounter Prep</button>
-        <button class="tool-tab" id="med-rec-tab" type="button" role="tab" aria-selected="false" aria-controls="med-rec-panel" tabindex="-1">Med Rec</button>
-        <button class="tool-tab" id="sign-out-tab" type="button" role="tab" aria-selected="false" aria-controls="sign-out-panel" tabindex="-1">Sign-out</button>
-        <button class="tool-tab" id="tips-tab" type="button" role="tab" aria-selected="false" aria-controls="tips-panel" tabindex="-1">Tips</button>
+      <nav class="tool-tabs" role="tablist" aria-label="Documentation tools">
+        <button class="tool-tab" id="pre-rounds-tab" type="button" role="tab" aria-selected="true" aria-controls="pre-rounds-panel" tabindex="0" data-label="Pre-Rounds">Pre-Rounds <span class="tab-badge" id="badge-pre-rounds"></span></button>
+        <button class="tool-tab" id="encounter-prep-tab" type="button" role="tab" aria-selected="false" aria-controls="encounter-prep-panel" tabindex="-1" data-label="Encounter Prep">Encounter Prep</button>
+        <button class="tool-tab" id="pre-charting-tab" type="button" role="tab" aria-selected="false" aria-controls="pre-charting-panel" tabindex="-1" data-label="Pre-Charting">Pre-Charting</button>
+        <button class="tool-tab" id="med-rec-tab" type="button" role="tab" aria-selected="false" aria-controls="med-rec-panel" tabindex="-1" data-label="Med Rec">Med Rec <span class="tab-badge" id="badge-med-rec"></span></button>
+        <button class="tool-tab" id="sign-out-tab" type="button" role="tab" aria-selected="false" aria-controls="sign-out-panel" tabindex="-1" data-label="Sign-out">Sign-out <span class="tab-badge" id="badge-sign-out"></span></button>
+        <button class="tool-tab" id="hospital-course-tab" type="button" role="tab" aria-selected="false" aria-controls="hospital-course-panel" tabindex="-1" data-label="Hospital Course">Hospital Course</button>
+        <button class="tool-tab" id="tips-tab" type="button" role="tab" aria-selected="false" aria-controls="tips-panel" tabindex="-1" data-label="Tips">Tips</button>
       </nav>
     </details>
     <div class="top-controls">
+      <button class="top-pill-btn" id="cmd-palette-btn" type="button" title="Quick jump to any patient, tool, or action (Ctrl+K or ⌘K)">Quick Jump <span class="top-kbd">⌘K</span></button>
+      <span class="zoom-pill" role="group" aria-label="Sheet zoom">
+        <button type="button" id="zoom-out-btn" title="Zoom out" aria-label="Zoom out">&#x2212;</button>
+        <span class="zoom-readout" id="zoom-readout">100%</span>
+        <button type="button" id="zoom-in-btn" title="Zoom in" aria-label="Zoom in">+</button>
+      </span>
+      <button class="top-pill-btn" id="top-privacy-btn" type="button" title="Blur screen for privacy (or press Esc twice)">Hide</button>
       <button class="theme-toggle" id="fullscreen-toggle" type="button" aria-pressed="false" title="Full screen (Esc to exit)">&#x26F6; Full screen</button>
       <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false" title="Switch between light and dark appearance"></button>
     </div>
@@ -1968,6 +2663,12 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
   </main>
 
   <main class="page workspace-panel" id="pre-rounds-panel" role="tabpanel" aria-labelledby="pre-rounds-tab" tabindex="0">
+    <div class="rs-census-strip screen-only" id="rs-census-strip" aria-label="Patient census">
+      <span class="rs-census-strip-label">Patients</span>
+      <div class="rs-census-pills" id="rs-census-pills"></div>
+      <button class="quiet-button" type="button" id="rs-strip-add" title="Add a new patient sheet">+ Patient</button>
+      <button class="quiet-button" type="button" id="rs-strip-present" title="Open Presentation mode for current patient">Present</button>
+    </div>
     <span class="rs-count" id="pre-rounds-count" hidden>1 patient</span>
     <p class="pre-rounds-status" id="pre-rounds-status" role="status"></p>
     <div class="rs-sheets" id="pre-rounds-patients"></div>
@@ -1979,20 +2680,40 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       <div class="pre-rounds-problem" data-problem>
         <div class="pre-rounds-problem-head">
           <span class="pre-rounds-problem-number" data-problem-number>#</span>
-          <input data-problem-title autocomplete="off" aria-label="Problem" placeholder="Problem">
+          <input data-problem-title autocomplete="off" aria-label="Problem" placeholder="Problem (press Enter or +# to group another # problem)">
           <span class="rs-problem-tools screen-only">
+            <button class="pre-rounds-problem-move rs-subhead-add" type="button" data-add-subproblem title="Add another # problem under this same assessment &amp; plan (or press Enter in title)">+#</button>
+            <button class="pre-rounds-problem-move rs-merge-btn" type="button" data-merge-problem aria-label="Merge with problem above" title="Merge this problem card (headings, assessment, and plan) into the problem above">⤴</button>
             <button class="pre-rounds-problem-move" type="button" data-move-problem="-1" aria-label="Move problem up" title="Move up">↑</button>
             <button class="pre-rounds-problem-move" type="button" data-move-problem="1" aria-label="Move problem down" title="Move down">↓</button>
             <button class="pre-rounds-problem-move rs-assess-toggle" type="button" data-toggle-assess aria-pressed="true" title="Remove the assessment (e.g. for a stable chronic problem)">−A</button>
+            <button class="pre-rounds-problem-move rs-plan-toggle" type="button" data-toggle-plan-head aria-pressed="true" title="Show or hide the PLAN heading before the plan items">−P</button>
             <button class="pre-rounds-problem-move" type="button" data-remove-problem aria-label="Remove problem" title="Remove">×</button>
           </span>
         </div>
+        <div class="pre-rounds-problem-subheads" data-problem-subheads></div>
         <textarea data-problem-assess rows="1" aria-label="Assessment for this problem" placeholder="Assessment: most likely ___ given ___; less likely ___ because ___"></textarea>
-        <textarea data-problem-plan rows="1" aria-label="Plan for this problem" placeholder="Plan, one item per line: what confirms or rules out, treatment, “if ___, then ___”&#10;- sub-point&#10;    - indent further for deeper levels"></textarea>
+        <div class="pre-rounds-plan-heading" data-plan-heading>PLAN</div>
+        <textarea data-problem-plan rows="1" aria-label="Plan for this problem" placeholder="- Plan item (each line automatically starts with &quot;- &quot;)&#10;  - sub-point (indent 2 spaces for deeper levels)"></textarea>
       </div>
     </template>
 
     <datalist id="rs-trend-lab-list"></datalist>
+        <template id="rs-reasoning-pop-template">
+      <details class="foot-menu reasoning-menu">
+        <summary class="quiet-button" title="How to show your reasoning in each problem">? Reasoning</summary>
+        <div class="foot-pop rs-ap-guide-pop">
+          <p class="rs-guide-title">For each problem</p>
+          <ol class="rs-guide-list">
+            <li><b>Commit:</b> most likely ___ given 2–3 key findings</li>
+            <li><b>Alternatives:</b> also considering ___, less likely because ___</li>
+            <li><b>Can't miss:</b> ___, and how you're excluding it</li>
+            <li><b>Plan tied to it:</b> what confirms or rules out, treatment, “if ___, then ___”</li>
+          </ol>
+          <p class="rs-guide-foot">Interpret, don't repeat: “AKI, likely prerenal: BUN:Cr 28, FeNa 0.4%,” not “Cr 2.1.” <button type="button" class="rs-guide-more" data-go-tool="tips-tab">Tips and a worked example →</button></p>
+        </div>
+      </details>
+    </template>
     <template id="rs-sheet-template">
       <article class="pre-rounds-sheet rs-sheet">
         <div class="rs-patient-bar screen-only">
@@ -2041,14 +2762,9 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         </div>
         <div class="rs-grid">
           <div class="rs-box rs-c12 rs-oneliner"><span class="rs-tag">One-liner</span>
-            <div class="rs-bedbox">
-              <label><span>Bed</span><input data-field="label" autocomplete="off" aria-label="Bed" title="Bed or other non-identifying label. Do not enter patient names."></label>
-              <label><span>Rm</span><input data-field="room" autocomplete="off" aria-label="Room"></label>
-              <label class="rs-hd"><span>HD</span><input data-field="hd" autocomplete="off" inputmode="numeric" aria-label="Hospital day" title="Hospital day"></label>
-            </div>
             <div class="rs-field rs-oneliner-text" data-field="power" role="textbox" aria-multiline="true" aria-label="One-liner" data-placeholder="e.g. 68M w/ HFrEF, CKD3 admitted for CAP, now on RA"></div>
           </div>
-          <div class="rs-box rs-c12 rs-subjective"><span class="rs-tag">Overnight / Subj</span><textarea class="rs-field" data-field="subjective" rows="2" aria-label="Overnight events and subjective"></textarea>
+          <div class="rs-box rs-c12 rs-subjective"><span class="rs-tag">ON/Subj</span><textarea class="rs-field" data-field="subjective" rows="2" aria-label="Overnight events and subjective"></textarea>
             <label class="rs-inline-row"><span>ROS:</span><textarea class="rs-field rs-inline-field" data-field="ros-pp" rows="1" aria-label="Pertinent positive and negative ROS" placeholder="Endorses: cough. Denies: fever, chest pain. (or mark the ROS checklist, then → Written ROS)"></textarea></label></div>
           <div class="rs-box rs-c12 rs-opt-ros rs-checks"><span class="rs-tag">ROS</span>
             <span class="rs-box-tools screen-only"><span class="rs-box-hint">tap: ✓ denies → ✗ endorses → clear</span><button type="button" data-ros-rest title="Mark every unmarked symptom as denied">Rest normal</button><button type="button" data-ros-to-pp title="Write the marked symptoms into the ROS line as Endorses: … / Denies: …">→ Written ROS</button><button type="button" data-copy-ros>Copy ROS</button></span>
@@ -2073,12 +2789,19 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
             <div class="rs-add-row screen-only">
               <button class="rs-add" type="button" data-add-trend title="Add a small table to track labs over several days">+ Trend</button>
               <details class="rs-pop rs-pop-inline" data-lab-pop>
-                <summary class="rs-add" title="Paste labs from the EHR or add labs that are not on the fishbones">+ Other Labs</summary>
+                <summary class="rs-add" title="Check off other labs to fill in on the sheet, or paste labs from the EHR">+ Other Labs</summary>
                 <div class="rs-pop-body">
-                  <label class="rs-pop-label">Paste labs from the EHR<textarea data-emr-labs rows="5" placeholder="Table, CSV, or one result per line. Cultures work too, e.g. Blood Cx: NGTD; Wound cx (L heel): MRSA. Fishbone labs fill the diagrams; everything else goes to the list below."></textarea></label>
+                  <div class="rs-extra-checklist-wrap">
+                    <div class="rs-extra-checklist-head">
+                      <span class="rs-extra-checklist-title">Check labs to add click-to-fill boxes on sheet</span>
+                      <input type="search" class="rs-extra-filter" data-extra-lab-filter autocomplete="off" placeholder="Filter labs (e.g. INR, Trop)...">
+                    </div>
+                    <div class="rs-extra-checklist" data-extra-lab-checklist></div>
+                  </div>
+                  <label class="rs-pop-label">Or paste labs from the EHR<textarea data-emr-labs rows="4" placeholder="Table, CSV, or one result per line. Cultures work too, e.g. Blood Cx: NGTD; Wound cx (L heel): MRSA. Fishbone labs fill the diagrams; everything else goes to the list below."></textarea></label>
                   <span class="rs-pop-status" data-lab-status role="status"></span>
                   <details class="pre-rounds-skipped" data-lab-skipped hidden><summary></summary><ul></ul></details>
-                  <div class="pre-rounds-labs-extra-head"><span>Other labs</span><button class="quiet-button" type="button" data-add-lab>+ Add lab</button></div>
+                  <div class="pre-rounds-labs-extra-head"><span>Selected / custom labs</span><button class="quiet-button" type="button" data-add-lab>+ Add lab</button></div>
                   <div class="pre-rounds-manual-labs" data-manual-labs></div>
                 </div>
               </details>
@@ -2092,23 +2815,10 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
             <div class="rs-problems" data-problem-list></div>
             <div class="rs-add-row screen-only">
               <button class="rs-add" type="button" data-add-problem>+ Problem</button>
-<details class="rs-pop rs-pop-inline rs-ap-guide">
-                <summary class="rs-add" title="How to show your reasoning in each problem">? Reasoning</summary>
-                <div class="rs-pop-body">
-                  <p class="rs-guide-title">For each problem</p>
-                  <ol class="rs-guide-list">
-                    <li><b>Commit:</b> most likely ___ given 2–3 key findings</li>
-                    <li><b>Alternatives:</b> also considering ___, less likely because ___</li>
-                    <li><b>Can't miss:</b> ___, and how you're excluding it</li>
-                    <li><b>Plan tied to it:</b> what confirms or rules out, treatment, “if ___, then ___”</li>
-                  </ol>
-                  <p class="rs-guide-foot">Interpret, don't repeat: “AKI, likely prerenal: BUN:Cr 28, FeNa 0.4%,” not “Cr 2.1.” <button type="button" class="rs-guide-more" data-go-tool="tips-tab">Tips and a worked example →</button></p>
-                </div>
-              </details>
                             <details class="rs-pop rs-pop-inline" data-ap-pop>
                 <summary class="rs-add" title="Paste several problems at once, e.g. the A&amp;P from yesterday's note">Import Problems</summary>
                 <div class="rs-pop-body">
-                  <label class="rs-pop-label">Paste the A&amp;P from yesterday's note<textarea data-ap-paste rows="7" placeholder="# CAP&#10;- Ceftriaxone day 3&#10;- Wean O2&#10;# AKI&#10;- Hold lisinopril&#10;&#10;Also works with 1. / 1) / Problem #1: / CAP: headings"></textarea></label>
+                  <label class="rs-pop-label">Paste the A&amp;P from yesterday's note<textarea data-ap-paste rows="7" placeholder="# acute hypoxemic respiratory failure&#10;# malignant pleural effusion&#10;Likely from effusion; thoracentesis today&#10;- Thoracentesis&#10;- Wean O2&#10;# AKI&#10;- Hold lisinopril&#10;&#10;Consecutive # lines share one assessment &amp; plan."></textarea></label>
                   <span class="rs-pop-status" data-ap-preview role="status"></span>
                   <label class="rs-ap-oneliner" data-ap-oneliner-wrap hidden><input type="checkbox" data-ap-oneliner checked><span></span></label>
                   <div class="rs-pop-actions"><button class="copy-button" type="button" data-ap-apply="replace" disabled>Replace problems</button><button class="quiet-button" type="button" data-ap-apply="add" disabled>Add to problems</button></div>
@@ -2121,6 +2831,11 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
             <label class="rs-inline-row"><span>Barriers / plan:</span><textarea class="rs-field rs-inline-field" data-field="dc-notes" rows="1" aria-label="Discharge barriers and plan" placeholder="e.g. SNF bed pending, needs home O2 qualification"></textarea></label>
           </div>
           <div class="rs-box rs-c12 rs-opt-notes rs-notes"><span class="rs-tag">Notes</span><textarea class="rs-field" data-field="notes" rows="3" aria-label="Notes" placeholder="To-dos, subjective, anything else"></textarea>
+            <div class="rs-bedbox">
+              <label><span>Bed</span><input data-field="label" autocomplete="off" aria-label="Bed" title="Bed or other non-identifying label. Do not enter patient names."></label>
+              <label><span>Rm</span><input data-field="room" autocomplete="off" aria-label="Room"></label>
+              <label class="rs-hd"><span>HD</span><input data-field="hd" autocomplete="off" inputmode="numeric" aria-label="Hospital day" title="Hospital day"></label>
+            </div>
           </div>
           <div class="rs-box rs-c12 rs-opt-medlog rs-medlog screen-only"><span class="rs-tag">Med log · not printed</span>
             <div class="ml-abx" data-ml-abx></div>
@@ -2315,6 +3030,32 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
     <div class="present-body" id="present-body"></div>
   </div>
 
+  <div class="app-toast" id="app-toast" role="status" aria-live="polite">
+    <span id="app-toast-text"></span>
+    <button type="button" class="app-toast-close" id="app-toast-close" aria-label="Dismiss notification">&times;</button>
+  </div>
+
+  <div class="ui-modal-backdrop" id="confirm-modal" hidden role="dialog" aria-modal="true" aria-labelledby="confirm-modal-title">
+    <div class="ui-modal-card">
+      <h2 class="ui-modal-title" id="confirm-modal-title">Confirm action</h2>
+      <p class="ui-modal-msg" id="confirm-modal-msg"></p>
+      <div class="ui-modal-actions">
+        <button type="button" class="quiet-button" id="confirm-modal-cancel">Cancel</button>
+        <button type="button" class="copy-button ui-btn-danger" id="confirm-modal-ok">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui-modal-backdrop" id="cmd-modal" hidden role="dialog" aria-modal="true" aria-label="Quick Jump">
+    <div class="ui-modal-card cmd-card">
+      <div class="cmd-search-wrap">
+        <input class="cmd-search-input" id="cmd-search-input" type="search" autocomplete="off" placeholder="Jump to patient bed, switch tool, or run action...">
+        <button type="button" class="quiet-button" id="cmd-close-btn">Esc</button>
+      </div>
+      <ul class="cmd-list" id="cmd-list" role="listbox"></ul>
+    </div>
+  </div>
+
   <script>
     async function copyPlainText(text) {
       try {
@@ -2429,7 +3170,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         document.getElementById(item.getAttribute("aria-controls")).hidden = !selected;
       }
       document.title = "IM Tools";
-      document.getElementById("tool-menu-label").textContent = tab.textContent;
+      document.getElementById("tool-menu-label").textContent = tab.dataset.label || tab.textContent.trim();
       if (!moveFocus) document.getElementById("tool-menu").open = false;
       if (moveFocus) tab.focus();
       window.requestAnimationFrame(() => document.dispatchEvent(new CustomEvent("tool-tab-shown")));
@@ -2674,22 +3415,51 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       return { value: match[1].trim(), flag };
     }
     const labFlagNames = { H: "High", HH: "Critical high", L: "Low", LL: "Critical low", A: "Abnormal", C: "Critical" };
+    const fishboneRefRanges = {
+      na: [135, 145, "135–145 mEq/L"],
+      k: [3.5, 5.1, "3.5–5.1 mEq/L"],
+      cl: [96, 106, "96–106 mEq/L"],
+      hco3: [22, 29, "22–29 mEq/L"],
+      bun: [7, 20, "7–20 mg/dL"],
+      cr: [0.5, 1.2, "0.5–1.2 mg/dL"],
+      gluc: [70, 140, "70–140 mg/dL"],
+      wbc: [4.0, 11.0, "4.0–11.0 K/µL"],
+      hgb: [12.0, 17.5, "12.0–17.5 g/dL"],
+      hct: [36, 51, "36–51%"],
+      plts: [150, 400, "150–400 K/µL"],
+      ca: [8.5, 10.2, "8.5–10.2 mg/dL"],
+      mg: [1.7, 2.3, "1.7–2.3 mg/dL"],
+      po4: [2.5, 4.5, "2.5–4.5 mg/dL"]
+    };
+    function inferLabRangeFlag(field, valStr) {
+      const range = fishboneRefRanges[field];
+      if (!range) return "";
+      const num = parseFloat(String(valStr || "").replace(/,/g, ""));
+      if (Number.isNaN(num)) return "";
+      if (num < range[0]) return "L";
+      if (num > range[1]) return "H";
+      return "";
+    }
 
-    // Fishbone and trend boxes: typing a flag after the value bolds it (the flag letter itself is tucked away).
+    // Fishbone and trend boxes: typing a flag after the value bolds & color-codes it; out-of-range fishbone numbers auto-flag too.
     function setLabInputFlag(input, flag) {
+      const field = input.dataset.field || "";
+      const refText = fishboneRefRanges[field]?.[2] ? ` · Ref ${fishboneRefRanges[field][2]}` : "";
       if (flag) {
         input.dataset.flag = flag;
-        input.title = `${labFlagNames[flag] || "Abnormal"} (${flag}). Retype the value to clear.`;
+        input.title = `${labFlagNames[flag] || "Abnormal"} (${flag})${refText}`;
       } else {
         delete input.dataset.flag;
-        input.removeAttribute("title");
+        if (refText) input.title = `${input.getAttribute("aria-label") || field.toUpperCase()}${refText}`;
+        else input.removeAttribute("title");
       }
       input.classList.toggle("is-abn", Boolean(flag));
     }
     function commitLabInput(input) {
       const { value, flag } = splitLabFlag(input.value);
       if (flag) input.value = value;
-      setLabInputFlag(input, flag);
+      const effectiveFlag = flag || (input.dataset.field ? inferLabRangeFlag(input.dataset.field, input.value) : "");
+      setLabInputFlag(input, effectiveFlag);
     }
     const flaggedValue = (input) => input ? `${input.value.trim()}${input.dataset.flag && input.value.trim() ? ` ${input.dataset.flag}` : ""}` : "";
 
@@ -2808,18 +3578,20 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         || /\d{1,2}[/-]\d{1,2}[/-]\d{2,4}/.test(name);
     }
 
-    const microLabels = ["Blood Cx", "Urine Cx", "Sputum Cx", "CSF Cx", "Wound Cx", "Other Cx"];
+    const microLabels = ["Blood Cx", "Urine Cx", "Sputum Cx", "CSF Cx", "Wound Cx", "Stool Cx", "Resp Viral Panel", "C. diff", "MRSA nares", "Other Cx"];
     const extraLabGroups = [
-      ["Micro", microLabels.map((label) => [label, /(?!)/])],
-      ["Hepatic", [["AST", /^(?:ast|sgot|aspartateaminotransferase)/], ["ALT", /^(?:alt|sgpt|alanineaminotransferase)/], ["Alk Phos", /^(?:alkphos|alkalinephosphatase|alp)$/], ["T bili", /^(?:bilirubintotal|totalbilirubin|tbili|bilitotal|bilirubin)$/], ["D bili", /^(?:bilirubindirect|directbilirubin|dbili|biliconjugated|bilirubinconjugated)$/], ["Alb", /^albumin$/], ["T prot", /^(?:totalprotein|proteintotal|protein)$/], ["GGT", /^(?:ggt|gammaglutamyltransferase)/], ["NH3", /^ammonia/], ["Lipase", /^lipase/], ["Amylase", /^amylase/]]],
-      ["Coags", [["PT", /^(?:pt|prothrombintime|protime)$/], ["INR", /^inr/], ["PTT", /^(?:ptt|aptt|partialthromboplastintime|activatedpartialthromboplastintime)/], ["Fibrinogen", /^fibrinogen/], ["D-dimer", /^ddimer/], ["Anti-Xa", /antixa/]]],
-      ["Cardiac", [["hs-Trop", /^(?:hstroponin|troponinhighsensitivity|hightroponin|troponinths|hstn)/], ["Trop", /^(?:troponin|trop|tni|tnt)/], ["NT-proBNP", /^ntprobnp/], ["BNP", /^bnp|^bnatriuretic|^btypenatriuretic/], ["CK", /^(?:ck|cpk|creatinekinase)$/], ["CK-MB", /^ckmb/]]],
-      ["Infection / inflammation", [["Lactate", /^(?:lactate|lacticacid)/], ["Procal", /^procalcitonin/], ["CRP", /^(?:crp|creactiveprotein|hscrp)/], ["ESR", /^(?:esr|sedrate|sedimentationrate|erythrocytesedimentationrate)/]]],
-      ["Blood gas", [["pH", /^(?:ph|phart|phven|phvenous|pharterial|abgph|vbgph)$/], ["pCO2", /^(?:pco2|paco2)/], ["pO2", /^(?:po2|pao2)/], ["Base excess", /^(?:baseexcess|be|basedeficit)/], ["iCa", /^(?:ionizedcalcium|calciumionized|ica)/], ["Anion gap", /^(?:aniongap|ag)$/]]],
-      ["Endocrine", [["A1c", /^(?:hemoglobina1c|hba1c|a1c|glycatedhemoglobin|glycohemoglobin)/], ["TSH", /^(?:tsh|thyroidstimulatinghormone)/], ["Free T4", /^(?:freet4|t4free|ft4|thyroxinefree)/], ["Cortisol", /^cortisol/]]],
-      ["Anemia / iron", [["Iron", /^iron$/], ["Ferritin", /^ferritin/], ["TIBC", /^tibc|^totalironbindingcapacity/], ["Tsat", /^(?:transferrinsaturation|ironsaturation|tsat|percentsaturation)/], ["B12", /^(?:b12|vitaminb12|cobalamin)/], ["Folate", /^folate|^folicacid/], ["Retic", /^retic/], ["LDH", /^(?:ldh|lactatedehydrogenase)/], ["Hapto", /^haptoglobin/], ["MCV", /^mcv$/], ["RDW", /^rdw/]]],
-      ["Drug levels", [["Vanc", /^vanc/], ["Digoxin", /^digoxin/], ["Lithium", /^lithium/], ["Tacro", /^tacrolimus/], ["Acetaminophen", /^acetaminophen|^apap/], ["Salicylate", /^salicylate/]]],
-      ["Lipids", [["Chol", /^(?:cholesterol|totalcholesterol|cholesteroltotal)$/], ["LDL", /^ldl/], ["HDL", /^hdl/], ["TG", /^triglyceride/]]]
+      ["Hepatic / GI", [["AST", /^(?:ast|sgot|aspartateaminotransferase)/], ["ALT", /^(?:alt|sgpt|alanineaminotransferase)/], ["Alk Phos", /^(?:alkphos|alkalinephosphatase|alp)$/], ["T bili", /^(?:bilirubintotal|totalbilirubin|tbili|bilitotal|bilirubin)$/], ["D bili", /^(?:bilirubindirect|directbilirubin|dbili|biliconjugated|bilirubinconjugated)$/], ["I bili", /^(?:bilirubinindirect|indirectbilirubin|ibili|biliunconjugated)$/], ["Alb", /^albumin$/], ["Prealb", /^prealbumin/], ["T prot", /^(?:totalprotein|proteintotal|protein)$/], ["GGT", /^(?:ggt|gammaglutamyltransferase)/], ["NH3", /^ammonia/], ["Lipase", /^lipase/], ["Amylase", /^amylase/], ["Fecal calprotectin", /calprotectin/], ["Fecal elastase", /elastase/], ["SAAG", /^saag$/]]],
+      ["Coags / Heme", [["PT", /^(?:pt|prothrombintime|protime)$/], ["INR", /^inr/], ["PTT", /^(?:ptt|aptt|partialthromboplastintime|activatedpartialthromboplastintime)/], ["Fibrinogen", /^fibrinogen/], ["D-dimer", /^ddimer/], ["Anti-Xa", /antixa/], ["HIT Ab", /^(?:hitab|pf4|heparininduced)/], ["ADAMTS13", /^adamts13/]]],
+      ["Cardiac", [["hs-Trop", /^(?:hstroponin|troponinhighsensitivity|hightroponin|troponinths|hstn)/], ["Trop", /^(?:troponin|trop|tni|tnt)/], ["NT-proBNP", /^ntprobnp/], ["BNP", /^bnp|^bnatriuretic|^btypenatriuretic/], ["CK", /^(?:ck|cpk|creatinekinase)$/], ["CK-MB", /^ckmb/], ["Lp(a)", /^lpa$|^lipoproteina/]]],
+      ["Infection / inflammation", [["Lactate", /^(?:lactate|lacticacid)/], ["Procal", /^procalcitonin/], ["CRP", /^(?:crp|creactiveprotein|hscrp)/], ["ESR", /^(?:esr|sedrate|sedimentationrate|erythrocytesedimentationrate)/], ["1,3-BDG", /bdg|betadglucan|fungitell/], ["Galactomannan", /galactomannan/], ["HIV", /^hiv/], ["HCV", /^hcv|^hepatitisc/], ["HBsAg", /^hbsag/], ["HBcAb", /^hbcab|^anti-?hbc/], ["HBsAb", /^hbsab|^anti-?hbs/], ["RPR", /^rpr|syphilis/], ["Quantiferon", /quantiferon|tbspot|igra/]]],
+      ["Blood gas / acid-base", [["pH", /^(?:ph|phart|phven|phvenous|pharterial|abgph|vbgph)$/], ["pCO2", /^(?:pco2|paco2)/], ["pO2", /^(?:po2|pao2)/], ["HCO3 (gas)", /^(?:hco3gas|bicarbgas|abghco3|vbghco3)$/], ["Base excess", /^(?:baseexcess|be|basedeficit)/], ["iCa", /^(?:ionizedcalcium|calciumionized|ica)/], ["Anion gap", /^(?:aniongap|ag)$/], ["Serum Osm", /^(?:osmolality|serumosm|osm)$/], ["Osm gap", /^osmgap/], ["COHb", /^cohb|carboxyhemoglobin/], ["MetHb", /^methb|methemoglobin/], ["SvO2 / ScvO2", /^s[cv]?o2/]]],
+      ["Endocrine / metabolic", [["A1c", /^(?:hemoglobina1c|hba1c|a1c|glycatedhemoglobin|glycohemoglobin)/], ["TSH", /^(?:tsh|thyroidstimulatinghormone)/], ["Free T4", /^(?:freet4|t4free|ft4|thyroxinefree)/], ["Free T3", /^(?:freet3|t3free|ft3|triiodothyroninefree)/], ["Cortisol", /^cortisol/], ["ACTH", /^acth/], ["PTH", /^(?:pth|parathyroidhormone|intactpth)/], ["25-OH Vit D", /^(?:vitd|vitamin25|25ohvitd|25hydroxy)/], ["Uric acid", /^(?:uricacid|urate)$/], ["Beta-OHB", /^(?:betahydroxybutyrate|bhb|betaohb)/], ["Beta-hCG", /^(?:bhcg|betahcg|hcg)/], ["Aldosterone", /^aldosterone/], ["Renin", /^renin/]]],
+      ["Anemia / hemolysis", [["Iron", /^iron$/], ["Ferritin", /^ferritin/], ["TIBC", /^tibc|^totalironbindingcapacity/], ["Tsat", /^(?:transferrinsaturation|ironsaturation|tsat|percentsaturation)/], ["B12", /^(?:b12|vitaminb12|cobalamin)/], ["Folate", /^folate|^folicacid/], ["Retic", /^retic/], ["LDH", /^(?:ldh|lactatedehydrogenase)/], ["Hapto", /^haptoglobin/], ["MCV", /^mcv$/], ["RDW", /^rdw/], ["DAT (Coombs)", /^(?:dat|directantiglobulin|coombs)/], ["SPEP / M-spike", /^(?:spep|mspike)/], ["Free K/L ratio", /^(?:freekappalambda|flcratio|kappalambda)/], ["EPO", /^(?:epo|erythropoietin)/], ["G6PD", /^g6pd/], ["Copper", /^copper$/], ["Zinc", /^zinc$/]]],
+      ["Urine / renal", [["UA WBC", /^(?:uawbc|urinewbc)/], ["UA RBC", /^(?:uarbc|urinerbc)/], ["UA LE/Nit", /^(?:uale|uanitrite|leukocyteesterase)/], ["U Na", /^(?:una|urinesodium|sodiumurine)$/], ["U K", /^(?:uk|urinepotassium|potassiumurine)$/], ["U Cl", /^(?:ucl|urinechloride|chlorideurine)$/], ["U Cr", /^(?:ucr|urinecreatinine|creatinineurine)$/], ["U Osm", /^(?:uosm|urineosmolality|osmolalityurine)$/], ["FeNa", /^fena$/], ["FeUrea", /^feurea$/], ["UPCR", /^(?:upcr|urineproteincreatinine)/], ["UACR", /^(?:uacr|urinealbumincreatinine)/]]],
+      ["Rheum / autoimmune", [["ANA", /^ana$/], ["dsDNA", /^dsdna|antidsdna/], ["RF", /^(?:rf|rheumatoidfactor)$/], ["CCP", /^(?:ccp|anticcp)/], ["C3", /^c3$/], ["C4", /^c4$/], ["ANCA", /^anca$/], ["PR3 / MPO", /^(?:pr3|mpo)$/]]],
+      ["Drug levels / tox", [["Vanc", /^vanc/], ["Digoxin", /^digoxin/], ["Lithium", /^lithium/], ["Tacro", /^tacrolimus/], ["Cyclosporine", /^cyclosporin/], ["Phenytoin", /^phenytoin/], ["Valproate", /^valproic|^valproate/], ["Carbamazepine", /^carbamazepine/], ["Acetaminophen", /^acetaminophen|^apap/], ["Salicylate", /^salicylate/], ["EtOH", /^(?:etoh|ethanol|bloodalcohol)/], ["UDS", /^(?:uds|urinedrugscreen|toxscreen)/]]],
+      ["Lipids", [["Chol", /^(?:cholesterol|totalcholesterol|cholesteroltotal)$/], ["LDL", /^ldl/], ["HDL", /^hdl/], ["TG", /^triglyceride/]]],
+      ["Micro", microLabels.map((label) => [label, /(?!)/])]
     ];
 
     function classifyExtraLab(name) {
@@ -3253,6 +4025,25 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
 
     // Plan text -> items with a nesting level. Two spaces (or a tab) per level. When a plan mixes plain
     // lines with "-" lines, the "-" lines are sub-points of the plain line above them.
+    function ensurePlanDashes(text) {
+      return String(text || "").replace(/\t/g, "  ").split(/\r?\n/).map((line) => {
+        if (!line.trim()) return "";
+        const match = line.match(/^(\s*)(?:[-*\u2022]+\s*)?(.*)$/);
+        const body = (match[2] || "").trim();
+        return body ? `${match[1]}- ${body}` : "";
+      }).filter(Boolean).join("\n");
+    }
+    function setProblemPlanHeading(problem, show) {
+      if (!problem) return;
+      problem.classList.toggle("no-plan-head", !show);
+      const toggle = problem.querySelector("[data-toggle-plan-head]");
+      if (toggle) {
+        toggle.setAttribute("aria-pressed", String(show));
+        toggle.textContent = show ? "\u2212P" : "+P";
+        toggle.title = show ? "Hide the PLAN heading before the plan items" : "Show the PLAN heading before the plan items";
+        toggle.setAttribute("aria-label", show ? "Hide PLAN heading" : "Show PLAN heading");
+      }
+    }
     function planItems(text) {
       const rows = String(text || "").replace(/\t/g, "  ").split(/\r?\n/).filter((line) => line.trim()).map((line) => {
         const indent = line.match(/^ */)[0].length;
@@ -3262,17 +4053,63 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       const hasPlain = rows.some((row) => !row.marked);
       return rows.map((row) => ({ text: row.text, level: Math.min(3, Math.floor(row.indent / 2) + (hasPlain && row.marked && row.indent < 2 ? 1 : 0)) }));
     }
+    function cleanProblemHeading(text) {
+      return String(text || "").replace(/^\s*#+\s*(?:\d{1,2}\s*[.):]?\s*)?/, "").trim();
+    }
+    function addProblemSubhead(problem, value = "", focus = false) {
+      const wrap = problem.querySelector("[data-problem-subheads]");
+      if (!wrap) return null;
+      const row = document.createElement("div");
+      row.className = "pre-rounds-problem-head pre-rounds-problem-subhead";
+      row.dataset.problemSubhead = "";
+      row.innerHTML = '<span class="pre-rounds-problem-number">#</span><input data-problem-subtitle autocomplete="off" aria-label="Grouped problem" placeholder="Another # problem for this assessment &amp; plan"><span class="rs-problem-tools screen-only"><button class="pre-rounds-problem-move rs-split-btn" type="button" data-split-subproblem aria-label="Split into separate problem card" title="Split this # heading into its own separate problem card below">⤵</button><button class="pre-rounds-problem-move" type="button" data-remove-subproblem aria-label="Remove this problem heading" title="Remove this # heading">×</button></span>';
+      const input = row.querySelector("[data-problem-subtitle]");
+      input.value = cleanProblemHeading(value);
+      wrap.append(row);
+      if (focus) input.focus();
+      return row;
+    }
+    function getProblemTitles(problem) {
+      const rawInputs = [
+        problem.querySelector("[data-problem-title]"),
+        ...problem.querySelectorAll("[data-problem-subtitle]")
+      ].filter(Boolean);
+      const titles = [];
+      for (const input of rawInputs) {
+        const parts = String(input.value || "")
+          .split(/\r?\n|(?=\s+#[A-Za-z])/)
+          .map(cleanProblemHeading)
+          .filter(Boolean);
+        titles.push(...parts);
+      }
+      return titles;
+    }
+    function setProblemTitles(problem, titlesInput) {
+      const list = (Array.isArray(titlesInput) ? titlesInput : String(titlesInput || "").split(/\r?\n/))
+        .map(cleanProblemHeading)
+        .filter(Boolean);
+      const mainInput = problem.querySelector("[data-problem-title]");
+      if (mainInput) mainInput.value = list[0] || "";
+      const subWrap = problem.querySelector("[data-problem-subheads]");
+      if (subWrap) {
+        subWrap.replaceChildren();
+        list.slice(1).forEach((sub) => addProblemSubhead(problem, sub, false));
+      }
+    }
     function preRoundsProblems(card) {
       return [...card.querySelectorAll("[data-problem]")].map((problem) => {
         const assessEl = problem.querySelector("[data-problem-assess]");
         const items = planItems(problem.querySelector("[data-problem-plan]").value);
+        const titles = getProblemTitles(problem);
         return {
-          title: problem.querySelector("[data-problem-title]").value.trim(),
+          title: titles.join(" / "),
+          titles,
           assessment: assessEl && !problem.classList.contains("no-assess") ? assessEl.value.trim() : "",
+          showPlanHeading: !problem.classList.contains("no-plan-head"),
           items,
-          lines: items.map((item) => item.text)
+          lines: items.map((item) => `- ${item.text}`)
         };
-      }).filter((problem) => problem.title || problem.lines.length || problem.assessment);
+      }).filter((problem) => problem.titles.length || problem.lines.length || problem.assessment);
     }
     function setProblemAssessment(problem, text, show) {
       const area = problem.querySelector("[data-problem-assess]");
@@ -3295,6 +4132,8 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         problem.querySelector("[data-problem-number]").textContent = `#${index + 1}`;
         problem.querySelector('[data-move-problem="-1"]').disabled = index === 0;
         problem.querySelector('[data-move-problem="1"]').disabled = index === problems.length - 1;
+        const mergeBtn = problem.querySelector("[data-merge-problem]");
+        if (mergeBtn) mergeBtn.disabled = index === 0;
       });
     }
 
@@ -3365,20 +4204,20 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       return showSecond;
     }
 
-    function preRoundsManualLabs(card) {
+    function preRoundsManualLabs(card, includeBlank = false) {
       return [...card.querySelectorAll("[data-manual-lab]")].map((row) => {
         const choice = row.querySelector("[data-lab-name]").value;
         const rawValue = row.querySelector("[data-lab-value]").value.trim();
-        if (!choice || !rawValue) return null;
+        if (!choice || (!rawValue && !includeBlank)) return null;
         const second = row.querySelector("[data-lab-other]").value.trim();
         if (choice.startsWith("Micro|")) {
           const base = choice.split("|")[1];
-          if (base === "Wound Cx" && !second) return { name: base, value: rawValue, flag: "", unit: "", group: "Micro", label: "Wound Cx (site?)" };
-          return { name: base, value: rawValue, flag: "", unit: "", group: "Micro", label: microDisplayLabel(base, second, row.dataset.repeat || "") };
+          const displayLbl = (base === "Wound Cx" && !second) ? "Wound Cx" : microDisplayLabel(base, second, row.dataset.repeat || "");
+          return { row, choice, site: second, name: base, value: rawValue, flag: "", unit: "", group: "Micro", label: displayLbl };
         }
         if (choice === "__other" && parseMicroName(second)) {
           const micro = parseMicroName(second);
-          return { name: second, value: rawValue, flag: "", unit: "", group: "Micro", label: microDisplayLabel(micro.label, micro.site, micro.repeat) };
+          return { row, choice, site: micro.site, name: second, value: rawValue, flag: "", unit: "", group: "Micro", label: microDisplayLabel(micro.label, micro.site, micro.repeat) };
         }
         const split = splitLabFlag(rawValue);
         const flag = split.flag;
@@ -3388,11 +4227,73 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
           const name = row.querySelector("[data-lab-other]").value.trim();
           if (!name) return null;
           const classified = classifyExtraLab(name);
-          return { name, value, flag, unit, group: classified.group === "Urine" ? "Urine" : "Other", label: classified.group === "Urine" ? classified.label : name };
+          return { row, choice, site: "", name, value, flag, unit, group: classified.group === "Urine / renal" ? "Urine / renal" : "Other", label: classified.group === "Urine / renal" ? classified.label : name };
         }
         const [group, label] = choice.split("|");
-        return { name: label, value, flag, unit, group, label };
+        return { row, choice, site: "", name: label, value, flag, unit, group, label };
       }).filter(Boolean);
+    }
+
+    function buildExtraLabChecklist(sheet) {
+      const mount = sheet.querySelector("[data-extra-lab-checklist]");
+      if (!mount) return;
+      mount.replaceChildren();
+      for (const [group, labs] of extraLabGroups) {
+        const row = document.createElement("div");
+        row.className = "rs-extra-check-row";
+        row.dataset.extraGroup = group;
+        const groupLabel = document.createElement("strong");
+        groupLabel.className = "rs-extra-check-group";
+        groupLabel.textContent = `${group}:`;
+        groupLabel.title = `Toggle all ${group} labs`;
+        groupLabel.dataset.toggleExtraGroup = group;
+        row.append(groupLabel);
+        for (const [label] of labs) {
+          const chip = document.createElement("button");
+          chip.type = "button";
+          chip.className = "rs-extra-chip";
+          chip.dataset.extraChip = `${group}|${label}`;
+          chip.setAttribute("aria-pressed", "false");
+          chip.textContent = label;
+          row.append(chip);
+        }
+        mount.append(row);
+      }
+      syncExtraLabChecklist(sheet);
+    }
+
+    function syncExtraLabChecklist(sheet) {
+      if (!sheet) return;
+      const activeChoices = new Set(
+        [...sheet.querySelectorAll("[data-manual-lab]")].map((r) => r.querySelector("[data-lab-name]")?.value).filter(Boolean)
+      );
+      sheet.querySelectorAll("[data-extra-chip]").forEach((chip) => {
+        const on = activeChoices.has(chip.dataset.extraChip);
+        chip.setAttribute("aria-pressed", String(on));
+      });
+    }
+
+    function toggleExtraLabChoice(sheet, choiceKey, forceState = null, focusInput = false) {
+      const existingRows = [...sheet.querySelectorAll("[data-manual-lab]")].filter(
+        (r) => r.querySelector("[data-lab-name]")?.value === choiceKey
+      );
+      const shouldEnable = forceState !== null ? forceState : existingRows.length === 0;
+      if (!shouldEnable) {
+        existingRows.forEach((r) => r.remove());
+      } else if (!existingRows.length) {
+        const row = addPreRoundsManualLab(sheet, false);
+        const select = row.querySelector("[data-lab-name]");
+        select.value = choiceKey;
+        updateLabRowMode(row);
+      }
+      syncExtraLabChecklist(sheet);
+      renderSheetExtraLabs(sheet);
+      const labPop = sheet.querySelector("details[data-lab-pop]");
+      if (labPop?.open) positionRsPop(labPop);
+      if (shouldEnable && focusInput) {
+        const inlineInput = sheet.querySelector(`[data-extra-labs] [data-extra-choice="${CSS.escape(choiceKey)}"] [data-extra-lab-input]`);
+        inlineInput?.focus();
+      }
     }
 
     // Head to toe. Order here is the order on the sheet (top to bottom, left column first) and in the written ROS.
@@ -3725,8 +4626,10 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         out.push("", "ASSESSMENT AND PLAN");
         if (oneLiner) out.push(oneLiner);
         for (const [index, problem] of problems.entries()) {
-          out.push("", `#${index + 1} ${problem.title || "Problem"}`);
+          const titles = problem.titles?.length ? problem.titles : [problem.title || "Problem"];
+          out.push("", `#${index + 1} ${titles[0]}`, ...titles.slice(1).map((sub) => `#${sub}`));
           if (problem.assessment) out.push(problem.assessment);
+          if (problem.showPlanHeading && problem.items.length) out.push("PLAN");
           problem.items.forEach((item) => out.push(`${"  ".repeat(item.level)}- ${item.text}`));
         }
         if (otherAp) out.push("", otherAp);
@@ -3804,14 +4707,11 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
 
       let row = table.insertRow();
       row.className = "pre-rounds-row-heading";
-      appendPreRoundsSection(row, "One-liner", preRoundsFieldValue(card, "power"), 8).classList.add("pre-rounds-handwrite--power");
-      appendPreRoundsSection(row, "Bed", preRoundsFieldValue(card, "label"), 2);
-      appendPreRoundsSection(row, "Rm", preRoundsFieldValue(card, "room"), 1);
-      appendPreRoundsSection(row, "HD", preRoundsFieldValue(card, "hd"), 1);
+      appendPreRoundsSection(row, "One-liner", preRoundsFieldValue(card, "power"), 12).classList.add("pre-rounds-handwrite--power");
 
       row = table.insertRow();
       row.className = "pre-rounds-row-subjective";
-      const subjCell = appendPreRoundsSection(row, "Overnight / Subj", preRoundsFieldValue(card, "subjective"), 12);
+      const subjCell = appendPreRoundsSection(row, "ON/Subj", preRoundsFieldValue(card, "subjective"), 12);
       subjCell.classList.add("pre-rounds-handwrite--subjective");
       subjCell.append(Object.assign(document.createElement("div"), { innerHTML: "<b>ROS:</b> " }));
       subjCell.lastChild.style.whiteSpace = "pre-wrap";
@@ -4000,11 +4900,15 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       apProblems.forEach((problem, index) => {
         const block = document.createElement("div");
         block.className = "pre-rounds-ap-problem";
-        const title = document.createElement("div");
-        title.className = "pre-rounds-ap-title";
-        title.textContent = `#${index + 1} ${problem.title || "Problem"}`;
-        block.append(title);
+        const titles = problem.titles?.length ? problem.titles : [problem.title || "Problem"];
+        titles.forEach((headingText, titleIdx) => {
+          const title = document.createElement("div");
+          title.className = "pre-rounds-ap-title";
+          title.textContent = titleIdx === 0 ? `#${index + 1} ${headingText}` : `#${headingText}`;
+          block.append(title);
+        });
         if (problem.assessment) block.append(Object.assign(document.createElement("div"), { className: "pre-rounds-ap-line", textContent: problem.assessment, style: "font-style: italic" }));
+        if (problem.showPlanHeading && problem.items.length) block.append(Object.assign(document.createElement("div"), { className: "pre-rounds-ap-line", textContent: "PLAN", style: "font-weight: 700; font-size: 9px; letter-spacing: .04em;" }));
         for (const item of problem.items) {
           const line = document.createElement("div");
           line.className = "pre-rounds-ap-line";
@@ -4033,8 +4937,11 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       if (sheetOptions.notes) {
         row = table.insertRow();
         row.className = "pre-rounds-row-notes";
-        const notesCell = appendPreRoundsSection(row, "Notes", preRoundsFieldValue(card, "notes"), 12);
+        const notesCell = appendPreRoundsSection(row, "Notes", preRoundsFieldValue(card, "notes"), 8);
         notesCell.classList.add("pre-rounds-handwrite--notes");
+        appendPreRoundsSection(row, "Bed", preRoundsFieldValue(card, "label"), 2);
+        appendPreRoundsSection(row, "Rm", preRoundsFieldValue(card, "room"), 1);
+        appendPreRoundsSection(row, "HD", preRoundsFieldValue(card, "hd"), 1);
       }
 
       sheet.append(table);
@@ -4184,6 +5091,69 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         addPreRoundsProblem(root, true);
         return true;
       }
+      const addSubBtn = event.target.closest("[data-add-subproblem]");
+      if (addSubBtn) {
+        addProblemSubhead(addSubBtn.closest("[data-problem]"), "", true);
+        return true;
+      }
+      const splitSubBtn = event.target.closest("[data-split-subproblem]");
+      if (splitSubBtn) {
+        const subRow = splitSubBtn.closest("[data-problem-subhead]");
+        const problem = splitSubBtn.closest("[data-problem]");
+        const subTitle = cleanProblemHeading(subRow?.querySelector("[data-problem-subtitle]")?.value || "");
+        subRow?.remove();
+        const newCard = addPreRoundsProblem(root, false);
+        problem.after(newCard);
+        setProblemTitles(newCard, subTitle ? [subTitle] : []);
+        const hadAssess = !problem.classList.contains("no-assess");
+        setProblemAssessment(newCard, "", hadAssess);
+        renumberPreRoundsProblems(root);
+        refreshSheet(root);
+        window.updateCensusStrip?.();
+        const focusTarget = subTitle
+          ? newCard.querySelector(hadAssess ? "[data-problem-assess]" : "[data-problem-plan]")
+          : newCard.querySelector("[data-problem-title]");
+        focusTarget?.focus();
+        if (root.matches?.(".rs-sheet")) {
+          preRoundsStatus.textContent = subTitle ? `Split "#${subTitle}" into its own problem card.` : "Split into a new problem card.";
+        }
+        return true;
+      }
+      const mergeBtn = event.target.closest("[data-merge-problem]");
+      if (mergeBtn) {
+        const problem = mergeBtn.closest("[data-problem]");
+        const prev = problem?.previousElementSibling;
+        if (!prev || !prev.matches("[data-problem]")) return true;
+        const mergedTitles = [...getProblemTitles(prev), ...getProblemTitles(problem)];
+        setProblemTitles(prev, mergedTitles.length ? mergedTitles : [""]);
+        const prevAssess = !prev.classList.contains("no-assess") ? (prev.querySelector("[data-problem-assess]")?.value || "").trim() : "";
+        const curAssess = !problem.classList.contains("no-assess") ? (problem.querySelector("[data-problem-assess]")?.value || "").trim() : "";
+        const combinedAssess = [prevAssess, curAssess].filter(Boolean).join("\n");
+        const showAssess = Boolean(combinedAssess) || !prev.classList.contains("no-assess") || !problem.classList.contains("no-assess");
+        setProblemAssessment(prev, combinedAssess, showAssess);
+        const prevPlanEl = prev.querySelector("[data-problem-plan]");
+        const curPlan = (problem.querySelector("[data-problem-plan]")?.value || "").trim();
+        if (prevPlanEl && curPlan) {
+          prevPlanEl.value = [prevPlanEl.value.trim(), curPlan].filter(Boolean).join("\n");
+        }
+        problem.remove();
+        renumberPreRoundsProblems(root);
+        refreshSheet(root);
+        window.updateCensusStrip?.();
+        prev.querySelector("[data-problem-title]")?.focus();
+        if (root.matches?.(".rs-sheet")) {
+          preRoundsStatus.textContent = `Merged into ${prev.querySelector("[data-problem-number]").textContent} ${mergedTitles.join(" / ") || "Problem"}.`;
+        }
+        return true;
+      }
+      const removeSubBtn = event.target.closest("[data-remove-subproblem]");
+      if (removeSubBtn) {
+        const subRow = removeSubBtn.closest("[data-problem-subhead]");
+        const problem = removeSubBtn.closest("[data-problem]");
+        subRow?.remove();
+        problem?.querySelector("[data-problem-title]")?.focus();
+        return true;
+      }
       const moveButton = event.target.closest("[data-move-problem]");
       if (moveButton) {
         const problem = moveButton.closest("[data-problem]");
@@ -4196,24 +5166,38 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         problem.querySelector("[data-problem-title]").focus();
         return true;
       }
+      const planHeadToggle = event.target.closest("[data-toggle-plan-head]");
+      if (planHeadToggle) {
+        const problem = planHeadToggle.closest("[data-problem]");
+        setProblemPlanHeading(problem, problem.classList.contains("no-plan-head"));
+        refreshSheet(root);
+        return true;
+      }
       const assessToggle = event.target.closest("[data-toggle-assess]");
       if (assessToggle) {
         const problem = assessToggle.closest("[data-problem]");
         const area = problem.querySelector("[data-problem-assess]");
         const show = problem.classList.contains("no-assess");
-        if (!show && area.value.trim() && !window.confirm("Remove this assessment text?")) return true;
-        setProblemAssessment(problem, show ? area.value : "", show);
-        if (show) requestAnimationFrame(() => { autoGrow(area); area.focus(); });
+        (async () => {
+          if (!show && area.value.trim() && !(await askConfirm("Remove this assessment text?"))) return;
+          setProblemAssessment(problem, show ? area.value : "", show);
+          if (show) requestAnimationFrame(() => { autoGrow(area); area.focus(); });
+          refreshSheet(root);
+        })();
         return true;
       }
       const removeButton = event.target.closest("[data-remove-problem]");
       if (removeButton) {
         const problem = removeButton.closest("[data-problem]");
-        const hasContent = problem.querySelector("[data-problem-title]").value.trim() || problem.querySelector("[data-problem-plan]").value.trim() || problem.querySelector("[data-problem-assess]")?.value.trim();
-        if (hasContent && !window.confirm("Remove this problem and its plan?")) return true;
-        problem.remove();
-        if (!root.querySelector("[data-problem]")) addPreRoundsProblem(root);
-        renumberPreRoundsProblems(root);
+        const hasContent = getProblemTitles(problem).length > 0 || problem.querySelector("[data-problem-plan]").value.trim() || problem.querySelector("[data-problem-assess]")?.value.trim();
+        (async () => {
+          if (hasContent && !(await askConfirm("Remove this problem and its plan?"))) return;
+          problem.remove();
+          if (!root.querySelector("[data-problem]")) addPreRoundsProblem(root);
+          renumberPreRoundsProblems(root);
+          refreshSheet(root);
+          window.updateCensusStrip?.();
+        })();
         return true;
       }
       return false;
@@ -4308,6 +5292,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         current.phase = "plan";
         current.raw.push({ indent, marked, nested, text: body, header: fromHeader });
       };
+      const hasAnyBullets = lines.some((line) => bullet.test(line));
       const startProblem = (titleText) => {
         let title = titleText.replace(/\s*:\s*$/, "").trim();
         let rest = [];
@@ -4323,13 +5308,22 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
           title = colon[1].trim();
           rest = [...colon[2].split(/\s*;\s*/), ...rest];
         }
-        current = { title, lines: [], assessment: [], raw: [], phase: "assess", labeled: false };
+        // Consecutive # headers before any assessment or plan lines share the same problem block
+        if (current && !current.assessment.length && !current.raw.length && !current.labeled) {
+          if (title) {
+            current.titles.push(title);
+            current.title = current.titles.join(" / ");
+          }
+          rest.filter(Boolean).forEach((item) => addPlan(item, true));
+          return;
+        }
+        current = { title, titles: title ? [title] : [], lines: [], assessment: [], raw: [], phase: "assess", labeled: false };
         problems.push(current);
         rest.filter(Boolean).forEach((item) => addPlan(item, true));
       };
       const finishProblem = (problem) => {
-        // Unbulleted lines and no plan at all: they were plan items written without bullets.
-        if (problem.assessment.length && !problem.raw.length && !problem.labeled) {
+        // Only treat unbulleted lines as plan items when the note isn't using # headers or bullets
+        if (problem.assessment.length && !problem.raw.length && !problem.labeled && style !== "hash" && !hasAnyBullets) {
           problem.raw = problem.assessment.map((text) => ({ indent: 0, marked: false, nested: false, text }));
           problem.assessment = [];
         }
@@ -4338,12 +5332,10 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         const base = bodyIndents.length ? Math.min(...bodyIndents) : 0;
         problem.raw.forEach((row) => { if (row.header) row.indent = base; });
         const indents = [...new Set(problem.raw.map((row) => row.indent))].sort((x, y) => x - y);
-        const hasPlain = problem.raw.some((row) => !row.marked);
         problem.lines = problem.raw.map((row) => {
-          let level = Math.min(3, indents.indexOf(row.indent) + (row.nested ? 1 : 0));
-          if (!row.marked) return `${"  ".repeat(level)}${row.text}`;
-          if (hasPlain) return `${"  ".repeat(Math.max(0, level))}- ${row.text}`;
-          return level ? `${"  ".repeat(level)}- ${row.text}` : row.text;
+          let level = Math.min(3, Math.max(0, indents.indexOf(row.indent)) + (row.nested ? 1 : 0));
+          const clean = String(row.text || "").replace(/^[-*\u2022]+\s*/, "").trim();
+          return `${"  ".repeat(Math.max(0, level))}- ${clean}`;
         });
         delete problem.raw; delete problem.phase; delete problem.labeled;
         return problem;
@@ -4351,7 +5343,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
 
       for (const line of lines) {
         // "Plan:" / "Assessment:" labels split a problem into its two parts; they are never problems themselves.
-        if (/^\s*(?:assessment|plan)\s*:?\s*$/i.test(line)) { if (current) { current.phase = /plan/i.test(line) ? "plan" : "assess"; if (!/plan/i.test(line)) current.labeled = true; } continue; }
+        if (/^\s*(?:assessment\s*:|plan\s*:?)\s*$/i.test(line)) { if (current) { const isPlan = /plan/i.test(line); current.phase = isPlan ? "plan" : "assess"; if (isPlan) current.showPlanHeading = true; else current.labeled = true; } continue; }
         if (current && /^\s*(?:assessment|plan)\s*:\s*\S/i.test(line)) { addPlan(line); continue; }
         const header = headerOf(line);
         if (style === "plain") {
@@ -4390,15 +5382,55 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       };
     }
 
-    // Open the Import / Reasoning windows downward when there isn't room above them.
+    // Keep inline popovers (.rs-pop) fully inside the visible sheet and viewport so their bottom items are never clipped by .rs-sheets.
+    function positionRsPop(pop) {
+      if (!pop || !pop.open) return;
+      const body = pop.querySelector(":scope > .rs-pop-body");
+      if (!body) return;
+      pop.classList.remove("pop-down");
+      body.style.removeProperty("top");
+      body.style.removeProperty("bottom");
+      body.style.removeProperty("max-height");
+
+      const sheet = pop.closest(".rs-sheet, .pc-sheet, .ep-sheet");
+      const sheetRect = sheet ? sheet.getBoundingClientRect() : { top: 60, bottom: window.innerHeight - 12 };
+      const visTop = Math.max(60, sheetRect.top + 8);
+      const visBottom = Math.min(window.innerHeight - 12, sheetRect.bottom - 8);
+      const availTotal = Math.max(240, visBottom - visTop);
+      const maxH = Math.min(500, availTotal);
+      body.style.maxHeight = `${maxH}px`;
+
+      const popRect = pop.getBoundingClientRect();
+      const bodyRect = body.getBoundingClientRect();
+      const actualH = Math.min(maxH, body.scrollHeight + 4, bodyRect.height || maxH);
+
+      // Calculate how far below visBottom or above visTop the popover currently extends
+      const currentTop = bodyRect.top;
+      const currentBottom = currentTop + actualH;
+      if (currentBottom > visBottom) {
+        const shiftUp = currentBottom - visBottom;
+        const desiredTop = Math.max(visTop, currentTop - shiftUp);
+        body.style.bottom = "auto";
+        body.style.top = `${Math.round(desiredTop - popRect.top)}px`;
+      } else if (currentTop < visTop) {
+        body.style.bottom = "auto";
+        body.style.top = `${Math.round(visTop - popRect.top)}px`;
+      }
+    }
+
     document.addEventListener("toggle", (event) => {
       const pop = event.target;
-      if (!pop.matches?.(".rs-ap .rs-pop.rs-pop-inline") || !pop.open) return;
-      pop.classList.remove("pop-down");
-      const body = pop.querySelector(".rs-pop-body");
-      const rect = pop.getBoundingClientRect();
-      const need = body.getBoundingClientRect().height + 8;
-      if (rect.top < need && window.innerHeight - rect.bottom > rect.top) pop.classList.add("pop-down");
+      if (!pop.matches?.("details.rs-pop")) return;
+      if (!pop.open) {
+        const body = pop.querySelector(":scope > .rs-pop-body");
+        if (body) {
+          body.style.removeProperty("top");
+          body.style.removeProperty("bottom");
+          body.style.removeProperty("max-height");
+        }
+        return;
+      }
+      positionRsPop(pop);
     }, true);
 
     function updateApPreview(sheet) {
@@ -4427,14 +5459,15 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       const list = sheet.querySelector("[data-problem-list]");
       if (mode === "replace") list.replaceChildren();
       else [...list.querySelectorAll("[data-problem]")].forEach((card) => {
-        if (!card.querySelector("[data-problem-title]").value.trim() && !card.querySelector("[data-problem-plan]").value.trim() && !card.querySelector("[data-problem-assess]")?.value.trim()) card.remove();
+        if (!getProblemTitles(card).length && !card.querySelector("[data-problem-plan]").value.trim() && !card.querySelector("[data-problem-assess]")?.value.trim()) card.remove();
       });
       for (const problem of problems) {
         const card = addPreRoundsProblem(sheet);
-        card.querySelector("[data-problem-title]").value = problem.title;
-        card.querySelector("[data-problem-plan]").value = problem.lines.join("\n");
+        setProblemTitles(card, problem.titles?.length ? problem.titles : [problem.title]);
+        card.querySelector("[data-problem-plan]").value = ensurePlanDashes(problem.lines.join("\n"));
         // Problems pasted with only a plan (typical for stable chronic problems) come in without an assessment.
         setProblemAssessment(card, (problem.assessment || []).join("\n"), Boolean(problem.assessment?.length));
+        if (problem.showPlanHeading !== undefined) setProblemPlanHeading(card, problem.showPlanHeading);
       }
       renumberPreRoundsProblems(sheet);
       if (oneLiner && sheet.querySelector("[data-ap-oneliner]").checked) sheet.querySelector('[data-field="power"]').value = oneLiner;
@@ -4731,11 +5764,11 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       syncTrendTools(sheet);
       header.querySelector("input").focus();
     }
-    function removeTrendDay(sheet, th) {
+    async function removeTrendDay(sheet, th) {
       const table = trendTable(sheet);
       const index = th.cellIndex;
       const hasValues = [...table.tBodies[0].rows].some((row) => row.cells[index]?.querySelector("input").value.trim());
-      if (hasValues && !window.confirm("Remove this day and its values?")) return;
+      if (hasValues && !(await askConfirm("Remove this day and its values?"))) return;
       [...table.rows].forEach((row) => row.cells[index]?.remove());
       if (!trendDayCount(table)) sheet.querySelector("[data-trends]").replaceChildren();
       else {
@@ -4743,8 +5776,8 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         refreshTrendMarks(sheet);
       }
     }
-    function removeTrendRow(sheet, row) {
-      if ([...row.querySelectorAll("input")].some((input) => input.value.trim()) && !window.confirm("Remove this lab from the trends?")) return;
+    async function removeTrendRow(sheet, row) {
+      if ([...row.querySelectorAll("input")].some((input) => input.value.trim()) && !(await askConfirm("Remove this lab from the trends?"))) return;
       const table = row.closest("table");
       row.remove();
       if (!table.tBodies[0].rows.length) sheet.querySelector("[data-trends]").replaceChildren();
@@ -4979,10 +6012,47 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       const foot = document.createElement("div");
       foot.className = "sheet-foot screen-only";
       const current = ({ "pre-rounds": "Pre-Rounds", "pre-charting": "Pre-Charting", "med-rec": "Med Rec", "sign-out": "Sign-out", "hospital-course": "Hospital Course", "encounter-prep": "Encounter Prep", tips: "Tips" })[kind];
-      const toolItems = toolTabs.map((tab) => `<button type="button" class="foot-item" data-go-tool="${tab.id}"${tab.textContent === current ? ' aria-current="true"' : ""}>${tab.textContent}</button>`).join("");
+      const toolItems = toolTabs.map((tab) => { const lbl = tab.dataset.label || tab.textContent.trim(); return `<button type="button" class="foot-item" data-go-tool="${tab.id}"${lbl === current ? ' aria-current="true"' : ""}>${lbl}</button>`; }).join("");
+      const reasoningMenuHtml = document.getElementById("rs-reasoning-pop-template")?.innerHTML || "";
       const roundsOnly = kind === "pre-rounds" ? `
+          ${reasoningMenuHtml}
           <button class="quiet-button" type="button" data-copy-all title="Copy every patient's sheet for Word">Copy all</button>
-          <button class="quiet-button rs-remove" type="button" data-clear-all title="Erase every patient sheet (for shared computers)">Clear all</button>
+          <details class="foot-menu clear-menu">
+            <summary class="quiet-button rs-remove" title="Clear specific sections or entire patient sheets">Clear &#x25b4;</summary>
+            <div class="foot-pop">
+              <div class="clear-menu-head">
+                <span class="clear-menu-title">Sections to clear</span>
+                <span class="clear-preset-btns">
+                  <button type="button" class="clear-preset-btn" data-clear-preset="daily" title="Select ON/Subj, Vitals, Exam, Labs, and Pending">Daily</button>
+                  <button type="button" class="clear-preset-btn" data-clear-preset="all">All</button>
+                  <button type="button" class="clear-preset-btn" data-clear-preset="none">None</button>
+                </span>
+              </div>
+              <div class="clear-checks-grid">
+                <label class="clear-check-item"><input type="checkbox" data-clear-sec="subjective" checked> ON/Subj &amp; ROS</label>
+                <label class="clear-check-item"><input type="checkbox" data-clear-sec="vitals" checked> Vitals</label>
+                <label class="clear-check-item"><input type="checkbox" data-clear-sec="exam" checked> Exam</label>
+                <label class="clear-check-item"><input type="checkbox" data-clear-sec="labs" checked> Labs (fish/other)</label>
+                <label class="clear-check-item"><input type="checkbox" data-clear-sec="pending"> Pending</label>
+                <label class="clear-check-item"><input type="checkbox" data-clear-sec="imaging"> Imaging</label>
+                <label class="clear-check-item"><input type="checkbox" data-clear-sec="lines"> Lines / drains</label>
+                <label class="clear-check-item"><input type="checkbox" data-clear-sec="trends"> Lab trends</label>
+                <label class="clear-check-item"><input type="checkbox" data-clear-sec="ap-plans" title="Clear plan items while keeping # problem headings and assessments"> A&amp;P plans only</label>
+                <label class="clear-check-item"><input type="checkbox" data-clear-sec="ap"> A&amp;P (all)</label>
+                <label class="clear-check-item"><input type="checkbox" data-clear-sec="notes"> Notes</label>
+                <label class="clear-check-item"><input type="checkbox" data-clear-sec="dc"> Discharge</label>
+                <label class="clear-check-item"><input type="checkbox" data-clear-sec="medlog"> Med log</label>
+                <label class="clear-check-item"><input type="checkbox" data-clear-sec="oneliner"> One-liner</label>
+                <label class="clear-check-item"><input type="checkbox" data-clear-sec="bed"> Bed / Rm / HD</label>
+              </div>
+              <div class="clear-menu-actions">
+                <button type="button" class="foot-item" data-clear-selected="this" title="Clear checked sections on this patient">Clear checked sections</button>
+              </div>
+              <div class="clear-menu-divider" aria-hidden="true"></div>
+              <button type="button" class="foot-item rs-remove" data-clear-patient title="Erase everything on this patient's sheet">Clear entire patient</button>
+              <button type="button" class="foot-item rs-remove" data-clear-all title="Erase every patient sheet and reset workspace">Clear all patients</button>
+            </div>
+          </details>
           <span class="sheet-foot-sep" aria-hidden="true"></span>` : "";
       const printMenu = kind === "pre-rounds" ? `
           <details class="foot-menu print-menu">
@@ -5088,6 +6158,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       makePreRoundsExamChecklist(sheet.querySelector("[data-exam-checklist]"));
       makePreRoundsRosChecklist(sheet.querySelector("[data-ros-checklist]"));
       makeChecklistInteractive(sheet);
+      buildExtraLabChecklist(sheet);
       sheet._opts = { exam: new Set(), ros: new Set(), labs: new Set(labPanelNames), notes: true, lines: false, pending: false, dc: false, medlog: false };
       sheet.classList.add("show-notes");
       // One "Sections" menu holds the exam/ROS/lab pickers and the optional boxes.
@@ -5110,8 +6181,102 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
     }
 
     function renderSheetExtraLabs(sheet) {
-      const display = makeExtraLabsDisplay(preRoundsManualLabs(sheet));
-      sheet.querySelector("[data-extra-labs]").replaceChildren(...(display ? [display] : []));
+      const allSelected = preRoundsManualLabs(sheet, true);
+      const holder = sheet.querySelector("[data-extra-labs]");
+      syncExtraLabChecklist(sheet);
+      if (!allSelected.length) {
+        holder.replaceChildren();
+        updateCalcs(sheet);
+        return;
+      }
+      const groups = new Map();
+      for (const item of allSelected) {
+        if (!groups.has(item.group)) groups.set(item.group, []);
+        groups.get(item.group).push(item);
+      }
+      const order = [...extraLabGroups.map(([g]) => g), "Urine", "Other"];
+      const container = document.createElement("div");
+      container.className = "pre-rounds-extra-labs";
+      for (const group of order) {
+        const items = groups.get(group);
+        if (!items?.length) continue;
+        const block = document.createElement("div");
+        if (group === "Micro") block.className = "pre-rounds-extra-micro";
+        const heading = document.createElement("span");
+        heading.className = "pre-rounds-extra-group-name";
+        heading.textContent = group;
+        block.append(heading);
+        for (const entry of items) {
+          const wrap = document.createElement("span");
+          wrap.className = "pre-rounds-extra-lab";
+          wrap.dataset.extraChoice = entry.choice;
+          const b = document.createElement("b");
+          b.textContent = group === "Micro" ? `${entry.name}:` : entry.label;
+          wrap.append(b);
+          if (group === "Micro" && (entry.name === "Wound Cx" || entry.name === "Other Cx" || entry.site)) {
+            const siteInput = document.createElement("input");
+            siteInput.className = "rs-extra-lab-site";
+            siteInput.dataset.extraLabSite = "";
+            siteInput.autocomplete = "off";
+            siteInput.placeholder = entry.name === "Wound Cx" ? "site" : "source";
+            siteInput.value = entry.site || "";
+            siteInput.title = "Culture site or specimen source";
+            siteInput.addEventListener("input", () => {
+              const otherIn = entry.row.querySelector("[data-lab-other]");
+              if (otherIn) otherIn.value = siteInput.value;
+            });
+            wrap.append(siteInput);
+          }
+          const valInput = document.createElement("input");
+          valInput.className = `rs-extra-lab-input${group === "Micro" ? " rs-extra-lab-input--micro" : ""}`;
+          valInput.dataset.extraLabInput = "";
+          valInput.autocomplete = "off";
+          valInput.placeholder = group === "Micro" ? "result (e.g. NGTD)" : "value";
+          valInput.setAttribute("aria-label", `${entry.label} value`);
+          valInput.value = entry.value || "";
+          valInput.setAttribute("value", entry.value || "");
+          if (entry.flag) {
+            valInput.dataset.flag = entry.flag;
+            valInput.title = `${labFlagNames[entry.flag] || "Abnormal"} (${entry.flag})`;
+          }
+          valInput.addEventListener("input", () => {
+            const rawIn = entry.row.querySelector("[data-lab-value]");
+            const split = group === "Micro" ? { value: valInput.value.trim(), flag: "" } : splitLabFlag(valInput.value);
+            if (rawIn) rawIn.value = valInput.value;
+            valInput.setAttribute("value", valInput.value);
+            if (split.flag) valInput.dataset.flag = split.flag;
+            else delete valInput.dataset.flag;
+            updateCalcs(sheet);
+          });
+          valInput.addEventListener("change", () => {
+            if (group !== "Micro") {
+              const split = splitLabFlag(valInput.value);
+              if (split.flag) {
+                valInput.value = split.value;
+                valInput.setAttribute("value", split.value);
+                valInput.dataset.flag = split.flag;
+              }
+            }
+            updateCalcs(sheet);
+          });
+          const removeBtn = document.createElement("button");
+          removeBtn.type = "button";
+          removeBtn.className = "rs-extra-lab-x screen-only";
+          removeBtn.textContent = "×";
+          removeBtn.title = `Remove ${entry.label}`;
+          removeBtn.setAttribute("aria-label", `Remove ${entry.label}`);
+          removeBtn.addEventListener("click", () => {
+            entry.row.remove();
+            renderSheetExtraLabs(sheet);
+          });
+          wrap.append(valInput, removeBtn);
+          block.append(wrap);
+        }
+        container.append(block);
+      }
+      const filledOnly = makeExtraLabsDisplay(preRoundsManualLabs(sheet, false));
+      container.dataset.plainText = filledOnly?.dataset.plainText || "";
+      holder.replaceChildren(container);
       updateCalcs(sheet);
     }
 
@@ -5206,7 +6371,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         const input = sheet.querySelector(`.rs-fish [data-field="${field}"]`);
         if (!input) continue;
         input.value = value;
-        setLabInputFlag(input, parsedFlags.get(field) || "");
+        setLabInputFlag(input, parsedFlags.get(field) || inferLabRangeFlag(field, value));
       }
       sheet.querySelectorAll("[data-manual-lab][data-from-paste]").forEach((row) => row.remove());
       const withValues = unrecognized.filter((lab) => lab.value);
@@ -5384,6 +6549,20 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         delete row.dataset.repeat;
         (updateLabRowMode(row) ? row.querySelector("[data-lab-other]") : row.querySelector("[data-lab-value]")).focus();
       }
+      if (event.target.matches("[data-extra-lab-filter]")) {
+        const q = event.target.value.trim().toLowerCase();
+        sheet.querySelectorAll("[data-extra-lab-checklist] .rs-extra-check-row").forEach((row) => {
+          const groupMatch = row.dataset.extraGroup.toLowerCase().includes(q);
+          let anyVisible = false;
+          row.querySelectorAll("[data-extra-chip]").forEach((chip) => {
+            const show = !q || groupMatch || chip.textContent.toLowerCase().includes(q);
+            chip.hidden = !show;
+            if (show) anyVisible = true;
+          });
+          row.hidden = !anyVisible;
+        });
+        return;
+      }
       if (event.target.closest("[data-manual-lab]")) renderSheetExtraLabs(sheet);
       if (event.target.matches('[data-field="label"]')) roundingTabs.updateLabels();
     });
@@ -5398,6 +6577,10 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         refreshSheet(sheet);
         updateSectionsCount(sheet);
         return;
+      }
+      if (event.target.matches("[data-problem-plan]")) {
+        event.target.value = ensurePlanDashes(event.target.value);
+        autoGrow(event.target);
       }
       if (event.target.matches(".rs-fish-value, [data-trend-value]")) commitLabInput(event.target);
       if (event.target.closest("[data-trend-table]")) refreshTrendMarks(event.target.closest(".rs-sheet"));
@@ -5452,18 +6635,24 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         return;
       }
       if (event.target.closest("[data-remove-patient]")) {
-        if (sheetHasContent(sheet) && !window.confirm(`Remove ${sheet.querySelector("[data-patient-name]").textContent}?`)) return;
-        sheet.remove();
-        if (!preRoundsPatients.querySelector(".rs-sheet")) createRoundingSheet();
-        roundingTabs.render();
+        sheet.querySelector("details.rs-more").open = false;
+        (async () => {
+          if (sheetHasContent(sheet) && !(await askConfirm(`Remove ${sheet.querySelector("[data-patient-name]").textContent}?`))) return;
+          sheet.remove();
+          if (!preRoundsPatients.querySelector(".rs-sheet")) createRoundingSheet();
+          roundingTabs.render();
+        })();
         return;
       }
       if (handleChecklistActivate(event.target, sheet)) return;
       const apApply = event.target.closest("[data-ap-apply]");
       if (apApply) {
-        const hasProblems = [...sheet.querySelectorAll("[data-problem-title]")].some((input) => input.value.trim());
-        if (apApply.dataset.apApply === "replace" && hasProblems && !window.confirm("Replace the problems already on this sheet?")) return;
-        applyPastedAp(sheet, apApply.dataset.apApply);
+        const mode = apApply.dataset.apApply;
+        (async () => {
+          const hasProblems = [...sheet.querySelectorAll("[data-problem-title]")].some((input) => input.value.trim());
+          if (mode === "replace" && hasProblems && !(await askConfirm("Replace the problems already on this sheet?"))) return;
+          applyPastedAp(sheet, mode);
+        })();
         return;
       }
       if (event.target.closest("[data-copy-exam]")) {
@@ -5494,8 +6683,26 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         preRoundsStatus.textContent = "ROS written. Edit it freely; pressing → again updates what was written.";
         return;
       }
+      const extraChip = event.target.closest("[data-extra-chip]");
+      if (extraChip) {
+        toggleExtraLabChoice(sheet, extraChip.dataset.extraChip, null, true);
+        return;
+      }
+      const extraGroupBtn = event.target.closest("[data-toggle-extra-group]");
+      if (extraGroupBtn) {
+        const groupName = extraGroupBtn.dataset.toggleExtraGroup;
+        const chips = [...sheet.querySelectorAll(`[data-extra-group="${CSS.escape(groupName)}"] [data-extra-chip]:not([hidden])`)];
+        const allOn = chips.every((c) => c.getAttribute("aria-pressed") === "true");
+        chips.forEach((c) => toggleExtraLabChoice(sheet, c.dataset.extraChip, !allOn, false));
+        return;
+      }
       if (event.target.closest("[data-add-lab]")) {
-        addPreRoundsManualLab(sheet, true);
+        const row = addPreRoundsManualLab(sheet, true);
+        const pop = sheet.querySelector("details[data-lab-pop]");
+        if (pop?.open) {
+          positionRsPop(pop);
+          row.scrollIntoView({ block: "nearest", behavior: "smooth" });
+        }
         return;
       }
       const dcItem = event.target.closest("[data-dc-item]");
@@ -5538,7 +6745,88 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       if ((event.key === " " || event.key === "Enter") && event.target.closest(".pre-rounds-exam-choice, .pre-rounds-ros-choice, .pre-rounds-exam-system, .pre-rounds-ros-system")) {
         event.preventDefault();
         handleChecklistActivate(event.target, event.target.closest(".rs-sheet"), event.shiftKey);
+        return;
       }
+      if (event.target.matches("[data-problem-plan]")) {
+        const area = event.target;
+        if (event.key === "Enter" && !event.shiftKey) {
+          const start = area.selectionStart;
+          const end = area.selectionEnd;
+          const before = area.value.slice(0, start);
+          const after = area.value.slice(end);
+          const curLine = before.split("\n").pop() || "";
+          const indentMatch = curLine.match(/^(\s*)/);
+          const indent = indentMatch ? indentMatch[1] : "";
+          // If pressing Enter on an empty bullet "- ", keep or step out of indent
+          if (/^\s*[-*\u2022]\s*$/.test(curLine)) {
+            event.preventDefault();
+            if (indent.length >= 2) {
+              const lineStart = start - curLine.length;
+              const outdent = `${indent.slice(2)}- `;
+              area.value = area.value.slice(0, lineStart) + outdent + after;
+              area.selectionStart = area.selectionEnd = lineStart + outdent.length;
+            }
+            autoGrow(area);
+            return;
+          }
+          event.preventDefault();
+          // Ensure current line starts with "- " too
+          const fixedBefore = before.replace(/(^|\n)(\s*)(?![-*\u2022]\s)(\S.*)$/, "$1$2- $3");
+          const delta = fixedBefore.length - before.length;
+          const insert = `\n${indent}- `;
+          area.value = fixedBefore + insert + after;
+          area.selectionStart = area.selectionEnd = start + delta + insert.length;
+          autoGrow(area);
+          return;
+        }
+      }
+      if (event.target.matches("[data-problem-title], [data-problem-subtitle]")) {
+        const problem = event.target.closest("[data-problem]");
+        if (event.key === "Enter") {
+          event.preventDefault();
+          if (event.target.matches("[data-problem-subtitle]") && !event.target.value.trim()) {
+            const subRow = event.target.closest("[data-problem-subhead]");
+            subRow?.remove();
+            const assess = problem.querySelector("[data-problem-assess]");
+            const plan = problem.querySelector("[data-problem-plan]");
+            (problem.classList.contains("no-assess") ? plan : assess)?.focus();
+            return;
+          }
+          addProblemSubhead(problem, "", true);
+        } else if (event.key === "Backspace" && !event.target.value && event.target.matches("[data-problem-subtitle]")) {
+          event.preventDefault();
+          const subRow = event.target.closest("[data-problem-subhead]");
+          const prevInput = subRow.previousElementSibling?.querySelector("[data-problem-subtitle]") || problem.querySelector("[data-problem-title]");
+          subRow.remove();
+          prevInput?.focus();
+        }
+      }
+    });
+    preRoundsPatients.addEventListener("paste", (event) => {
+      if (!event.target.matches("[data-problem-title], [data-problem-subtitle]")) return;
+      const text = event.clipboardData?.getData("text/plain") || "";
+      if (!text.includes("\n") && !/\s+#[A-Za-z]/.test(text)) return;
+      event.preventDefault();
+      const problem = event.target.closest("[data-problem]");
+      const sheet = event.target.closest(".rs-sheet");
+      // If user pasted a full multi-line # problem block (with assessment/plan) directly into the title input, parse it!
+      const parsed = parseAssessmentPlan(text);
+      if (parsed.problems.length === 1 && (parsed.problems[0].titles?.length > 1 || parsed.problems[0].assessment?.length || parsed.problems[0].lines?.length)) {
+        const p = parsed.problems[0];
+        const existingTitles = getProblemTitles(problem);
+        setProblemTitles(problem, [...existingTitles, ...(p.titles || [p.title])]);
+        if (p.assessment?.length) setProblemAssessment(problem, p.assessment.join("\n"), true);
+        if (p.lines?.length) {
+          const planEl = problem.querySelector("[data-problem-plan]");
+          planEl.value = [planEl.value.trim(), p.lines.join("\n")].filter(Boolean).join("\n");
+        }
+        refreshSheet(sheet);
+        return;
+      }
+      const lines = text.split(/\r?\n|(?=\s+#[A-Za-z])/).map(cleanProblemHeading).filter(Boolean);
+      if (!lines.length) return;
+      event.target.value = lines[0];
+      lines.slice(1).forEach((sub, idx, arr) => addProblemSubhead(problem, sub, idx === arr.length - 1));
     });
     // Right-click marks a finding abnormal. On touch screens, press and hold does the same:
     // iPhone and iPad Safari never send a right-click (contextmenu) event, so the hold is timed here.
@@ -5678,10 +6966,131 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       blankSheets.classList.remove("is-measuring");
       window.print();
     }
-    function clearAllPatients() {
+    const ALL_CLEAR_SECTION_KEYS = ["bed", "oneliner", "subjective", "vitals", "lines", "exam", "labs", "trends", "pending", "imaging", "ap-plans", "ap", "dc", "notes", "medlog"];
+    const SECTION_DISPLAY_NAMES = {
+      bed: "Bed/Rm/HD",
+      oneliner: "One-liner",
+      subjective: "ON/Subj & ROS",
+      vitals: "Vitals",
+      lines: "Lines/drains",
+      exam: "Exam",
+      labs: "Labs",
+      trends: "Trends",
+      pending: "Pending",
+      imaging: "Imaging",
+      "ap-plans": "A&P plans",
+      ap: "A&P",
+      dc: "Discharge",
+      notes: "Notes",
+      medlog: "Med log"
+    };
+
+    function clearSheetSections(sheet, sectionKeys) {
+      const set = new Set(sectionKeys);
+      const clearField = (name) => {
+        const el = sheet.querySelector(`[data-field="${name}"]`);
+        if (!el) return;
+        el.value = "";
+        delete el.dataset.generated;
+        if (el.tagName === "TEXTAREA") autoGrow(el);
+      };
+      if (set.has("bed")) {
+        clearField("label");
+        clearField("room");
+        clearField("hd");
+      }
+      if (set.has("oneliner")) {
+        clearField("power");
+      }
+      if (set.has("subjective")) {
+        clearField("subjective");
+        clearField("ros-pp");
+        sheet.querySelectorAll("[data-ros-checklist] .pre-rounds-ros-choice").forEach((choice) => setRosChoiceState(choice, ""));
+      }
+      if (set.has("vitals")) {
+        sheet.querySelectorAll("[data-vitals] input").forEach((input) => { input.value = ""; });
+        updateVitalFlags(sheet);
+      }
+      if (set.has("lines")) {
+        clearField("lines");
+      }
+      if (set.has("exam")) {
+        clearField("exam-pp");
+        clearField("exam-other");
+        sheet.querySelectorAll("[data-exam-checklist] .pre-rounds-exam-choice").forEach((choice) => setExamMark(choice, ""));
+      }
+      if (set.has("labs")) {
+        sheet.querySelectorAll("[data-fishbones] .rs-fish-value").forEach((input) => {
+          input.value = "";
+          delete input.dataset.prev;
+          commitLabInput(input);
+        });
+        const emr = sheet.querySelector("[data-emr-labs]");
+        if (emr) emr.value = "";
+        const status = sheet.querySelector("[data-lab-status]");
+        if (status) status.textContent = "";
+        const skipped = sheet.querySelector("[data-lab-skipped]");
+        if (skipped) skipped.hidden = true;
+        const manual = sheet.querySelector("[data-manual-labs]");
+        if (manual) manual.replaceChildren();
+        renderSheetExtraLabs(sheet);
+      }
+      if (set.has("trends")) {
+        const trends = sheet.querySelector("[data-trends]");
+        if (trends) trends.replaceChildren();
+      }
+      if (set.has("pending")) {
+        clearField("pending");
+      }
+      if (set.has("imaging")) {
+        clearField("imaging");
+      }
+      if (set.has("ap")) {
+        const list = sheet.querySelector("[data-problem-list]");
+        if (list) {
+          list.replaceChildren();
+          addPreRoundsProblem(sheet);
+        }
+        const apPaste = sheet.querySelector("[data-ap-paste]");
+        if (apPaste) apPaste.value = "";
+        const apPreview = sheet.querySelector("[data-ap-preview]");
+        if (apPreview) apPreview.textContent = "";
+      } else if (set.has("ap-plans")) {
+        sheet.querySelectorAll("[data-problem-plan]").forEach((plan) => {
+          plan.value = "";
+          autoGrow(plan);
+        });
+      }
+      if (set.has("dc")) {
+        clearField("dc-notes");
+        sheet.querySelectorAll("[data-dc-item]").forEach((btn) => btn.setAttribute("aria-pressed", "false"));
+      }
+      if (set.has("notes")) {
+        clearField("notes");
+      }
+      if (set.has("medlog")) {
+        sheet._medlog = [];
+        const mlList = sheet.querySelector("[data-ml-list]");
+        if (mlList) mlList.replaceChildren();
+        const mlAbx = sheet.querySelector("[data-ml-abx]");
+        if (mlAbx) mlAbx.replaceChildren();
+        ["[data-ml-drug]", "[data-ml-to]", "[data-ml-reason]", "[data-ml-days]"].forEach((sel) => {
+          const inp = sheet.querySelector(sel);
+          if (inp) inp.value = "";
+        });
+        const abxFlag = sheet.querySelector("[data-ml-abx-flag]");
+        if (abxFlag) abxFlag.checked = false;
+      }
+      updateCalcs(sheet);
+      refreshSheet(sheet);
+      roundingTabs.updateLabels();
+      if (window.updateCensusStrip) window.updateCensusStrip();
+    }
+
+    async function clearAllPatients() {
       const sheets = rsSheetsList();
       const used = sheets.filter(sheetHasContent).length;
-      if (used && !window.confirm(`Erase all ${sheets.length} patient sheet${sheets.length === 1 ? "" : "s"}? This cannot be undone.`)) return;
+      if (used && !(await askConfirm(`Erase all ${sheets.length} patient sheet${sheets.length === 1 ? "" : "s"}? This cannot be undone.`))) return;
       sheets.forEach((sheet) => sheet.remove());
       // Back to defaults: 2 per page, 100% scale, 4 blank sheets.
       preRoundsPatients.classList.remove("print-one");
@@ -5696,12 +7105,60 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
     preRoundsPatients.addEventListener("click", (event) => {
       const target = event.target;
       if (!target.closest(".sheet-foot")) return;
-      if (target.closest("[data-copy-all], [data-clear-all], [data-print-layout], [data-print-all], [data-print-list], [data-print-blank]")) event.stopPropagation();
+      if (target.closest("[data-copy-all], [data-clear-all], [data-clear-patient], [data-clear-selected], [data-clear-preset], [data-print-layout], [data-print-all], [data-print-list], [data-print-blank]")) event.stopPropagation();
       if (target.closest("[data-copy-all]")) {
         copyRoundingSheets(rsSheetsList(), "All sheets copied.");
         return;
       }
+      const presetBtn = target.closest("[data-clear-preset]");
+      if (presetBtn) {
+        const mode = presetBtn.dataset.clearPreset;
+        const dailySet = new Set(["subjective", "vitals", "exam", "labs", "pending"]);
+        const pop = presetBtn.closest(".foot-pop");
+        pop.querySelectorAll("input[data-clear-sec]").forEach((cb) => {
+          cb.checked = mode === "all" ? true : mode === "none" ? false : dailySet.has(cb.dataset.clearSec);
+        });
+        return;
+      }
+      const clearSelectedBtn = target.closest("[data-clear-selected]");
+      if (clearSelectedBtn) {
+        const scope = clearSelectedBtn.dataset.clearSelected;
+        const pop = clearSelectedBtn.closest(".foot-pop");
+        const checked = [...pop.querySelectorAll("input[data-clear-sec]:checked")].map((cb) => cb.dataset.clearSec);
+        if (!checked.length) {
+          preRoundsStatus.textContent = "Check at least one section to clear.";
+          if (window.showToast) window.showToast("Check at least one section to clear.");
+          return;
+        }
+        const sheet = clearSelectedBtn.closest(".rs-sheet");
+        const targets = scope === "all" ? rsSheetsList() : [sheet];
+        const labelList = checked.map((k) => SECTION_DISPLAY_NAMES[k] || k).join(", ");
+        const scopeLabel = scope === "all" ? `all ${targets.length} patient${targets.length === 1 ? "" : "s"}` : sheet.querySelector("[data-patient-name]").textContent;
+        (async () => {
+          if (targets.some(sheetHasContent) && !(await askConfirm(`Clear ${labelList} for ${scopeLabel}?`))) return;
+          closeFootMenus();
+          targets.forEach((s) => clearSheetSections(s, checked));
+          const msg = `Cleared ${labelList} for ${scopeLabel}.`;
+          preRoundsStatus.textContent = msg;
+          if (window.showToast) window.showToast(msg);
+        })();
+        return;
+      }
+      if (target.closest("[data-clear-patient]")) {
+        const sheet = target.closest(".rs-sheet");
+        const ptName = sheet.querySelector("[data-patient-name]").textContent;
+        (async () => {
+          if (sheetHasContent(sheet) && !(await askConfirm(`Clear all sections on ${ptName}?`))) return;
+          closeFootMenus();
+          clearSheetSections(sheet, ALL_CLEAR_SECTION_KEYS);
+          const msg = `${ptName} cleared.`;
+          preRoundsStatus.textContent = msg;
+          if (window.showToast) window.showToast(msg);
+        })();
+        return;
+      }
       if (target.closest("[data-clear-all]")) {
+        closeFootMenus();
         clearAllPatients();
         return;
       }
@@ -6049,10 +7506,10 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       pcTabs.select(sheet.dataset.sheetId);
       window.requestAnimationFrame(() => sheet.querySelector('[data-pc="bed"]').focus());
     });
-    document.getElementById("pc-remove").addEventListener("click", () => {
+    document.getElementById("pc-remove").addEventListener("click", async () => {
       const sheet = pcTabs.current();
       if (!sheet) return;
-      if (sheetHasContent(sheet) && !window.confirm("Remove this admission worksheet?")) return;
+      if (sheetHasContent(sheet) && !(await askConfirm("Remove this admission worksheet?"))) return;
       pcSheets.before(document.getElementById("pc-bar"));
       sheet.remove();
       if (!pcSheets.querySelector(".pc-sheet")) createPcSheet();
@@ -6068,16 +7525,17 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       pcStatus.textContent = await copyPlainText(text) ? "H&P outline copied. Verify everything at the bedside before using it in a note." : "Copy unavailable.";
     });
     document.getElementById("pc-print").addEventListener("click", () => window.print());
-    document.getElementById("pc-start-medrec").addEventListener("click", () => {
+    document.getElementById("pc-start-medrec").addEventListener("click", async () => {
       const source = pcTabs.current();
       const meds = pcValue(source, "meds");
       if (!meds.trim()) {
         pcStatus.textContent = "Type or paste the home medications into Current Medications first.";
         return;
       }
-      activateToolTab(document.getElementById("med-rec-tab"));
-      window.scrollTo({ top: 0 });
-      window.medRecStart(meds, source.dataset.sheetId);
+      if (await window.medRecStart(meds, source.dataset.sheetId)) {
+        activateToolTab(document.getElementById("med-rec-tab"));
+        window.scrollTo({ top: 0 });
+      }
     });
     document.getElementById("pc-send-rounds").addEventListener("click", () => {
       const source = pcTabs.current();
@@ -6195,7 +7653,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         document.getElementById("present-next").disabled = index === sheets.length - 1;
         const parts = [];
         if (field("power")) parts.push(el("p", "present-oneliner", field("power")));
-        parts.push(section("Overnight / subjective", [field("subjective"), field("ros-pp") && (field("ros-pp").includes("\n") ? `ROS:\n${field("ros-pp")}` : `ROS: ${field("ros-pp")}`), opts.ros?.size && !usesGenerated(sheet, "ros-pp") ? rosNoteText(sheet.querySelector(".rs-opt-ros")) : ""].filter(Boolean).join("\n")));
+        parts.push(section("ON/Subj", [field("subjective"), field("ros-pp") && (field("ros-pp").includes("\n") ? `ROS:\n${field("ros-pp")}` : `ROS: ${field("ros-pp")}`), opts.ros?.size && !usesGenerated(sheet, "ros-pp") ? rosNoteText(sheet.querySelector(".rs-opt-ros")) : ""].filter(Boolean).join("\n")));
         const calcs = sheetCalcs(sheet);
         const vitalLine = el("p", "present-vitals");
         const addVital = (label, name, suffix = "") => {
@@ -6222,8 +7680,10 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         if (problems.length) {
           const ap = el("div");
           problems.forEach((problem, index) => {
-            ap.append(el("p", "present-problem", `#${index + 1} ${problem.title || "Problem"}`));
+            const titles = problem.titles?.length ? problem.titles : [problem.title || "Problem"];
+            ap.append(el("p", "present-problem", [`#${index + 1} ${titles[0]}`, ...titles.slice(1).map((sub) => `#${sub}`)].join("\n")));
             if (problem.assessment) ap.append(el("p", "present-assess", problem.assessment));
+            if (problem.showPlanHeading && problem.items.length) ap.append(el("span", "present-label", "Plan"));
             if (problem.items.length) {
               const list = el("ul", "present-plan");
               problem.items.forEach((item) => {
@@ -6243,7 +7703,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         const filled = parts.filter(Boolean);
         body.replaceChildren(...(filled.length ? filled : [el("p", "present-empty", "Nothing on this sheet yet.")]));
         body.scrollTop = 0;
-        const short = { "Overnight / subjective": "Subjective", "Lines / drains": "Lines", "Assessment & plan": "A&P" };
+        const short = { "ON/Subj": "ON/Subj", "Lines / drains": "Lines", "Assessment & plan": "A&P" };
         const jump = document.getElementById("present-jump");
         jump.replaceChildren(...[...body.querySelectorAll("[data-jump]")].map((sec) => {
           const button = el("button", "present-jump-btn", short[sec.dataset.jump] || sec.dataset.jump);
@@ -6544,10 +8004,12 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
           return;
         }
         if (event.target.closest("[data-hc-remove]")) {
-          if ((card.querySelector('[data-hc="dx"]').value.trim() || card.querySelector('[data-hc="course"]').value.trim()) && !window.confirm("Remove this problem?")) return;
-          card.remove();
-          if (!list.children.length) addProblem();
-          renumber();
+          (async () => {
+            if ((card.querySelector('[data-hc="dx"]').value.trim() || card.querySelector('[data-hc="course"]').value.trim()) && !(await askConfirm("Remove this problem?"))) return;
+            card.remove();
+            if (!list.children.length) addProblem();
+            renumber();
+          })();
         }
       });
       function fillSources() {
@@ -6593,9 +8055,9 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         $("hc-status").textContent = await copyPlainText(text) ? "Hospital course copied. Any blank parts were copied as their [bracketed] hints to fill in." : "Copy unavailable.";
       });
       $("hc-print").addEventListener("click", () => window.print());
-      $("hc-clear").addEventListener("click", () => {
+      $("hc-clear").addEventListener("click", async () => {
         const used = $("hc-admission").value.trim() || $("hc-discharge").value.trim() || $("hc-todo").value.trim() || problems().some((problem) => problem.dx || problem.course);
-        if (used && !window.confirm("Clear the hospital course?")) return;
+        if (used && !(await askConfirm("Clear the hospital course?"))) return;
         $("hc-admission").value = "";
         $("hc-discharge").value = "";
         $("hc-todo").value = "";
@@ -7111,13 +8573,13 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         else if (med.decision === "hold" || med.decision === "stop") $("mr-reason").focus();
       }
 
-      $("mr-load").addEventListener("click", () => {
+      $("mr-load").addEventListener("click", async () => {
         const parsed = $("mr-paste").value.split(/\r?\n/).map(parseMedLine).filter(Boolean);
         if (!parsed.length) {
           $("mr-load-status").textContent = "No medications recognized. Put one med per line.";
           return;
         }
-        const replace = !mr.meds.length || window.confirm("Replace the current list? Choose Cancel to add these meds to it.");
+        const replace = !mr.meds.length || (await askConfirm("Replace the current medication list? (Choose Cancel to append these medications to your list.)", { confirmText: "Replace list", cancelText: "Append instead" }));
         if (replace) mr.meds = [];
         const start = mr.meds.length;
         mr.meds.push(...parsed.map((med) => makeMed(med)));
@@ -7298,7 +8760,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
           card.querySelector("[data-problem-title]").value = "Home meds";
           setProblemAssessment(card, "", false);
         }
-        card.querySelector("[data-problem-plan]").value = lines.join("\n");
+        card.querySelector("[data-problem-plan]").value = ensurePlanDashes(lines.join("\n"));
         renumberPreRoundsProblems(target);
         return true;
       }
@@ -7338,8 +8800,8 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         return { set, added, skipped };
       };
       window.medRecSource = () => mr.source || "";
-      window.medRecStart = (text, sourceId) => {
-        if (mr.meds.length && !window.confirm("Med Rec already has a list. Replace it with these meds?")) return false;
+      window.medRecStart = async (text, sourceId) => {
+        if (mr.meds.length && !(await askConfirm("Med Rec already has a list. Replace it with these meds?"))) return false;
         mr.meds = [];
         mr.source = sourceId || "";
         $("mr-paste").value = text;
@@ -7355,8 +8817,8 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         }
         $("mr-status").textContent = `Sent to ${target.querySelector("[data-patient-name]").textContent} as "# Home meds" in the A&P.`;
       });
-      $("mr-clear").addEventListener("click", () => {
-        if (mr.meds.length && !window.confirm("Clear every medication and decision?")) return;
+      $("mr-clear").addEventListener("click", async () => {
+        if (mr.meds.length && !(await askConfirm("Clear every medication and decision?"))) return;
         mr.meds = [];
         mr.index = 0;
         mr.source = "";
@@ -8208,9 +9670,11 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         const remove = event.target.closest("[data-ep-top-remove]");
         if (remove) {
           const row = remove.closest("tr");
-          if ([...row.querySelectorAll("textarea")].some((area) => area.value.trim()) && !window.confirm("Remove this row?")) return;
-          row.remove();
-          if (!sheet.querySelector("[data-ep-top] tr")) addTopRow(sheet);
+          (async () => {
+            if ([...row.querySelectorAll("textarea")].some((area) => area.value.trim()) && !(await askConfirm("Remove this row?"))) return;
+            row.remove();
+            if (!sheet.querySelector("[data-ep-top] tr")) addTopRow(sheet);
+          })();
           return;
         }
         if (event.target.closest("[data-ep-miss]")) { renderMiss(sheet); return; }
@@ -8225,9 +9689,11 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         if (event.target.closest("[data-ep-medrec]")) {
           const meds = field(sheet, "hp-meds");
           if (!meds) { status.textContent = "Type or paste the home medications first."; return; }
-          if (typeof window.medRecStart === "function" && window.medRecStart(meds, sheet.dataset.sheetId)) {
-            activateToolTab(document.getElementById("med-rec-tab"));
-          }
+          (async () => {
+            if (typeof window.medRecStart === "function" && (await window.medRecStart(meds, sheet.dataset.sheetId))) {
+              activateToolTab(document.getElementById("med-rec-tab"));
+            }
+          })();
           return;
         }
         const confirm = event.target.closest("[data-ep-confirm]");
@@ -8239,10 +9705,12 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         const sysRemove = event.target.closest("[data-ep-sys-remove]");
         if (sysRemove) {
           const card = sysRemove.closest(".ep-sys");
-          if ([...card.querySelectorAll("input, textarea")].some((input) => input.value.trim()) && !window.confirm("Remove this system and what you wrote in it?")) return;
-          card.remove();
-          renderFlags(sheet);
-          sheet.querySelector("[data-ep-mine-empty]").hidden = Boolean(sysLines(sheet).length);
+          (async () => {
+            if ([...card.querySelectorAll("input, textarea")].some((input) => input.value.trim()) && !(await askConfirm("Remove this system and what you wrote in it?"))) return;
+            card.remove();
+            renderFlags(sheet);
+            sheet.querySelector("[data-ep-mine-empty]").hidden = Boolean(sysLines(sheet).length);
+          })();
         }
       });
 
@@ -8320,11 +9788,11 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         tabs.select(sheet.dataset.sheetId);
         requestAnimationFrame(() => sheet.querySelector('[data-ep="cc"]').focus());
       });
-      document.getElementById("ep-remove").addEventListener("click", () => {
+      document.getElementById("ep-remove").addEventListener("click", async () => {
         const sheet = tabs.current();
         if (!sheet) return;
         const used = [...sheet.querySelectorAll(".ep-grid input, .ep-grid textarea")].some((input) => input.value.trim());
-        if (used && !window.confirm("Remove this encounter?")) return;
+        if (used && !(await askConfirm("Remove this encounter?"))) return;
         container.before(bar);
         sheet.remove();
         if (!container.querySelector(".ep-sheet")) create();
@@ -8429,6 +9897,273 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
     });
 
 
+
+
+    // ---------- Modernized UI Controllers: Modal Confirm, Toast, Census Strip, Zoom, Demo & Command Palette ----------
+    function askConfirm(message, options = {}) {
+      const modal = document.getElementById("confirm-modal");
+      const msgEl = document.getElementById("confirm-modal-msg");
+      const titleEl = document.getElementById("confirm-modal-title");
+      const okBtn = document.getElementById("confirm-modal-ok");
+      const cancelBtn = document.getElementById("confirm-modal-cancel");
+      titleEl.textContent = options.title || "Confirm action";
+      msgEl.textContent = message;
+      okBtn.textContent = options.confirmText || "Confirm";
+      cancelBtn.textContent = options.cancelText || "Cancel";
+      modal.hidden = false;
+      okBtn.focus();
+      return new Promise((resolve) => {
+        const finish = (result) => {
+          modal.hidden = true;
+          okBtn.removeEventListener("click", onOk);
+          cancelBtn.removeEventListener("click", onCancel);
+          modal.removeEventListener("click", onBackdrop);
+          document.removeEventListener("keydown", onKey, true);
+          resolve(result);
+        };
+        const onOk = () => finish(true);
+        const onCancel = () => finish(false);
+        const onBackdrop = (event) => { if (event.target === modal) finish(false); };
+        const onKey = (event) => {
+          if (event.key === "Escape") { event.preventDefault(); event.stopPropagation(); finish(false); }
+        };
+        okBtn.addEventListener("click", onOk);
+        cancelBtn.addEventListener("click", onCancel);
+        modal.addEventListener("click", onBackdrop);
+        document.addEventListener("keydown", onKey, true);
+      });
+    }
+
+    (function initializeToastAndBadges() {
+      const toast = document.getElementById("app-toast");
+      const toastText = document.getElementById("app-toast-text");
+      let timer = 0;
+      window.showToast = (message) => {
+        const clean = String(message || "").trim();
+        if (!clean) return;
+        toastText.textContent = clean;
+        toast.classList.add("is-visible");
+        clearTimeout(timer);
+        timer = setTimeout(() => toast.classList.remove("is-visible"), 4200);
+      };
+      document.getElementById("app-toast-close").addEventListener("click", () => {
+        clearTimeout(timer);
+        toast.classList.remove("is-visible");
+      });
+      ["pre-rounds-status", "pc-status", "ep-status", "hc-status", "mr-status", "so-status", "mr-load-status"].forEach((id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        new MutationObserver(() => {
+          if (el.textContent.trim()) window.showToast(el.textContent.trim());
+        }).observe(el, { childList: true, characterData: true, subtree: true });
+      });
+
+      // Sync patient census strip & header tab badges
+      const pillsBox = document.getElementById("rs-census-pills");
+      function updateCensusStrip() {
+        const sheets = rsSheetsList();
+        const activeIdx = currentPageIndex();
+        const signOutMap = window.__signOut?.entries;
+        pillsBox.replaceChildren(...sheets.map((sheet, idx) => {
+          const pill = document.createElement("button");
+          pill.type = "button";
+          pill.className = "rs-census-pill";
+          if (idx === activeIdx) pill.setAttribute("aria-current", "true");
+          const name = sheet.querySelector("[data-patient-name]")?.textContent || `Patient ${idx + 1}`;
+          const hd = (sheet.querySelector('[data-field="hd"]')?.value || "").trim();
+          const probCount = preRoundsProblems(sheet).length;
+          const sev = signOutMap?.get(sheet.dataset.sheetId)?.severity || "";
+          const dot = document.createElement("span");
+          dot.className = "rs-sev-dot";
+          dot.dataset.sev = sev;
+          dot.title = sev ? `Illness severity: ${sev}` : "Patient sheet";
+          const label = document.createElement("span");
+          label.textContent = name;
+          pill.append(dot, label);
+          if (hd || probCount) {
+            const meta = document.createElement("span");
+            meta.className = "rs-census-pill-meta";
+            meta.textContent = [hd && `HD${hd.replace(/^hd\\s*#?\\s*/i, "")}`, probCount && `${probCount}p`].filter(Boolean).join("·");
+            pill.append(meta);
+          }
+          pill.addEventListener("click", () => goToPage(idx));
+          return pill;
+        }));
+
+        // Update live tab badges
+        const prBadge = document.getElementById("badge-pre-rounds");
+        if (prBadge) prBadge.textContent = String(sheets.length);
+        const mrList = window.__medRec?.mr?.meds || [];
+        const mrBadge = document.getElementById("badge-med-rec");
+        if (mrBadge) {
+          const undecided = mrList.filter((m) => !m.decision).length;
+          mrBadge.textContent = mrList.length ? (undecided ? `${undecided} left` : `${mrList.length}`) : "";
+          mrBadge.classList.toggle("is-warn", undecided > 0);
+        }
+        const soBadge = document.getElementById("badge-sign-out");
+        if (soBadge) {
+          const usedCount = sheets.filter(sheetHasContent).length;
+          soBadge.textContent = usedCount ? String(usedCount) : "";
+        }
+      }
+      window.updateCensusStrip = updateCensusStrip;
+      document.getElementById("rs-strip-add").addEventListener("click", () => addPatientAndGo());
+      document.getElementById("rs-strip-present").addEventListener("click", () => {
+        const current = roundingTabs.current();
+        if (current) window.openPresentation(current);
+      });
+      preRoundsPatients.addEventListener("input", () => updateCensusStrip());
+      preRoundsPatients.addEventListener("scroll", () => requestAnimationFrame(updateCensusStrip));
+      document.addEventListener("click", () => requestAnimationFrame(updateCensusStrip));
+      document.addEventListener("tool-tab-shown", updateCensusStrip);
+      requestAnimationFrame(updateCensusStrip);
+    })();
+
+    // Top-bar Zoom & Privacy controls + Demo Patient Loader + Command Palette
+    (function initializeTopBarAndPalette() {
+      const activeKind = () => {
+        const activeTab = toolTabs.find((t) => t.getAttribute("aria-selected") === "true");
+        const panelId = activeTab?.getAttribute("aria-controls") || "pre-rounds-panel";
+        return panelId.replace(/-panel$/, "");
+      };
+      const zoomReadout = document.getElementById("zoom-readout");
+      const syncZoomReadout = () => {
+        const kind = activeKind();
+        const z = sheetZoomVar[kind] ? sheetZoom(kind) : 1;
+        zoomReadout.textContent = `${Math.round(z * 100)}%`;
+      };
+      document.getElementById("zoom-out-btn").addEventListener("click", () => {
+        const kind = activeKind();
+        if (sheetZoomVar[kind]) setSheetZoom(kind, sheetZoom(kind) - 0.1);
+        syncZoomReadout();
+      });
+      document.getElementById("zoom-in-btn").addEventListener("click", () => {
+        const kind = activeKind();
+        if (sheetZoomVar[kind]) setSheetZoom(kind, sheetZoom(kind) + 0.1);
+        syncZoomReadout();
+      });
+      zoomReadout.addEventListener("click", () => {
+        const kind = activeKind();
+        if (sheetZoomVar[kind]) setSheetZoom(kind, 1);
+        syncZoomReadout();
+      });
+      zoomReadout.style.cursor = "pointer";
+      zoomReadout.title = "Click to reset zoom to 100%";
+      document.addEventListener("tool-tab-shown", syncZoomReadout);
+      document.getElementById("top-privacy-btn").addEventListener("click", () => window.hideScreen?.());
+
+
+      // Command Palette (Ctrl+K / Cmd+K)
+      const cmdModal = document.getElementById("cmd-modal");
+      const cmdInput = document.getElementById("cmd-search-input");
+      const cmdList = document.getElementById("cmd-list");
+      let cmdItems = [];
+      let cmdIndex = 0;
+
+      function buildCommandItems() {
+        const items = [];
+        rsSheetsList().forEach((sheet, idx) => {
+          const name = sheet.querySelector("[data-patient-name]")?.textContent || `Patient ${idx + 1}`;
+          const oneLiner = (sheet.querySelector('[data-field="power"]')?.value || "").trim();
+          items.push({
+            label: `Go to ${name}${oneLiner ? ` — ${oneLiner.slice(0, 48)}` : ""}`,
+            category: "Patient",
+            run: () => {
+              activateToolTab(document.getElementById("pre-rounds-tab"));
+              goToPage(idx);
+            }
+          });
+        });
+        toolTabs.forEach((tab) => {
+          const lbl = tab.dataset.label || tab.textContent.trim();
+          items.push({
+            label: `Switch tool: ${lbl}`,
+            category: "Workspace",
+            run: () => activateToolTab(tab)
+          });
+        });
+        items.push(
+          { label: "Add new Pre-Rounds patient sheet", category: "Action", run: () => { activateToolTab(document.getElementById("pre-rounds-tab")); addPatientAndGo(); } },
+          { label: "Open Presentation Mode for current patient", category: "Rounds", run: () => { const cur = roundingTabs.current(); if (cur) window.openPresentation(cur); } },
+          { label: "Copy current Pre-Rounds progress note", category: "Clipboard", run: () => { const cur = roundingTabs.current(); cur?.querySelector("[data-copy-note]")?.click(); } },
+          { label: "Toggle Light / Dark appearance", category: "View", run: () => document.getElementById("theme-toggle").click() },
+          { label: "Hide screen for privacy (Esc Esc)", category: "Privacy", run: () => window.hideScreen?.() }
+        );
+        return items;
+      }
+
+      function renderCommandList() {
+        const q = cmdInput.value.trim().toLowerCase();
+        const filtered = cmdItems.filter((item) => !q || item.label.toLowerCase().includes(q) || item.category.toLowerCase().includes(q));
+        cmdIndex = Math.max(0, Math.min(filtered.length - 1, cmdIndex));
+        cmdList.replaceChildren(...filtered.map((item, idx) => {
+          const li = document.createElement("li");
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "cmd-item";
+          btn.setAttribute("role", "option");
+          btn.setAttribute("aria-selected", String(idx === cmdIndex));
+          const text = document.createElement("span");
+          text.textContent = item.label;
+          const cat = document.createElement("span");
+          cat.className = "cmd-item-cat";
+          cat.textContent = item.category;
+          btn.append(text, cat);
+          btn.addEventListener("click", () => {
+            closeCommandPalette();
+            item.run();
+          });
+          li.append(btn);
+          return li;
+        }));
+        cmdList._filtered = filtered;
+      }
+
+      function openCommandPalette() {
+        cmdItems = buildCommandItems();
+        cmdInput.value = "";
+        cmdIndex = 0;
+        cmdModal.hidden = false;
+        renderCommandList();
+        cmdInput.focus();
+      }
+      function closeCommandPalette() {
+        cmdModal.hidden = true;
+      }
+
+      document.getElementById("cmd-palette-btn").addEventListener("click", openCommandPalette);
+      document.getElementById("cmd-close-btn").addEventListener("click", closeCommandPalette);
+      cmdModal.addEventListener("click", (event) => { if (event.target === cmdModal) closeCommandPalette(); });
+      cmdInput.addEventListener("input", () => { cmdIndex = 0; renderCommandList(); });
+      document.addEventListener("keydown", (event) => {
+        if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+          event.preventDefault();
+          if (cmdModal.hidden) openCommandPalette();
+          else closeCommandPalette();
+          return;
+        }
+        if (cmdModal.hidden) return;
+        const filtered = cmdList._filtered || [];
+        if (event.key === "Escape") {
+          event.preventDefault();
+          event.stopPropagation();
+          closeCommandPalette();
+        } else if (event.key === "ArrowDown") {
+          event.preventDefault();
+          cmdIndex = (cmdIndex + 1) % Math.max(1, filtered.length);
+          renderCommandList();
+        } else if (event.key === "ArrowUp") {
+          event.preventDefault();
+          cmdIndex = (cmdIndex - 1 + Math.max(1, filtered.length)) % Math.max(1, filtered.length);
+          renderCommandList();
+        } else if (event.key === "Enter" && filtered[cmdIndex]) {
+          event.preventDefault();
+          const chosen = filtered[cmdIndex];
+          closeCommandPalette();
+          chosen.run();
+        }
+      }, true);
+    })();
 
     // ---------- Unsaved-data warning ----------
     window.addEventListener("beforeunload", (event) => {
