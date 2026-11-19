@@ -397,6 +397,123 @@
     .rs-field:focus, .rs-fish-value:focus, .rs-vital input:focus, .pre-rounds-problem input:focus, .pre-rounds-problem textarea:focus { outline: 2px solid rgba(75, 156, 211, .35); outline-offset: 0; background: #F2F8FD; }
     .rs-field::placeholder, .rs-sheet input::placeholder, .rs-sheet textarea::placeholder { color: #a3afbd; }
     .rs-subjective .rs-field { min-height: 2.9em; }
+
+    /* H&P mode toggle on the ON/Subj tag itself + dynamic field picker */
+    .rs-tag-toggle {
+      pointer-events: auto;
+      z-index: 4;
+      border-top: 0;
+      border-left: 0;
+      border-radius: 0;
+      cursor: pointer;
+      transition: background-color .15s ease, color .15s ease, border-color .15s ease;
+    }
+    .rs-subjective:has(.rs-hp-picker[open]) { z-index: 44; }
+    .rs-tag-toggle:hover {
+      background: #d5e4f2;
+      color: var(--brand-blue);
+    }
+    .rs-sheet.is-hp-mode .rs-tag-toggle {
+      color: #fff;
+      background: var(--brand-teal);
+      border-color: var(--brand-teal);
+    }
+    html[data-theme="dark"] .rs-tag-toggle:hover {
+      background: #364152;
+    }
+    html[data-theme="dark"] .rs-sheet.is-hp-mode .rs-tag-toggle {
+      color: #fff;
+      background: var(--brand-teal);
+      border-color: var(--brand-teal);
+    }
+    .rs-hp-fields { display: none; margin-top: 0; padding-top: 0; }
+    .rs-sheet.is-hp-mode .rs-hp-fields { display: grid; gap: 3px; }
+    .rs-sheet.is-hp-mode .rs-subjective > textarea[data-field="subjective"] { display: none; }
+    .rs-sheet.is-hp-mode .rs-subjective > textarea[data-field="subjective"] + .print-mirror { display: none !important; }
+    .rs-hp-bar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 6px;
+      padding-left: var(--tag-w, 4.2em);
+      min-height: 1.45em;
+    }
+    .rs-hp-hint {
+      color: var(--muted);
+      font: 600 10.5px Inter, ui-sans-serif, system-ui, sans-serif;
+    }
+    .rs-hp-picker { position: relative; }
+    .rs-hp-picker > summary {
+      display: inline-block;
+      padding: 0 7px;
+      color: var(--brand-teal-ink);
+      background: var(--brand-teal-pale);
+      border: 1px solid #9cc6e6;
+      border-radius: 4px;
+      font: 700 11px/1.5 Inter, ui-sans-serif, system-ui, sans-serif;
+      list-style: none;
+      cursor: pointer;
+    }
+    .rs-hp-picker > summary::-webkit-details-marker { display: none; }
+    .rs-hp-picker-body {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 4px);
+      z-index: 45;
+      width: 245px;
+      padding: 8px 10px;
+      background: #fff;
+      border: 1px solid #b8c5d4;
+      border-radius: 8px;
+      box-shadow: 0 10px 28px rgba(15, 23, 42, .18);
+      font: 12px Inter, ui-sans-serif, system-ui, sans-serif;
+    }
+    html[data-theme="dark"] .rs-hp-picker-body {
+      background: #2a2b30;
+      border-color: #45474e;
+      color: var(--ink);
+    }
+    .rs-hp-picker-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 5px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--line);
+      font-size: 10.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      color: var(--muted);
+    }
+    .rs-hp-picker-presets { display: inline-flex; gap: 4px; }
+    .rs-hp-picker-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px 6px;
+    }
+    .rs-hp-picker-grid label {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11.5px;
+      cursor: pointer;
+    }
+    .rs-hp-picker-grid input { margin: 0; accent-color: var(--brand-teal); }
+    .rs-hp-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3px 10px; }
+    .rs-hp-row { display: flex; align-items: baseline; gap: 5px; min-width: 0; }
+    .rs-hp-row[hidden] { display: none !important; }
+    .rs-hp-row.rs-hp-full { grid-column: 1 / -1; }
+    .rs-hp-row > span { flex: 0 0 auto; color: #23384e; font-size: .72em; font-weight: 800; letter-spacing: .03em; text-transform: uppercase; white-space: nowrap; }
+    .rs-hp-row > textarea { flex: 1 1 auto; min-width: 0; min-height: 1.35em !important; text-indent: 0 !important; padding: 0 2px; }
+    html[data-theme="dark"] .rs-hp-fields { border-top-color: #3f4451; }
+    html[data-theme="dark"] .rs-hp-row > span { color: var(--tag-ink); }
+    @media (max-width: 680px) { .rs-hp-grid { grid-template-columns: 1fr; } }
+    @media print {
+      .rs-hp-fields { border-top-color: #999; }
+      .rs-hp-row > span { color: #000; }
+    }
+
     .rs-oneliner { padding-bottom: 2px; }
     .rs-bedbox { position: absolute; right: 0; bottom: 0; z-index: 3; display: flex; margin: 0; border-left: 1px solid #5b6b7c; border-top: 1px solid #5b6b7c; border-top-left-radius: 5px; background: #fff; }
     .rs-notes { padding-bottom: 1.75em !important; }
@@ -784,12 +901,22 @@
     .print-menu .foot-pop { right: 0; width: 250px; }
 
     /* Reasoning & Clear menus in .sheet-foot */
-    .reasoning-menu .foot-pop {
-      right: 0;
+    .reasoning-menu .foot-pop,
+    .tips-menu .foot-pop {
+      left: 0;
+      right: auto;
       width: min(420px, 88vw);
+      max-height: min(72vh, 480px);
+      overflow-y: auto;
+      overscroll-behavior: contain;
       padding: 10px 12px;
       font-size: 12.5px;
       line-height: 1.45;
+      box-sizing: border-box;
+    }
+    .tips-menu .rs-guide-list {
+      display: grid;
+      gap: 4px;
     }
     .clear-menu > summary.rs-remove {
       color: var(--brand-maroon);
@@ -951,6 +1078,150 @@
     .rs-checks .pre-rounds-exam-checklist, .rs-checks .pre-rounds-ros-checklist { column-gap: 22px; column-rule: 1px solid #e3e9f0; }
     .rs-checks :is(.pre-rounds-exam-checklist, .pre-rounds-ros-checklist) > .pre-rounds-exam-line { position: relative; gap: 3px 4px; margin: 0; padding: 4px 0 4px 5.4em; border-bottom: 1px solid #edf1f5; }
     .rs-checks .pre-rounds-ros-checklist > .pre-rounds-exam-line { padding-left: 4.6em; }
+
+    /* Encounter Prep: ROS to Ask picker */
+    .ep-ros-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px; margin-bottom: 5px; font: 11.5px Inter, ui-sans-serif, system-ui, sans-serif; color: var(--muted); }
+    .ep-ros-count { font-weight: 700; color: var(--brand-teal-ink); }
+    .ep-ros-grid { display: grid; gap: 3px; }
+    .ep-ros-row { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 3px 4px; padding: 3px 0 3px 5.2em; border-bottom: 1px solid #edf1f5; }
+    .ep-ros-row:last-child { border-bottom: 0; }
+    .ep-ros-sys { position: absolute; left: 0; top: 4px; width: 4.8em; color: var(--brand-blue); font: 800 10.5px Inter, ui-sans-serif, system-ui, sans-serif; text-transform: uppercase; letter-spacing: .02em; }
+    .ep-ros-chip { padding: 1px 7px; font: 500 11.5px/1.4 Inter, ui-sans-serif, system-ui, sans-serif; color: #334155; background: #fff; border: 1px solid #d3dce6; border-radius: 999px; cursor: pointer; }
+    .ep-ros-chip:hover { background: #f1f7fc; border-color: #9cc6e6; }
+    .ep-ros-chip[aria-pressed="true"] { color: #fff; background: var(--brand-teal); border-color: var(--brand-teal); font-weight: 700; }
+    html[data-theme="dark"] .ep-ros-row { border-bottom-color: #34373d; }
+    html[data-theme="dark"] .ep-ros-sys { color: #8ec5ee; }
+    html[data-theme="dark"] .ep-ros-chip { color: var(--ink); background: #2a2c31; border-color: #464950; }
+    html[data-theme="dark"] .ep-ros-chip[aria-pressed="true"] { color: #fff; background: var(--brand-teal); border-color: var(--brand-teal); }
+    @media print {
+      .ep-ros-box:not(.has-ep-ros) { display: none !important; }
+      .ep-ros-row:not(:has(.ep-ros-chip[aria-pressed="true"])) { display: none !important; }
+      .ep-ros-chip:not([aria-pressed="true"]) { display: none !important; }
+      .ep-ros-chip[aria-pressed="true"] { display: inline !important; padding: 0 6pt 0 0; color: #000 !important; background: none !important; border: 0 !important; font-weight: 400 !important; }
+      .ep-ros-chip[aria-pressed="true"]::before { content: "☐ "; }
+    }
+
+    /* Pre-Rounds: ROS Pre-Encounter dropdown (select specific systems & findings to print/ask) */
+    .rs-ros-pre-menu { position: relative; display: inline-block; }
+    .rs-ros-pre-menu > summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 1px 7px;
+      color: #1d4ed8;
+      background: #eff6ff;
+      border: 1px solid #93c5fd;
+      border-radius: 4px;
+      font: 700 11px/1.35 Inter, ui-sans-serif, system-ui, sans-serif;
+      white-space: nowrap;
+    }
+    .rs-ros-pre-menu > summary::-webkit-details-marker { display: none; }
+    .rs-opt-ros.has-ros-ask .rs-ros-pre-menu > summary { color: #fff; background: #1d4ed8; border-color: #1d4ed8; }
+    .rs-opt-ros:has(.rs-ros-pre-menu[open]) { z-index: 44; }
+    .rs-ros-pre-pop {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 4px);
+      z-index: 60;
+      width: min(440px, 88vw);
+      max-height: min(65vh, 420px);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      padding: 8px 10px 12px;
+      color: var(--ink);
+      background: #fff;
+      border: 1px solid #b8c5d4;
+      border-radius: 8px;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, .2);
+      font: 11.5px/1.35 Inter, ui-sans-serif, system-ui, sans-serif;
+      box-sizing: border-box;
+    }
+    .rs-ros-pre-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 6px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid var(--line);
+    }
+    .rs-ros-pre-title { font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+    .rs-ros-pre-list { display: grid; gap: 4px; }
+    .rs-ros-pre-sys-row {
+      display: grid;
+      grid-template-columns: 6.2em minmax(0, 1fr);
+      align-items: start;
+      gap: 4px 8px;
+      padding: 3px 0;
+      border-bottom: 1px solid #edf1f5;
+    }
+    .rs-ros-pre-sys-row:last-child { border-bottom: 0; }
+    .rs-ros-pre-sys-check {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 800;
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: .02em;
+      color: var(--brand-blue);
+      cursor: pointer;
+      padding-top: 2px;
+      user-select: none;
+    }
+    .rs-ros-pre-sys-check input { margin: 0; accent-color: #1d4ed8; }
+    .rs-ros-pre-items { display: flex; flex-wrap: wrap; gap: 3px 4px; }
+    .rs-ros-pre-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 1px 6px;
+      color: #334155;
+      background: #fff;
+      border: 1px solid #d3dce6;
+      border-radius: 999px;
+      font-size: 11px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .rs-ros-pre-item:hover { background: #eff6ff; border-color: #93c5fd; }
+    .rs-ros-pre-item input { margin: 0; accent-color: #1d4ed8; width: 11px; height: 11px; }
+    .rs-ros-pre-item:has(input:checked) { color: #1d4ed8; background: #eff6ff; border-color: #2563eb; font-weight: 700; }
+    html[data-theme="dark"] .rs-ros-pre-menu > summary { color: #93c5fd; background: rgba(37, 99, 235, .18); border-color: #3b82f6; }
+    html[data-theme="dark"] .rs-ros-pre-pop { background: #2a2b30; border-color: #45474e; color: var(--ink); box-shadow: 0 12px 32px rgba(0, 0, 0, .55); }
+    html[data-theme="dark"] .rs-ros-pre-sys-row { border-bottom-color: #34373d; }
+    html[data-theme="dark"] .rs-ros-pre-sys-check { color: #8ec5ee; }
+    html[data-theme="dark"] .rs-ros-pre-item { color: var(--ink); background: #222429; border-color: #464950; }
+    html[data-theme="dark"] .rs-ros-pre-item:has(input:checked) { color: #93c5fd; background: rgba(37, 99, 235, .22); border-color: #3b82f6; }
+
+    .rs-ros-prep-bar { display: none; flex-wrap: wrap; align-items: center; gap: 6px; margin: 2px 0 4px; padding: 3px 7px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 5px; font: 11px Inter, ui-sans-serif, system-ui, sans-serif; color: #1e3a8a; }
+    .rs-opt-ros.has-ros-ask .rs-ros-prep-bar { display: flex; }
+    .rs-ros-prep-bar button { padding: 1px 6px; font: 700 10.5px Inter, ui-sans-serif, system-ui, sans-serif; color: #1d4ed8; background: #fff; border: 1px solid #93c5fd; border-radius: 4px; cursor: pointer; }
+    .rs-ros-prep-bar button[aria-pressed="true"] { color: #fff; background: #1d4ed8; border-color: #1d4ed8; }
+    html[data-theme="dark"] .rs-ros-prep-bar { background: rgba(37, 99, 235, .15); border-color: #3b82f6; color: #bfdbfe; }
+    html[data-theme="dark"] .rs-ros-prep-bar button { color: #93c5fd; background: #1f242d; border-color: #3b82f6; }
+    html[data-theme="dark"] .rs-ros-prep-bar button[aria-pressed="true"] { color: #fff; background: #2563eb; }
+    .rs-opt-ros .pre-rounds-ros-choice[data-ros-ask="true"] {
+      box-shadow: 0 0 0 1.5px #2563eb;
+      border-color: #2563eb;
+    }
+    .rs-opt-ros .pre-rounds-ros-choice[data-ros-ask="true"]::after {
+      content: " ★";
+      color: #2563eb;
+      font-size: .85em;
+    }
+    html[data-theme="dark"] .rs-opt-ros .pre-rounds-ros-choice[data-ros-ask="true"]::after { color: #60a5fa; }
+    .rs-opt-ros.is-ros-ask-only .pre-rounds-ros-choice:not([data-ros-ask="true"]) { display: none !important; }
+    .rs-opt-ros.is-ros-ask-only .pre-rounds-exam-line:not(.pre-rounds-ros-allneg):not(:has(.pre-rounds-ros-choice[data-ros-ask="true"])) { display: none !important; }
+    @media print {
+      .rs-ros-prep-bar, .rs-ros-pre-menu { display: none !important; }
+      .rs-opt-ros.has-ros-ask .pre-rounds-ros-allneg { display: none !important; }
+      .rs-opt-ros.has-ros-ask .pre-rounds-ros-choice:not([data-ros-ask="true"]),
+      .rs-opt-ros.has-ros-ask .pre-rounds-ros-choice[data-state="neg"] { display: none !important; }
+      .rs-opt-ros.has-ros-ask .pre-rounds-exam-line:not(:has(.pre-rounds-ros-choice[data-ros-ask="true"]:not([data-state="neg"]))) { display: none !important; }
+      .rs-opt-ros .pre-rounds-ros-choice[data-ros-ask="true"] { box-shadow: none !important; }
+      .rs-opt-ros .pre-rounds-ros-choice[data-ros-ask="true"]::after { content: none !important; }
+    }
+
     .rs-checks :is(.pre-rounds-exam-checklist, .pre-rounds-ros-checklist) > .pre-rounds-exam-line:last-child { border-bottom: 0; }
     .rs-checks .pre-rounds-ros-checklist > .pre-rounds-ros-allneg { padding-left: 0; border-bottom: 0; }
     .rs-checks :is(.pre-rounds-exam-system, .pre-rounds-ros-system) { position: absolute; left: 0; top: 5px; min-width: 0; color: var(--brand-blue); font-size: .92em; font-weight: 800; letter-spacing: .02em; text-transform: uppercase; }
@@ -2412,7 +2683,7 @@
       <button class="quiet-button" id="ep-remove" type="button">Remove</button>
       <span class="sheet-toolbar-spacer"></span>
       <button class="quiet-button" id="ep-copy" type="button" title="Copy every filled section as plain text">Copy</button>
-      <button class="quiet-button" id="ep-send" type="button" title="Start a Pre-Rounds sheet: bed, one-liner, vitals and labs">Send to Pre-Rounds</button>
+      <button class="quiet-button" id="ep-send" type="button" title="Start a Pre-Rounds sheet in H&amp;P mode with bed, one-liner, leading diagnoses, and selected ROS to ask">Send to Pre-Rounds</button>
       <button class="copy-button" id="ep-print" type="button" title="Print this encounter with room to write">Print</button>
     </div>
     <p class="pre-rounds-status" id="ep-status" role="status"></p>
@@ -2462,17 +2733,6 @@
               <div class="ep-vrows" data-ep-vrows></div>
             </div>
           </div>
-          <div class="ep-box ep-ed"><span class="ep-tag">ED course</span>
-            <textarea data-ep="ed" rows="2" aria-label="ED course" placeholder="Vitals on arrival, what was given (fluids, abx, nebs, diuretics), response, imaging, consults"></textarea>
-          </div>
-          <div class="ep-box ep-labs"><span class="ep-tag">Labs</span>
-            <textarea data-ep="labs" rows="2" aria-label="Labs" placeholder="Paste or type, one per line (e.g. Na 128 (L), Cr 2.1 (H)); compare with baseline"></textarea>
-            <div class="ep-vitals" data-ep-vitals><span class="ep-vitals-label">Vitals</span></div>
-          </div>
-          <div class="ep-box ep-pair">
-            <div><span class="ep-tag">Pertinent exam</span><textarea data-ep="exam" rows="2" aria-label="Pertinent exam" placeholder="From the ED note: JVP, lungs, edema, mental status..."></textarea></div>
-            <div><span class="ep-tag">Pertinent ROS</span><textarea data-ep="ros" rows="2" aria-label="Pertinent ROS" placeholder="Positives and pertinent negatives so far"></textarea></div>
-          </div>
           <div class="ep-right">
           <div class="ep-box ep-top"><span class="ep-tag">Leading diagnoses</span>
             <table class="ep-top-table">
@@ -2483,22 +2743,15 @@
               <button class="quiet-button" type="button" data-ep-top-add>+ Row</button>
             </div>
           </div>
-          <div class="ep-box ep-big ep-reasoning"><span class="ep-tag">Pre-charted reasoning</span>
-            <textarea data-ep="reasoning" rows="3" aria-label="Pre-charted reasoning" placeholder="How it fits together, what would change your mind, other questions to ask"></textarea>
-          </div>
-          <div class="ep-box ep-big ep-notes"><span class="ep-tag">Patient history</span>
-            <span class="ep-vind-tip screen-only">Fill in from the ED note, then confirm with the patient</span>
-            <div class="ep-hp">
-              <div class="ep-hp-f"><span class="ep-hp-label"><label>PMH</label><button type="button" class="ep-confirm" data-ep-confirm aria-pressed="false" title="Tick once you've confirmed this with the patient">confirmed</button></span><textarea data-ep="hp-pmh" data-ep-hp rows="2" aria-label="PMH" placeholder="From the ED note / chart, with severity: EF, baseline Cr, home O2"></textarea></div>
-              <div class="ep-hp-f"><span class="ep-hp-label"><label>PSH</label><button type="button" class="ep-confirm" data-ep-confirm aria-pressed="false" title="Tick once you've confirmed this with the patient">confirmed</button></span><textarea data-ep="hp-psh" data-ep-hp rows="2" aria-label="PSH"></textarea></div>
-              <div class="ep-hp-f"><span class="ep-hp-label"><label>Medications</label><button type="button" class="ep-to-mr screen-only" data-ep-medrec title="Load these into Med Rec to reconcile them">→ Med Rec</button><button type="button" class="ep-confirm" data-ep-confirm aria-pressed="false" title="Tick once you've confirmed this with the patient">confirmed</button></span><textarea data-ep="hp-meds" data-ep-hp rows="2" aria-label="Medications" placeholder="Home meds with doses; recent changes"></textarea></div>
-              <div class="ep-hp-f"><span class="ep-hp-label"><label>Allergies</label><button type="button" class="ep-confirm" data-ep-confirm aria-pressed="false" title="Tick once you've confirmed this with the patient">confirmed</button></span><textarea data-ep="hp-allergies" data-ep-hp rows="2" aria-label="Allergies" placeholder="Drug: reaction"></textarea></div>
-              <div class="ep-hp-f"><span class="ep-hp-label"><label>Family history</label><button type="button" class="ep-confirm" data-ep-confirm aria-pressed="false" title="Tick once you've confirmed this with the patient">confirmed</button></span><textarea data-ep="hp-fhx" data-ep-hp rows="2" aria-label="Family history"></textarea></div>
-              <div class="ep-hp-f"><span class="ep-hp-label"><label>Substance use</label><button type="button" class="ep-confirm" data-ep-confirm aria-pressed="false" title="Tick once you've confirmed this with the patient">confirmed</button></span><textarea data-ep="hp-social" data-ep-hp rows="2" aria-label="Substance use" placeholder="Tobacco (pack-years), alcohol (amount, last drink), other drugs"></textarea></div>
+          <div class="ep-box ep-ros-box" data-ep-ros-box><span class="ep-tag">ROS to ask</span>
+            <div class="ep-ros-head screen-only">
+              <span>Tap specific ROS symptoms to remember at the bedside · <span class="ep-ros-count" data-ep-ros-count>0 selected</span></span>
+              <button class="quiet-button" type="button" data-ep-ros-clear>Clear ROS</button>
             </div>
+            <div class="ep-ros-grid" data-ep-ros-grid></div>
           </div>
-          <div class="ep-box ep-big ep-bedside"><span class="ep-tag">Bedside notes</span>
-            <textarea data-ep="bedside" rows="4" aria-label="Bedside notes" placeholder="During the encounter: what the patient tells you, answers to your questions, your exam, what changed your thinking"></textarea>
+          <div class="ep-box ep-big ep-reasoning"><span class="ep-tag">Questions &amp; reasoning</span>
+            <textarea data-ep="reasoning" rows="3" aria-label="Questions and pre-charted reasoning" placeholder="Key bedside questions to discriminate your top diagnoses, and what would change your mind"></textarea>
           </div>
           </div>
         </div>
@@ -2639,7 +2892,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         <div class="pc-cols">
           <div class="pc-col">
             <section class="pc-box" data-guide="power"><h3>Power Statement</h3><textarea data-pc="power" rows="2" placeholder="Age/sex, key comorbidities with severity, presenting syndrome, working diagnosis"></textarea></section>
-            <section class="pc-box pc-highlights" data-guide="highlights"><h3>Chart Highlights</h3><textarea data-pc="highlights" rows="8" placeholder="Only what matters for this admission:&#10;Story: timeline, what happened before arrival, ED course and response&#10;Background: pertinent PMH with severity (EF, baseline Cr, home O2), PSH&#10;Baseline function, social/substance, family hx if relevant"></textarea></section>
+            <section class="pc-box pc-highlights" data-guide="highlights"><h3>Subjective (HPI · ED Course · PMH / PSH)</h3><textarea data-pc="highlights" rows="10" placeholder="Only what matters for this admission:&#10;Story: timeline, what happened before arrival, ED course and response&#10;Background: pertinent PMH with severity (EF, baseline Cr, home O2), PSH&#10;Baseline function, social/substance, family hx if relevant"></textarea></section>
             <section class="pc-box" data-guide="ros"><h3>Review of Systems <span class="pc-hint screen-only">click: + positive, again: − denies</span><button class="pc-mini screen-only" type="button" data-ros-rest>Rest negative</button><button class="pc-mini pc-copy screen-only" type="button" data-copy-ros>Copy ROS</button></h3><div class="pc-ros" data-pc-ros></div></section>
             <section class="pc-box" data-guide="meds"><h3>Current Medications</h3><textarea data-pc="meds" rows="5" placeholder="Paste the home medication list, one per line"></textarea></section>
           </div>
@@ -2656,6 +2909,9 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
           <label class="ddx-for"><span>Differential for</span><input data-pc="ddx-for" autocomplete="off" placeholder="chief concern or syndrome, e.g. acute dyspnea with hypoxia"></label>
           <div class="ddx-summary" data-ddx-summary></div>
           <div class="ddx-rows" data-ddx-rows></div>
+        </section>
+        <section class="pc-box pc-ap" data-guide="ap"><h3>Assessment &amp; Plan</h3>
+          <textarea data-pc="ap" rows="10" placeholder="# Active Problem 1&#10;Assessment (workup so far, leading dx + why, alternatives + why, stability/pending)&#10;PLAN&#10;- ...&#10;&#10;# Chronic Conditions&#10;- HTN: continue home lisinopril 20 mg"></textarea>
         </section>
       </article>
     </template>
@@ -2714,6 +2970,21 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         </div>
       </details>
     </template>
+    <template id="rs-tips-pop-template">
+      <details class="foot-menu tips-menu">
+        <summary class="quiet-button" title="Attending presentation tips for H&amp;P and SOAP rounds">Tips</summary>
+        <div class="foot-pop rs-ap-guide-pop">
+          <p class="rs-guide-title">Presenting on rounds (H&amp;P &amp; SOAP)</p>
+          <ol class="rs-guide-list">
+            <li><b>Succinct, never repetitive:</b> Keep SOAP presentations tight—report only overnight deltas and today's decisions. Say each fact once (Single-Home rule) and don't rehash yesterday's story.</li>
+            <li><b>ED Course = admission pivot only:</b> On H&amp;Ps, place only the workup that drove admission in ED Course (e.g., rising troponin in chest pain). Incidental or routine labs (CBC, BMP) and separate imaging belong in Labs / Imaging.</li>
+            <li><b>Assessment = signal, not noise:</b> On Day 1, summarize key workup to date, commit to the <i>leading diagnosis + why</i>, state stability/pending studies, then list ranked alternatives with key clues. On Day 2+, pivot straight to symptom trajectory, new results, and disposition.</li>
+            <li><b>Purposeful Plan:</b> Give every consult a specific question, clarify prophylaxis vs. therapeutic dosing, tie orders to your assessment, and group stable home meds under <i># Chronic Conditions</i>.</li>
+          </ol>
+          <p class="rs-guide-foot"><button type="button" class="rs-guide-more" data-go-tool="tips-tab">Open full Tips &amp; worked examples →</button></p>
+        </div>
+      </details>
+    </template>
     <template id="rs-sheet-template">
       <article class="pre-rounds-sheet rs-sheet">
         <div class="rs-patient-bar screen-only">
@@ -2764,10 +3035,54 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
           <div class="rs-box rs-c12 rs-oneliner"><span class="rs-tag">One-liner</span>
             <div class="rs-field rs-oneliner-text" data-field="power" role="textbox" aria-multiline="true" aria-label="One-liner" data-placeholder="e.g. 68M w/ HFrEF, CKD3 admitted for CAP, now on RA"></div>
           </div>
-          <div class="rs-box rs-c12 rs-subjective"><span class="rs-tag">ON/Subj</span><textarea class="rs-field" data-field="subjective" rows="2" aria-label="Overnight events and subjective"></textarea>
-            <label class="rs-inline-row"><span>ROS:</span><textarea class="rs-field rs-inline-field" data-field="ros-pp" rows="1" aria-label="Pertinent positive and negative ROS" placeholder="Endorses: cough. Denies: fever, chest pain. (or mark the ROS checklist, then → Written ROS)"></textarea></label></div>
+          <div class="rs-box rs-c12 rs-subjective"><button type="button" class="rs-tag rs-tag-toggle" data-subj-tag data-toggle-hp aria-pressed="false" title="Click to switch between ON/Subj (SOAP) and H&amp;P mode">ON/Subj ⇄</button>
+            <textarea class="rs-field" data-field="subjective" rows="2" aria-label="Overnight events and subjective"></textarea>
+            <div class="rs-hp-fields" data-hp-fields>
+              <div class="rs-hp-bar screen-only">
+                <details class="rs-hp-picker" data-hp-picker>
+                  <summary title="Choose which H&amp;P sections are shown">H&amp;P Fields ▾</summary>
+                  <div class="rs-hp-picker-body">
+                    <div class="rs-hp-picker-head">
+                      <span>Show sections</span>
+                      <span class="rs-hp-picker-presets">
+                        <button type="button" class="clear-preset-btn" data-hp-preset="core">Core</button>
+                        <button type="button" class="clear-preset-btn" data-hp-preset="all">All</button>
+                      </span>
+                    </div>
+                    <div class="rs-hp-picker-grid">
+                      <label><input type="checkbox" data-hp-sec="hp-hpi" checked> HPI</label>
+                      <label><input type="checkbox" data-hp-sec="hp-ed" checked> ED Course</label>
+                      <label><input type="checkbox" data-hp-sec="hp-on" checked> Overnight</label>
+                      <label><input type="checkbox" data-hp-sec="hp-pmh" checked> PMH</label>
+                      <label><input type="checkbox" data-hp-sec="hp-psh"> PSH</label>
+                      <label><input type="checkbox" data-hp-sec="hp-meds" checked> Meds</label>
+                      <label><input type="checkbox" data-hp-sec="hp-allergies" checked> Allergies</label>
+                      <label><input type="checkbox" data-hp-sec="hp-fhx"> FHx</label>
+                      <label><input type="checkbox" data-hp-sec="hp-shx"> Social Hx</label>
+                    </div>
+                  </div>
+                </details>
+              </div>
+              <div class="rs-hp-grid">
+                <label class="rs-hp-row rs-hp-full" data-hp-row="hp-hpi"><span>HPI:</span><textarea class="rs-field rs-inline-field" data-field="hp-hpi" rows="2" aria-label="HPI" placeholder="IM resident HPI: age/sex, pertinent comorbidities, timeline, presenting symptoms"></textarea></label>
+                <label class="rs-hp-row rs-hp-full" data-hp-row="hp-ed"><span>ED Course:</span><textarea class="rs-field rs-inline-field" data-field="hp-ed" rows="1" aria-label="ED Course" placeholder="Pertinent ED workup &amp; interventions that led to admission"></textarea></label>
+                <label class="rs-hp-row rs-hp-full" data-hp-row="hp-on"><span>Overnight:</span><textarea class="rs-field rs-inline-field" data-field="hp-on" rows="1" aria-label="Overnight events" placeholder="Overnight events since floor arrival"></textarea></label>
+                <label class="rs-hp-row" data-hp-row="hp-pmh"><span>PMH:</span><textarea class="rs-field rs-inline-field" data-field="hp-pmh" rows="1" aria-label="Past medical history"></textarea></label>
+                <label class="rs-hp-row" data-hp-row="hp-psh" hidden><span>PSH:</span><textarea class="rs-field rs-inline-field" data-field="hp-psh" rows="1" aria-label="Past surgical history"></textarea></label>
+                <label class="rs-hp-row" data-hp-row="hp-meds"><span>Meds:</span><textarea class="rs-field rs-inline-field" data-field="hp-meds" rows="1" aria-label="Home medications"></textarea></label>
+                <label class="rs-hp-row" data-hp-row="hp-allergies"><span>Allergies:</span><textarea class="rs-field rs-inline-field" data-field="hp-allergies" rows="1" aria-label="Allergies"></textarea></label>
+                <label class="rs-hp-row" data-hp-row="hp-fhx" hidden><span>FHx:</span><textarea class="rs-field rs-inline-field" data-field="hp-fhx" rows="1" aria-label="Family history"></textarea></label>
+                <label class="rs-hp-row" data-hp-row="hp-shx" hidden><span>Social Hx:</span><textarea class="rs-field rs-inline-field" data-field="hp-shx" rows="1" aria-label="Social history"></textarea></label>
+              </div>
+            </div>
+            <label class="rs-inline-row"><span>ROS:</span><textarea class="rs-field rs-inline-field" data-field="ros-pp" rows="1" aria-label="Pertinent positive and negative ROS" placeholder="ROS notable for: cough. (or mark the ROS checklist under Sections → ROS, then → Written ROS)"></textarea></label></div>
           <div class="rs-box rs-c12 rs-opt-ros rs-checks"><span class="rs-tag">ROS</span>
-            <span class="rs-box-tools screen-only"><span class="rs-box-hint">tap: ✓ denies → ✗ endorses → clear</span><button type="button" data-ros-rest title="Mark every unmarked symptom as denied">Rest normal</button><button type="button" data-ros-to-pp title="Write the marked symptoms into the ROS line as Endorses: … / Denies: …">→ Written ROS</button><button type="button" data-copy-ros>Copy ROS</button></span>
+            <span class="rs-box-tools screen-only"><span class="rs-box-hint">tap: ✓ denies → ✗ endorses → clear</span><details class="rs-ros-pre-menu" data-ros-pre-menu><summary title="Select specific ROS systems and findings to print and ask during the encounter">Pre-Encounter ▾</summary><div class="rs-ros-pre-pop"><div class="rs-ros-pre-head"><span class="rs-ros-pre-title">Pre-Encounter ROS to ask (normal findings won't print)</span><button type="button" class="clear-preset-btn" data-ros-ask-clear>Clear</button></div><div class="rs-ros-pre-list" data-ros-pre-list></div></div></details><button type="button" data-ros-rest title="Mark every unmarked symptom as denied">Rest normal</button><button type="button" data-ros-to-pp title="Write the marked symptoms by system, with positive symptoms on one line at the top">→ Written ROS</button><button type="button" data-copy-ros>Copy ROS</button></span>
+            <div class="rs-ros-prep-bar screen-only" data-ros-prep-bar>
+              <span data-ros-prep-msg>Pre-Encounter ROS list active.</span>
+              <button type="button" data-ros-ask-only aria-pressed="false" title="Show only Pre-Encounter symptoms on screen">Show Pre-Encounter only</button>
+              <button type="button" data-ros-ask-clear title="Clear all Pre-Encounter ROS items">Clear</button>
+            </div>
             <div data-ros-checklist></div>
           </div>
           <div class="rs-box rs-c12 rs-vitals"><span class="rs-tag">Vitals</span><div class="rs-vitals-bar" data-vitals></div></div>
@@ -4444,6 +4759,74 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
     // Returns true if the event was a checklist interaction.
     // Left-click (abnormal = false) marks normal/reassuring; right-click (abnormal = true) marks abnormal.
     // The same click again clears the item.
+    function buildRosPreEncounterMenu(sheet) {
+      const list = sheet.querySelector("[data-ros-pre-list]");
+      if (!list) return;
+      list.replaceChildren();
+      for (const [system, choices] of rosChecklistSystems) {
+        const row = document.createElement("div");
+        row.className = "rs-ros-pre-sys-row";
+        row.dataset.preSys = system;
+        const sysLbl = document.createElement("label");
+        sysLbl.className = "rs-ros-pre-sys-check";
+        const sysCb = document.createElement("input");
+        sysCb.type = "checkbox";
+        sysCb.dataset.rosPreSys = system;
+        sysLbl.append(sysCb, document.createTextNode(system));
+        const itemsWrap = document.createElement("div");
+        itemsWrap.className = "rs-ros-pre-items";
+        for (const [label] of choices) {
+          const itemLbl = document.createElement("label");
+          itemLbl.className = "rs-ros-pre-item";
+          const cb = document.createElement("input");
+          cb.type = "checkbox";
+          cb.dataset.rosPreItem = `${system}|${label}`;
+          itemLbl.append(cb, document.createTextNode(label));
+          itemsWrap.append(itemLbl);
+        }
+        row.append(sysLbl, itemsWrap);
+        list.append(row);
+      }
+    }
+
+    function syncRosAskState(rosBox) {
+      if (!rosBox) return;
+      const flagged = new Set();
+      rosBox.querySelectorAll(".pre-rounds-exam-line").forEach((line) => {
+        const sys = line.dataset.system;
+        if (!sys) return;
+        line.querySelectorAll('.pre-rounds-ros-choice[data-ros-ask="true"]').forEach((c) => {
+          flagged.add(`${sys}|${c.dataset.label}`);
+        });
+      });
+      const count = flagged.size;
+      rosBox.classList.toggle("has-ros-ask", count > 0);
+      if (!count) {
+        rosBox.classList.remove("is-ros-ask-only");
+        const onlyBtn = rosBox.querySelector("[data-ros-ask-only]");
+        if (onlyBtn) onlyBtn.setAttribute("aria-pressed", "false");
+      }
+      // Sync checkboxes inside Pre-Encounter dropdown
+      rosBox.querySelectorAll("input[data-ros-pre-item]").forEach((cb) => {
+        cb.checked = flagged.has(cb.dataset.rosPreItem);
+      });
+      rosBox.querySelectorAll(".rs-ros-pre-sys-row").forEach((row) => {
+        const itemCbs = [...row.querySelectorAll("input[data-ros-pre-item]")];
+        const checkedCount = itemCbs.filter((cb) => cb.checked).length;
+        const sysCb = row.querySelector("input[data-ros-pre-sys]");
+        if (sysCb) {
+          sysCb.checked = checkedCount > 0 && checkedCount === itemCbs.length;
+          sysCb.indeterminate = checkedCount > 0 && checkedCount < itemCbs.length;
+        }
+      });
+      const summary = rosBox.querySelector(".rs-ros-pre-menu > summary");
+      if (summary) summary.textContent = count ? `Pre-Encounter (${count}) ▾` : "Pre-Encounter ▾";
+      const msg = rosBox.querySelector("[data-ros-prep-msg]");
+      if (msg) {
+        msg.textContent = `Pre-Encounter: ${count} finding${count === 1 ? "" : "s"} selected to ask (normal/unselected findings won't print).`;
+      }
+    }
+
     function handleChecklistActivate(target, root, abnormal = false) {
       const rosChoice = target.closest(".pre-rounds-ros-choice");
       if (rosChoice) {
@@ -4505,16 +4888,23 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       return [notable.length && `Exam notable for: ${notable.join(", ")}.`, ...lines].filter(Boolean).join("\n");
     }
 
-    // Marked symptoms -> "Endorses: ..." / "Denies: ...", head to toe.
+    // Marked symptoms -> written ROS by system: positive symptoms summed up on one line at the top ("ROS notable for: ..."),
+    // then one line per system with marked symptoms (positives first, then negatives as "no ...").
     function rosNoteText(rosContainer) {
       if (!rosContainer) return "";
-      const pick = (state) => [...rosContainer.querySelectorAll(`.pre-rounds-exam-line:not([hidden]) > .pre-rounds-ros-choice[data-state="${state}"]`)].map((choice) => choice.dataset.note);
-      const positives = pick("pos");
-      const negatives = pick("neg");
+      const notable = [];
+      const lines = [...rosContainer.querySelectorAll(".pre-rounds-ros-checklist .pre-rounds-exam-line:not([hidden]):not(.pre-rounds-ros-allneg)")].map((line) => {
+        const sysLabel = line.querySelector(".pre-rounds-ros-system")?.textContent || "";
+        const pos = [...line.querySelectorAll('.pre-rounds-ros-choice[data-state="pos"]')].map((c) => c.dataset.note || lowerFirst(c.dataset.label || ""));
+        const neg = [...line.querySelectorAll('.pre-rounds-ros-choice[data-state="neg"]')].map((c) => `no ${c.dataset.note || lowerFirst(c.dataset.label || "")}`);
+        notable.push(...pos);
+        const marked = [...pos, ...neg].map((text, index) => index ? text : capFirst(text));
+        return marked.length ? `${sysLabel} ${marked.join(", ")}.` : "";
+      }).filter(Boolean);
       const allNegative = rosContainer.querySelector('[data-all-negative][data-checked="true"]');
       return [
-        positives.length && `Endorses: ${positives.join(", ")}.`,
-        negatives.length && `Denies: ${negatives.join(", ")}.`,
+        notable.length && `ROS notable for: ${notable.join(", ")}.`,
+        ...lines,
         allNegative && "All other systems reviewed and negative."
       ].filter(Boolean).join("\n");
     }
@@ -4568,6 +4958,48 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       };
     }
 
+    const HP_FIELD_SPECS = [
+      ["HPI", "hp-hpi"],
+      ["ED Course", "hp-ed"],
+      ["Overnight", "hp-on"],
+      ["PMH", "hp-pmh"],
+      ["PSH", "hp-psh"],
+      ["Meds", "hp-meds"],
+      ["Allergies", "hp-allergies"],
+      ["FHx", "hp-fhx"],
+      ["Social Hx", "hp-shx"]
+    ];
+    function syncHpFieldVisibility(sheet) {
+      if (!sheet) return;
+      sheet.querySelectorAll("input[data-hp-sec]").forEach((cb) => {
+        const row = sheet.querySelector(`[data-hp-row="${cb.dataset.hpSec}"]`);
+        if (row) row.hidden = !cb.checked;
+      });
+      refreshSheet(sheet);
+    }
+    function setSheetHpMode(sheet, isHp) {
+      if (!sheet) return;
+      sheet.classList.toggle("is-hp-mode", Boolean(isHp));
+      const tag = sheet.querySelector("[data-subj-tag]");
+      if (tag) {
+        tag.textContent = isHp ? "H&P ⇄" : "ON/Subj ⇄";
+        tag.setAttribute("aria-pressed", String(Boolean(isHp)));
+      }
+      syncHpFieldVisibility(sheet);
+    }
+    function rsSubjectiveText(sheet) {
+      const field = (name) => (sheet.querySelector(`[data-field="${name}"]`)?.value || "").trim();
+      if (sheet.classList.contains("is-hp-mode")) {
+        return HP_FIELD_SPECS.map(([label, key]) => {
+          const row = sheet.querySelector(`[data-hp-row="${key}"]`);
+          if (row && row.hidden) return "";
+          const val = field(key);
+          return val ? `${label}: ${val}` : "";
+        }).filter(Boolean).join("\n");
+      }
+      return field("subjective");
+    }
+
     // ---------- Copy as progress note ----------
     function progressNoteText(sheet) {
       const field = (name) => (sheet.querySelector(`[data-field="${name}"]`)?.value || "").trim();
@@ -4581,11 +5013,11 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       const hd = field("hd");
       if (hd) out.push(`Hospital day ${hd.replace(/^hd\s*#?\s*/i, "")}`);
 
-      const subjective = field("subjective");
+      const subjective = rsSubjectiveText(sheet);
       const rosChecklist = opts.ros?.size && !usesGenerated(sheet, "ros-pp") ? rosNoteText(sheet.querySelector(".rs-opt-ros")) : "";
       const ros = [field("ros-pp"), rosChecklist].filter(Boolean).join("\n");
       if (subjective || ros) {
-        out.push("", "SUBJECTIVE");
+        out.push("", sheet.classList.contains("is-hp-mode") ? "H&P / SUBJECTIVE" : "SUBJECTIVE");
         if (subjective) out.push(subjective);
         if (ros) out.push(ros.includes("\n") ? `ROS:\n${ros}` : `ROS: ${ros}`);
       }
@@ -4711,7 +5143,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
 
       row = table.insertRow();
       row.className = "pre-rounds-row-subjective";
-      const subjCell = appendPreRoundsSection(row, "ON/Subj", preRoundsFieldValue(card, "subjective"), 12);
+      const subjCell = appendPreRoundsSection(row, card.classList.contains("is-hp-mode") ? "H&P" : "ON/Subj", rsSubjectiveText(card), 12);
       subjCell.classList.add("pre-rounds-handwrite--subjective");
       subjCell.append(Object.assign(document.createElement("div"), { innerHTML: "<b>ROS:</b> " }));
       subjCell.lastChild.style.whiteSpace = "pre-wrap";
@@ -5418,8 +5850,39 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       }
     }
 
+    function positionFootPop(menu) {
+      const pop = menu?.querySelector(":scope > .foot-pop");
+      if (!pop) return;
+      if (!menu.open) {
+        pop.style.removeProperty("left");
+        pop.style.removeProperty("right");
+        pop.style.removeProperty("max-height");
+        return;
+      }
+      pop.style.removeProperty("left");
+      pop.style.removeProperty("right");
+      const sheet = menu.closest(".rs-sheet, .pc-sheet, .ep-sheet, .hc-sheet, .mr-sheet, .so-sheet, .tips-sheet");
+      const bounds = sheet ? sheet.getBoundingClientRect() : { left: 8, right: window.innerWidth - 8, top: 60 };
+      const minLeft = Math.max(8, bounds.left + 8);
+      const maxRight = Math.min(window.innerWidth - 8, bounds.right - 8);
+      const menuRect = menu.getBoundingClientRect();
+      const popRect = pop.getBoundingClientRect();
+      const popW = popRect.width;
+      let desiredLeft = popRect.left;
+      if (desiredLeft + popW > maxRight) desiredLeft = maxRight - popW;
+      if (desiredLeft < minLeft) desiredLeft = minLeft;
+      pop.style.right = "auto";
+      pop.style.left = `${Math.round(desiredLeft - menuRect.left)}px`;
+      const availH = Math.max(180, menuRect.top - Math.max(60, bounds.top + 8) - 10);
+      pop.style.maxHeight = `${Math.min(480, availH)}px`;
+    }
+
     document.addEventListener("toggle", (event) => {
       const pop = event.target;
+      if (pop.matches?.("details.foot-menu")) {
+        positionFootPop(pop);
+        return;
+      }
       if (!pop.matches?.("details.rs-pop")) return;
       if (!pop.open) {
         const body = pop.querySelector(":scope > .rs-pop-body");
@@ -6014,7 +6477,9 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       const current = ({ "pre-rounds": "Pre-Rounds", "pre-charting": "Pre-Charting", "med-rec": "Med Rec", "sign-out": "Sign-out", "hospital-course": "Hospital Course", "encounter-prep": "Encounter Prep", tips: "Tips" })[kind];
       const toolItems = toolTabs.map((tab) => { const lbl = tab.dataset.label || tab.textContent.trim(); return `<button type="button" class="foot-item" data-go-tool="${tab.id}"${lbl === current ? ' aria-current="true"' : ""}>${lbl}</button>`; }).join("");
       const reasoningMenuHtml = document.getElementById("rs-reasoning-pop-template")?.innerHTML || "";
+      const tipsMenuHtml = document.getElementById("rs-tips-pop-template")?.innerHTML || "";
       const roundsOnly = kind === "pre-rounds" ? `
+          ${tipsMenuHtml}
           ${reasoningMenuHtml}
           <button class="quiet-button" type="button" data-copy-all title="Copy every patient's sheet for Word">Copy all</button>
           <details class="foot-menu clear-menu">
@@ -6159,6 +6624,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       makePreRoundsRosChecklist(sheet.querySelector("[data-ros-checklist]"));
       makeChecklistInteractive(sheet);
       buildExtraLabChecklist(sheet);
+      buildRosPreEncounterMenu(sheet);
       sheet._opts = { exam: new Set(), ros: new Set(), labs: new Set(labPanelNames), notes: true, lines: false, pending: false, dc: false, medlog: false };
       sheet.classList.add("show-notes");
       // One "Sections" menu holds the exam/ROS/lab pickers and the optional boxes.
@@ -6568,6 +7034,49 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
     });
 
     preRoundsPatients.addEventListener("change", (event) => {
+      const preSysCb = event.target.closest("input[data-ros-pre-sys]");
+      if (preSysCb) {
+        const sheet = preSysCb.closest(".rs-sheet");
+        const sys = preSysCb.dataset.rosPreSys;
+        const on = preSysCb.checked;
+        if (on) {
+          const secCb = sheet.querySelector(`[data-section-picker="ros"] input[type="checkbox"][value="${CSS.escape(sys)}"]`);
+          if (secCb && !secCb.checked) {
+            secCb.checked = true;
+            secCb.dispatchEvent(new Event("change", { bubbles: true }));
+          }
+        }
+        const rosBox = sheet.querySelector(".rs-opt-ros");
+        rosBox.querySelectorAll(`.pre-rounds-exam-line[data-system="${CSS.escape(sys)}"] .pre-rounds-ros-choice`).forEach((c) => {
+          c.dataset.rosAsk = on ? "true" : "";
+        });
+        syncRosAskState(rosBox);
+        return;
+      }
+      const preItemCb = event.target.closest("input[data-ros-pre-item]");
+      if (preItemCb) {
+        const sheet = preItemCb.closest(".rs-sheet");
+        const [sys, label] = preItemCb.dataset.rosPreItem.split("|");
+        const on = preItemCb.checked;
+        if (on) {
+          const secCb = sheet.querySelector(`[data-section-picker="ros"] input[type="checkbox"][value="${CSS.escape(sys)}"]`);
+          if (secCb && !secCb.checked) {
+            secCb.checked = true;
+            secCb.dispatchEvent(new Event("change", { bubbles: true }));
+          }
+        }
+        const rosBox = sheet.querySelector(".rs-opt-ros");
+        rosBox.querySelectorAll(`.pre-rounds-exam-line[data-system="${CSS.escape(sys)}"] .pre-rounds-ros-choice`).forEach((c) => {
+          if (c.dataset.label === label) c.dataset.rosAsk = on ? "true" : "";
+        });
+        syncRosAskState(rosBox);
+        return;
+      }
+      const hpSec = event.target.closest("input[data-hp-sec]");
+      if (hpSec) {
+        syncHpFieldVisibility(hpSec.closest(".rs-sheet"));
+        return;
+      }
       const optToggle = event.target.closest("input[data-toggle-opt]");
       if (optToggle) {
         const sheet = optToggle.closest(".rs-sheet");
@@ -6655,6 +7164,20 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         })();
         return;
       }
+      if (event.target.closest("[data-toggle-hp]")) {
+        setSheetHpMode(sheet, !sheet.classList.contains("is-hp-mode"));
+        return;
+      }
+      const hpPreset = event.target.closest("[data-hp-preset]");
+      if (hpPreset) {
+        const mode = hpPreset.dataset.hpPreset;
+        const core = new Set(["hp-hpi", "hp-ed", "hp-on", "hp-pmh", "hp-meds", "hp-allergies"]);
+        sheet.querySelectorAll("input[data-hp-sec]").forEach((cb) => {
+          cb.checked = mode === "all" ? true : core.has(cb.dataset.hpSec);
+        });
+        syncHpFieldVisibility(sheet);
+        return;
+      }
       if (event.target.closest("[data-copy-exam]")) {
         const text = rsExamText(sheet);
         copyPlainText(text).then((ok) => { preRoundsStatus.textContent = !text ? "Enter pertinent positives or mark exam findings first." : ok ? "Exam copied." : "Copy unavailable."; });
@@ -6663,6 +7186,23 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       if (event.target.closest("[data-copy-ros]")) {
         const text = rosNoteText(sheet.querySelector(".rs-opt-ros"));
         copyPlainText(text).then((ok) => { preRoundsStatus.textContent = !text ? "Mark ROS items first." : ok ? "ROS copied." : "Copy unavailable."; });
+        return;
+      }
+      if (event.target.closest("[data-ros-ask-only]")) {
+        const rosBox = sheet.querySelector(".rs-opt-ros");
+        const btn = event.target.closest("[data-ros-ask-only]");
+        const only = !rosBox.classList.contains("is-ros-ask-only");
+        rosBox.classList.toggle("is-ros-ask-only", only);
+        btn.setAttribute("aria-pressed", String(only));
+        return;
+      }
+      if (event.target.closest("[data-ros-ask-clear]")) {
+        const rosBox = sheet.querySelector(".rs-opt-ros");
+        rosBox.querySelectorAll('.pre-rounds-ros-choice[data-ros-ask="true"]').forEach((c) => { c.dataset.rosAsk = ""; });
+        rosBox.classList.remove("is-ros-prep-pick", "is-ros-ask-only");
+        const prepBtn = rosBox.querySelector("[data-ros-prep]");
+        if (prepBtn) prepBtn.setAttribute("aria-pressed", "false");
+        syncRosAskState(rosBox);
         return;
       }
       if (event.target.closest("[data-ros-rest]")) {
@@ -6872,13 +7412,13 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
 
     document.addEventListener("keydown", (event) => {
       if (event.key !== "Escape") return;
-      document.querySelectorAll("details.rs-pop[open], details.pc-guide[open], details.sys-picker[open], details.tool-menu[open], details.rs-more[open], details.foot-menu[open], details.sections-menu[open]").forEach((details) => {
+      document.querySelectorAll("details.rs-pop[open], details.pc-guide[open], details.sys-picker[open], details.tool-menu[open], details.rs-more[open], details.foot-menu[open], details.sections-menu[open], details.rs-hp-picker[open], details.rs-ros-pre-menu[open]").forEach((details) => {
         details.open = false;
         details.querySelector("summary").focus();
       });
     });
     document.addEventListener("click", (event) => {
-      document.querySelectorAll("details.rs-pop[open], details.pc-guide[open], details.sys-picker[open], details.tool-menu[open], details.rs-more[open], details.foot-menu[open], details.sections-menu[open]").forEach((details) => {
+      document.querySelectorAll("details.rs-pop[open], details.pc-guide[open], details.sys-picker[open], details.tool-menu[open], details.rs-more[open], details.foot-menu[open], details.sections-menu[open], details.rs-hp-picker[open], details.rs-ros-pre-menu[open]").forEach((details) => {
         if (!details.contains(event.target)) details.open = false;
       });
     });
@@ -7004,6 +7544,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       }
       if (set.has("subjective")) {
         clearField("subjective");
+        HP_FIELD_SPECS.forEach(([, key]) => clearField(key));
         clearField("ros-pp");
         sheet.querySelectorAll("[data-ros-checklist] .pre-rounds-ros-choice").forEach((choice) => setRosChoiceState(choice, ""));
       }
@@ -7462,9 +8003,16 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
 
     function pcRosText(sheet) {
       const rosWord = (item) => item.textContent.split(" ").map((word) => /^[A-Z]{2,}$/.test(word) ? word : word.toLowerCase()).join(" ");
-      const positives = [...sheet.querySelectorAll('.pc-ros-item[data-state="pos"]')].map(rosWord);
-      const negatives = [...sheet.querySelectorAll('.pc-ros-item[data-state="neg"]')].map(rosWord);
-      return [positives.length && `Positive for ${positives.join(", ")}.`, negatives.length && `Negative for ${negatives.join(", ")}.`].filter(Boolean).join(" ");
+      const notable = [];
+      const lines = [...sheet.querySelectorAll(".pc-ros-line")].map((line) => {
+        const sysLabel = line.querySelector("b")?.textContent || "";
+        const pos = [...line.querySelectorAll('.pc-ros-item[data-state="pos"]')].map(rosWord);
+        const neg = [...line.querySelectorAll('.pc-ros-item[data-state="neg"]')].map((item) => `no ${rosWord(item)}`);
+        notable.push(...pos);
+        const marked = [...pos, ...neg].map((text, index) => index ? text : capFirst(text));
+        return marked.length ? `${sysLabel} ${marked.join(", ")}.` : "";
+      }).filter(Boolean);
+      return [notable.length && `ROS notable for: ${notable.join(", ")}.`, ...lines].filter(Boolean).join("\n");
     }
 
     function pcValue(sheet, key) {
@@ -7497,7 +8045,8 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       const exam = examText ? examText.split("\n") : [];
       if (vitals || exam.length) sections.push(`PHYSICAL EXAM\n${[vitals && `Vitals: ${vitals}`, ...exam].filter(Boolean).join("\n")}`);
       block("LABS / IMAGING", v("labs"));
-      block("ASSESSMENT / DIFFERENTIAL", ddxNoteText(sheet));
+      block("DIFFERENTIAL (VINDICATE)", ddxNoteText(sheet));
+      block("ASSESSMENT & PLAN", v("ap"));
       return sections.join("\n\n");
     }
 
@@ -7653,7 +8202,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         document.getElementById("present-next").disabled = index === sheets.length - 1;
         const parts = [];
         if (field("power")) parts.push(el("p", "present-oneliner", field("power")));
-        parts.push(section("ON/Subj", [field("subjective"), field("ros-pp") && (field("ros-pp").includes("\n") ? `ROS:\n${field("ros-pp")}` : `ROS: ${field("ros-pp")}`), opts.ros?.size && !usesGenerated(sheet, "ros-pp") ? rosNoteText(sheet.querySelector(".rs-opt-ros")) : ""].filter(Boolean).join("\n")));
+        parts.push(section(sheet.classList.contains("is-hp-mode") ? "H&P" : "ON/Subj", [rsSubjectiveText(sheet), field("ros-pp") && (field("ros-pp").includes("\n") ? `ROS:\n${field("ros-pp")}` : `ROS: ${field("ros-pp")}`), opts.ros?.size && !usesGenerated(sheet, "ros-pp") ? rosNoteText(sheet.querySelector(".rs-opt-ros")) : ""].filter(Boolean).join("\n")));
         const calcs = sheetCalcs(sheet);
         const vitalLine = el("p", "present-vitals");
         const addVital = (label, name, suffix = "") => {
@@ -9362,14 +9911,30 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
           legend.append(el("b", { textContent: letter }), ` ${name}`);
         });
         const vitalsRow = sheet.querySelector("[data-ep-vitals]");
-        preRoundsVitals.slice(0, 6).forEach(([label, key, growBy = 1, hint = ""]) => {
-          const input = el("input", { autocomplete: "off" });
-          input.dataset.epVital = key;
-          if (hint) input.placeholder = hint;
-          const item = el("label", { className: "ep-vital" }, el("strong", { textContent: label }), input);
-          item.style.flexGrow = String(growBy);
-          vitalsRow.append(item);
-        });
+        if (vitalsRow) {
+          preRoundsVitals.slice(0, 6).forEach(([label, key, growBy = 1, hint = ""]) => {
+            const input = el("input", { autocomplete: "off" });
+            input.dataset.epVital = key;
+            if (hint) input.placeholder = hint;
+            const item = el("label", { className: "ep-vital" }, el("strong", { textContent: label }), input);
+            item.style.flexGrow = String(growBy);
+            vitalsRow.append(item);
+          });
+        }
+        const epRosGrid = sheet.querySelector("[data-ep-ros-grid]");
+        if (epRosGrid) {
+          for (const [system, choices] of rosChecklistSystems) {
+            const row = el("div", { className: "ep-ros-row" });
+            row.append(el("span", { className: "ep-ros-sys", textContent: `${system}:` }));
+            for (const [label] of choices) {
+              const chip = el("button", { type: "button", className: "ep-ros-chip", textContent: label });
+              chip.dataset.epRosChip = `${system}|${label}`;
+              chip.setAttribute("aria-pressed", "false");
+              row.append(chip);
+            }
+            epRosGrid.append(row);
+          }
+        }
         for (let i = 0; i < 3; i++) addTopRow(sheet);
         sheet.querySelector("[data-ep-sys-chips]").append(...systemSuggestions.map((name) => {
           const chip = el("button", { type: "button", className: "ep-sys-chip", textContent: name });
@@ -9667,6 +10232,25 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
           return;
         }
         if (event.target.closest("[data-ep-top-add]")) { addTopRow(sheet, true); return; }
+        const epRosChip = event.target.closest("[data-ep-ros-chip]");
+        if (epRosChip) {
+          const next = epRosChip.getAttribute("aria-pressed") !== "true";
+          epRosChip.setAttribute("aria-pressed", String(next));
+          const box = sheet.querySelector("[data-ep-ros-box]");
+          const cnt = box.querySelectorAll('.ep-ros-chip[aria-pressed="true"]').length;
+          box.classList.toggle("has-ep-ros", cnt > 0);
+          const cntEl = box.querySelector("[data-ep-ros-count]");
+          if (cntEl) cntEl.textContent = `${cnt} selected`;
+          return;
+        }
+        if (event.target.closest("[data-ep-ros-clear]")) {
+          const box = sheet.querySelector("[data-ep-ros-box]");
+          box.querySelectorAll('.ep-ros-chip[aria-pressed="true"]').forEach((c) => c.setAttribute("aria-pressed", "false"));
+          box.classList.remove("has-ep-ros");
+          const cntEl = box.querySelector("[data-ep-ros-count]");
+          if (cntEl) cntEl.textContent = "0 selected";
+          return;
+        }
         const remove = event.target.closest("[data-ep-top-remove]");
         if (remove) {
           const row = remove.closest("tr");
@@ -9811,22 +10395,11 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
           const element = target.querySelector(`[data-field="${name}"]`);
           if (element && value) element.value = value;
         };
+        setSheetHpMode(target, true);
         set("label", field(source, "bed"));
         set("power", field(source, "oneliner").replace(/\.$/, ""));
-        const vitalsSent = [...source.querySelectorAll("[data-ep-vital]")].filter((input) => {
-          const box = target.querySelector(`[data-vitals] [data-field="${input.dataset.epVital}"]`);
-          if (!box || !input.value.trim()) return false;
-          box.value = input.value.trim();
-          return true;
-        }).length;
-        if (vitalsSent) { updateVitalFlags(target); updateCalcs(target); }
-        const labs = field(source, "labs");
-        if (labs) {
-          target.querySelector("[data-emr-labs]").value = labs;
-          applySheetLabs(target);
-        }
-        // The first leading diagnosis becomes problem #1; the rest are noted in its plan.
-        const leading = topRows(source).map((row) => row.dx).filter(Boolean);
+        const rows = topRows(source);
+        const leading = rows.map((row) => row.dx).filter(Boolean);
         if (leading.length) {
           target.querySelector("[data-problem-list]").replaceChildren();
           const card = addPreRoundsProblem(target);
@@ -9834,11 +10407,50 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
           if (leading.length > 1) setProblemAssessment(card, `Also considering: ${leading.slice(1).join(", ")}`, true);
           renumberPreRoundsProblems(target);
         }
+        const questions = [
+          ...rows.filter((r) => r.ask).map((r) => `${r.dx || "DDx"}: ${r.ask}`),
+          field(source, "reasoning")
+        ].filter(Boolean).join("\n");
+        if (questions) set("notes", questions);
+
+        // Carry over selected ROS to Ask into Pre-Rounds ROS Encounter Prep list
+        const pickedRos = [...source.querySelectorAll('.ep-ros-chip[aria-pressed="true"]')].map((c) => c.dataset.epRosChip);
+        if (pickedRos.length) {
+          const rosSystems = new Set(pickedRos.map((k) => k.split("|")[0]));
+          target.querySelectorAll('[data-section-picker="ros"] input[type="checkbox"]').forEach((cb) => {
+            if (rosSystems.has(cb.value)) cb.checked = true;
+          });
+          target.querySelector('[data-section-picker="ros"]')?.dispatchEvent(new Event("change", { bubbles: true }));
+          const rosBox = target.querySelector(".rs-opt-ros");
+          const pickedSet = new Set(pickedRos);
+          rosBox.querySelectorAll(".pre-rounds-exam-line").forEach((line) => {
+            const sys = line.dataset.system;
+            line.querySelectorAll(".pre-rounds-ros-choice").forEach((choice) => {
+              if (pickedSet.has(`${sys}|${choice.dataset.label}`)) {
+                choice.dataset.rosAsk = "true";
+              }
+            });
+          });
+          rosBox.classList.add("is-ros-ask-only");
+          const onlyBtn = rosBox.querySelector("[data-ros-ask-only]");
+          if (onlyBtn) onlyBtn.setAttribute("aria-pressed", "true");
+          syncRosAskState(rosBox);
+        }
+
         activateToolTab(document.getElementById("pre-rounds-tab"));
         roundingTabs.select(target.dataset.sheetId);
         target.querySelectorAll("textarea").forEach((area) => autoGrow(area));
-        const carried = [field(source, "bed") && "bed", field(source, "oneliner") && "one-liner", vitalsSent && "vitals", labs && "labs", leading.length && "leading diagnosis as problem #1"].filter(Boolean);
-        preRoundsStatus.textContent = carried.length ? `Started from Encounter Prep: ${carried.join(", ")}.${labs ? " Check the labs it read." : ""}` : "Started a blank Pre-Rounds sheet (Encounter Prep had nothing to carry over).";
+        updateSectionsCount(target);
+        const carried = [
+          field(source, "bed") && "bed",
+          field(source, "oneliner") && "one-liner",
+          leading.length && "leading diagnosis",
+          pickedRos.length && `${pickedRos.length} ROS to ask`,
+          questions && "bedside questions"
+        ].filter(Boolean);
+        preRoundsStatus.textContent = carried.length
+          ? `Started H&P sheet from Encounter Prep: ${carried.join(", ")}.`
+          : "Started a blank Pre-Rounds H&P sheet.";
       });
       document.addEventListener("tool-tab-shown", () => {
         if (!panel.hidden) container.querySelectorAll(".ep-sheet textarea").forEach(grow);
@@ -10051,6 +10663,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       zoomReadout.title = "Click to reset zoom to 100%";
       document.addEventListener("tool-tab-shown", syncZoomReadout);
       document.getElementById("top-privacy-btn").addEventListener("click", () => window.hideScreen?.());
+
 
 
       // Command Palette (Ctrl+K / Cmd+K)
