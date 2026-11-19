@@ -1079,6 +1079,26 @@
     .rs-checks :is(.pre-rounds-exam-checklist, .pre-rounds-ros-checklist) > .pre-rounds-exam-line { position: relative; gap: 3px 4px; margin: 0; padding: 4px 0 4px 5.4em; border-bottom: 1px solid #edf1f5; }
     .rs-checks .pre-rounds-ros-checklist > .pre-rounds-exam-line { padding-left: 4.6em; }
 
+
+    /* Encounter Prep: simplified Differential Notepad */
+    .ep-notepad-ref { display: grid; gap: 5px; margin-bottom: 8px; padding: 7px 9px; background: #f8fbfe; border: 1px solid #dbe6f2; border-radius: 6px; font: 11.5px/1.4 Inter, ui-sans-serif, system-ui, sans-serif; }
+    .ep-notepad-ref-row { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 5px; }
+    .ep-notepad-ref-label { color: var(--brand-blue); font-size: 10.5px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; margin-right: 2px; }
+    .ep-notepad-sys-btn { padding: 1px 7px; font: 600 11px Inter, ui-sans-serif, system-ui, sans-serif; color: var(--brand-teal-ink); background: #fff; border: 1px solid #b8d3eb; border-radius: 999px; cursor: pointer; }
+    .ep-notepad-sys-btn:hover { background: var(--brand-teal-pale); border-color: var(--brand-teal); }
+    .ep-notepad-vind { color: var(--muted); font-size: 11px; line-height: 1.45; }
+    .ep-notepad-vind b { color: var(--brand-teal-ink); }
+    .ep-notepad-area { min-height: 12em !important; padding: 6px 8px !important; background: #fff !important; border: 1px solid #d5deea !important; border-radius: 6px; font: 13px/1.55 Arial, sans-serif; }
+    html[data-theme="dark"] .ep-notepad-ref { background: #20232a; border-color: #3a3e47; }
+    html[data-theme="dark"] .ep-notepad-ref-label { color: #8ec5ee; }
+    html[data-theme="dark"] .ep-notepad-sys-btn { color: #a7d3f2; background: #282c34; border-color: #3c7dae; }
+    html[data-theme="dark"] .ep-notepad-area { background: #1e2025 !important; border-color: #3a3e47 !important; color: var(--sheet-ink); }
+    @media print {
+      .ep-notepad-ref { background: none; border-color: #aaa; padding: 4pt 6pt; }
+      .ep-notepad-sys-btn { border: 0; padding: 0 4pt 0 0; color: #000; }
+      .ep-notepad-area { border: 0 !important; padding: 0 !important; min-height: 2.5in !important; }
+    }
+
     /* Encounter Prep: ROS to Ask picker */
     .ep-ros-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px; margin-bottom: 5px; font: 11.5px Inter, ui-sans-serif, system-ui, sans-serif; color: var(--muted); }
     .ep-ros-count { font-weight: 700; color: var(--brand-teal-ink); }
@@ -1193,7 +1213,7 @@
     html[data-theme="dark"] .rs-ros-pre-item { color: var(--ink); background: #222429; border-color: #464950; }
     html[data-theme="dark"] .rs-ros-pre-item:has(input:checked) { color: #93c5fd; background: rgba(37, 99, 235, .22); border-color: #3b82f6; }
 
-    .rs-ros-prep-bar { display: none; flex-wrap: wrap; align-items: center; gap: 6px; margin: 2px 0 4px; padding: 3px 7px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 5px; font: 11px Inter, ui-sans-serif, system-ui, sans-serif; color: #1e3a8a; }
+    .rs-ros-pre-head button[aria-pressed="true"] { color: #fff; background: #1d4ed8; border-color: #1d4ed8; }
     .rs-opt-ros.has-ros-ask .rs-ros-prep-bar { display: flex; }
     .rs-ros-prep-bar button { padding: 1px 6px; font: 700 10.5px Inter, ui-sans-serif, system-ui, sans-serif; color: #1d4ed8; background: #fff; border: 1px solid #93c5fd; border-radius: 4px; cursor: pointer; }
     .rs-ros-prep-bar button[aria-pressed="true"] { color: #fff; background: #1d4ed8; border-color: #1d4ed8; }
@@ -2699,17 +2719,20 @@
           <div class="ep-box"><span class="ep-tag">One-liner</span>
             <textarea data-ep="oneliner" rows="1" aria-label="One-liner" placeholder="e.g. 72F with COPD on 2L and HFrEF (EF 30%) presenting with 3 days of worsening dyspnea and hypoxia"></textarea>
           </div>
-          <div class="ep-box ep-mine"><span class="ep-tag">Your differential</span>
-            <span class="ep-vind-tip screen-only">Build it yourself first; help is at the bottom</span>
-            <p class="ep-mine-empty screen-only" data-ep-mine-empty>Add a system for each organ system involved, then list the diagnoses you'd consider in it. Don't skip causes that aren't tied to one organ (the last box).</p>
-            <div class="ep-systems" data-ep-systems></div>
-            <div class="ep-flags screen-only" data-ep-flags hidden></div>
+          <div class="ep-box ep-mine"><span class="ep-tag">Differential notepad</span>
+            <div class="ep-notepad-ref">
+              <div class="ep-notepad-ref-row">
+                <span class="ep-notepad-ref-label">Organ systems:</span>
+                <span class="ep-sys-chips" data-ep-notepad-sys></span>
+              </div>
+              <div class="ep-notepad-vind" data-ep-vlegend-top></div>
+            </div>
+            <textarea class="ep-notepad-area" data-ep="reasoning" rows="10" aria-label="Differential and bedside questions notepad" placeholder="Jot down your differential by organ system or VINDICATE, what fits/doesn't fit, can't-miss diagnoses, and key questions to ask at the bedside...&#10;&#10;Click any organ system above to insert a heading."></textarea>
             <div class="ep-mine-tools screen-only">
-              <button class="quiet-button" type="button" data-ep-add-system>+ System</button>
-              <span class="ep-mine-tip">Start a line with <b>!</b> to flag it can't-miss</span>
+              <span class="ep-mine-tip">Use this as a scratchpad to sharpen your questions before walking in</span>
               <span class="ep-mine-spacer"></span>
-              <button class="quiet-button ep-miss-btn" type="button" data-ep-miss title="After you've written your list: see common and can't-miss causes for this chief concern that aren't on it">What did I miss?</button>
-              <button class="quiet-button ep-help-toggle" type="button" data-ep-help-toggle aria-expanded="false" title="Systems to consider, the VINDICATE key, a framework for the chief concern with common causes, and a VINDICATE check">Stuck? Help me think it through</button>
+              <button class="quiet-button ep-miss-btn" type="button" data-ep-miss title="See common and can't-miss causes for this chief concern that aren't in your notes yet">What did I miss?</button>
+              <button class="quiet-button ep-help-toggle" type="button" data-ep-help-toggle aria-expanded="false" title="Open the chief-concern framework and VINDICATE prompts">Stuck? Help me think it through</button>
             </div>
             <div class="ep-miss screen-only" data-ep-miss-out hidden></div>
           </div>
@@ -2729,30 +2752,16 @@
             <div class="ep-frame-empty screen-only" data-ep-frame-empty></div>
             <div class="ep-frows" data-ep-frows></div>
             <div class="ep-vind" data-ep-vind>
-              <p class="ep-vind-intro screen-only"><b>VINDICATE check:</b> anything in these categories you haven't considered? <b>?</b> shows common causes; <b>→ Leading</b> adds one to the table.</p>
+              <p class="ep-vind-intro screen-only"><b>VINDICATE check:</b> anything in these categories you haven't considered? <b>?</b> shows common causes; <b>→ Notepad</b> adds one to your notes.</p>
               <div class="ep-vrows" data-ep-vrows></div>
-            </div>
-          </div>
-          <div class="ep-right">
-          <div class="ep-box ep-top"><span class="ep-tag">Leading diagnoses</span>
-            <table class="ep-top-table">
-              <thead><tr><th>Diagnosis</th><th>Supports</th><th>Against</th><th>Ask / check to tell apart</th><th class="ep-top-x screen-only"></th></tr></thead>
-              <tbody data-ep-top></tbody>
-            </table>
-            <div class="ep-top-tools screen-only">
-              <button class="quiet-button" type="button" data-ep-top-add>+ Row</button>
             </div>
           </div>
           <div class="ep-box ep-ros-box" data-ep-ros-box><span class="ep-tag">ROS to ask</span>
             <div class="ep-ros-head screen-only">
-              <span>Tap specific ROS symptoms to remember at the bedside · <span class="ep-ros-count" data-ep-ros-count>0 selected</span></span>
+              <span>Tap specific ROS symptoms to remember at the bedside (carries into Pre-Rounds Pre-Encounter ROS) · <span class="ep-ros-count" data-ep-ros-count>0 selected</span></span>
               <button class="quiet-button" type="button" data-ep-ros-clear>Clear ROS</button>
             </div>
             <div class="ep-ros-grid" data-ep-ros-grid></div>
-          </div>
-          <div class="ep-box ep-big ep-reasoning"><span class="ep-tag">Questions &amp; reasoning</span>
-            <textarea data-ep="reasoning" rows="3" aria-label="Questions and pre-charted reasoning" placeholder="Key bedside questions to discriminate your top diagnoses, and what would change your mind"></textarea>
-          </div>
           </div>
         </div>
       </article>
@@ -3077,12 +3086,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
             </div>
             <label class="rs-inline-row"><span>ROS:</span><textarea class="rs-field rs-inline-field" data-field="ros-pp" rows="1" aria-label="Pertinent positive and negative ROS" placeholder="ROS notable for: cough. (or mark the ROS checklist under Sections → ROS, then → Written ROS)"></textarea></label></div>
           <div class="rs-box rs-c12 rs-opt-ros rs-checks"><span class="rs-tag">ROS</span>
-            <span class="rs-box-tools screen-only"><span class="rs-box-hint">tap: ✓ denies → ✗ endorses → clear</span><details class="rs-ros-pre-menu" data-ros-pre-menu><summary title="Select specific ROS systems and findings to print and ask during the encounter">Pre-Encounter ▾</summary><div class="rs-ros-pre-pop"><div class="rs-ros-pre-head"><span class="rs-ros-pre-title">Pre-Encounter ROS to ask (normal findings won't print)</span><button type="button" class="clear-preset-btn" data-ros-ask-clear>Clear</button></div><div class="rs-ros-pre-list" data-ros-pre-list></div></div></details><button type="button" data-ros-rest title="Mark every unmarked symptom as denied">Rest normal</button><button type="button" data-ros-to-pp title="Write the marked symptoms by system, with positive symptoms on one line at the top">→ Written ROS</button><button type="button" data-copy-ros>Copy ROS</button></span>
-            <div class="rs-ros-prep-bar screen-only" data-ros-prep-bar>
-              <span data-ros-prep-msg>Pre-Encounter ROS list active.</span>
-              <button type="button" data-ros-ask-only aria-pressed="false" title="Show only Pre-Encounter symptoms on screen">Show Pre-Encounter only</button>
-              <button type="button" data-ros-ask-clear title="Clear all Pre-Encounter ROS items">Clear</button>
-            </div>
+            <span class="rs-box-tools screen-only"><span class="rs-box-hint">tap: ✓ denies → ✗ endorses → clear</span><details class="rs-ros-pre-menu" data-ros-pre-menu><summary title="Select specific ROS systems and findings to print and ask during the encounter">Pre-Encounter ▾</summary><div class="rs-ros-pre-pop"><div class="rs-ros-pre-head"><span class="rs-ros-pre-title">Pre-Encounter ROS (normal findings won't print)</span><span class="clear-preset-btns"><button type="button" class="clear-preset-btn" data-ros-ask-only aria-pressed="false" title="Hide unselected ROS items on screen">Selected only</button><button type="button" class="clear-preset-btn" data-ros-ask-clear>Clear</button></span></div><div class="rs-ros-pre-list" data-ros-pre-list></div></div></details><button type="button" data-ros-rest title="Mark every unmarked symptom as denied">Rest normal</button><button type="button" data-ros-to-pp title="Write the marked symptoms by system, with positive symptoms on one line at the top">→ Written ROS</button><button type="button" data-copy-ros>Copy ROS</button></span>
             <div data-ros-checklist></div>
           </div>
           <div class="rs-box rs-c12 rs-vitals"><span class="rs-tag">Vitals</span><div class="rs-vitals-bar" data-vitals></div></div>
@@ -9871,6 +9875,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       ];
       function addTopRow(sheet, focus) {
         const body = sheet.querySelector("[data-ep-top]");
+        if (!body) return null;
         const index = body.children.length;
         const tr = document.createElement("tr");
         ["dx", "for", "against", "ask"].forEach((key, column) => {
@@ -9905,11 +9910,21 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
           rows.append(row);
         });
         // Printed in the Leading diagnoses box as a small key to the acronym.
-        const legend = sheet.querySelector("[data-ep-vlegend]");
-        vindicate.forEach(([letter, name], index) => {
-          if (index) legend.append(" · ");
-          legend.append(el("b", { textContent: letter }), ` ${name}`);
+        [sheet.querySelector("[data-ep-vlegend]"), sheet.querySelector("[data-ep-vlegend-top]")].filter(Boolean).forEach((legend, idx) => {
+          if (idx === 1) legend.append(el("span", { className: "ep-notepad-ref-label", textContent: "VINDICATE: " }));
+          vindicate.forEach(([letter, name], index) => {
+            if (index) legend.append(" · ");
+            legend.append(el("b", { textContent: letter }), ` ${name}`);
+          });
         });
+        const notepadSys = sheet.querySelector("[data-ep-notepad-sys]");
+        if (notepadSys) {
+          notepadSys.append(...systemSuggestions.map((name) => {
+            const btn = el("button", { type: "button", className: "ep-notepad-sys-btn", textContent: name });
+            btn.dataset.epNotepadInsert = name;
+            return btn;
+          }));
+        }
         const vitalsRow = sheet.querySelector("[data-ep-vitals]");
         if (vitalsRow) {
           preRoundsVitals.slice(0, 6).forEach(([label, key, growBy = 1, hint = ""]) => {
@@ -10062,6 +10077,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
       const systemSuggestions = ["Cardiac", "Vascular", "Pulmonary", "GI / hepatobiliary", "Renal / GU", "Neuro", "Heme / onc", "Endocrine / metabolic", "MSK / skin", "Psych / toxic"];
       function addSystem(sheet, name = "", focus = false) {
         const holder = sheet.querySelector("[data-ep-systems]");
+        if (!holder) return document.createElement("div");
         const blank = name && [...holder.querySelectorAll(".ep-sys")].find((card) => !card.querySelector("[data-ep-sys-name]").value.trim() && !card.querySelector("[data-ep-sys-list]").value.trim());
         if (blank) { const input = blank.querySelector("[data-ep-sys-name]"); input.value = name; markRow(input); blank.querySelector("[data-ep-sys-list]").focus(); return blank; }
         const nameInput = el("input", { autocomplete: "off", placeholder: "System", value: name });
@@ -10081,7 +10097,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         return card;
       }
       // Can't-miss flags: lines you start with "!".
-      const sysLines = (sheet) => [...sheet.querySelectorAll("[data-ep-sys-list]")].flatMap((area) => area.value.split(/\n+/)).map((line) => line.trim().replace(/^[-*\u2022]\s*/, "")).filter(Boolean);
+      const sysLines = (sheet) => { const fromSys = [...sheet.querySelectorAll("[data-ep-sys-list]")].flatMap((area) => area.value.split(/\n+/)).map((line) => line.trim().replace(/^[-*\u2022]\s*/, "")).filter(Boolean); if (fromSys.length) return fromSys; return field(sheet, "reasoning").split(/[\n,;]+/).map((line) => line.replace(/^[-*\u2022#\s]+/, "").trim()).filter(Boolean); };
       function renderFlags(sheet) {
         const flagged = sysLines(sheet).filter((line) => line.startsWith("!")).map((line) => line.replace(/^!+\s*/, "")).filter(Boolean);
         const box = sheet.querySelector("[data-ep-flags]");
@@ -10090,7 +10106,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         const send = el("button", { type: "button", className: "ep-flag-send", textContent: "\u2192 Leading", title: "Put your can't-miss diagnoses in the Leading diagnoses table" });
         send.dataset.epFlagSend = "";
         box.replaceChildren(el("b", { textContent: "Your can't-miss: " }), ...flagged.map((name) => el("span", { className: "ep-flag", textContent: name })), send);
-        sheet.querySelector("[data-ep-mine-empty]").hidden = Boolean(sysLines(sheet).length);
+        const _me = sheet.querySelector("[data-ep-mine-empty]"); if (_me) _me.hidden = Boolean(sysLines(sheet).length);
       }
       function addToLeading(sheet, name) {
         if (leadingNames(sheet).includes(name.toLowerCase())) return;
@@ -10136,7 +10152,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         out.hidden = false;
         const hide = el("button", { type: "button", className: "ep-miss-hide", textContent: "Hide" });
         hide.dataset.epMissHide = "";
-        if (lines.length < 3) { out.replaceChildren(el("p", { textContent: "Write your own list first: at least 3 diagnoses across your systems. Then check what you missed." }), hide); return; }
+        if (lines.length < 1) { out.replaceChildren(el("p", { textContent: "Jot down a few thoughts in your differential notepad first, then check what you missed." }), hide); return; }
         if (!concern) { out.replaceChildren(el("p", { textContent: "I can't match your chief concern to one of the 18 with a cause list. Type it more plainly (e.g. \u201cchest pain\u201d), or choose it in the help panel's \u25be." }), hide); return; }
         const text = expandText(lines.join("\n"));
         sheet._missOk = sheet._missOk || new Set();
@@ -10179,7 +10195,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         if (!sheet) return;
         if (event.target.matches("textarea")) grow(event.target);
         if (event.target.matches("[data-ep-v], [data-ep-f], [data-ep-sys-list], [data-ep-sys-name]")) markRow(event.target);
-        if (event.target.matches("[data-ep-sys-list]")) { renderFlags(sheet); sheet.querySelector("[data-ep-mine-empty]").hidden = Boolean(sysLines(sheet).length); if (!sheet.querySelector("[data-ep-miss-out]").hidden) renderMiss(sheet); }
+        if (event.target.matches("[data-ep-sys-list]")) { renderFlags(sheet); const _me = sheet.querySelector("[data-ep-mine-empty]"); if (_me) _me.hidden = Boolean(sysLines(sheet).length); if (!sheet.querySelector("[data-ep-miss-out]").hidden) renderMiss(sheet); }
         if (event.target.matches('[data-ep="bed"], [data-ep="cc"]')) tabs.updateLabels();
         if (event.target.matches('[data-ep="cc"]')) {
           renderFrame(sheet);
@@ -10205,6 +10221,17 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
         }
         const lead = event.target.closest("[data-ep-lead]");
         if (lead) {
+          const topHost = sheet.querySelector("[data-ep-top]");
+          if (!topHost) {
+            const area = sheet.querySelector('[data-ep="reasoning"]');
+            if (area && !area.value.toLowerCase().includes(lead.dataset.epLead.toLowerCase())) {
+              area.value = [area.value.trimEnd(), `- ${lead.dataset.epLead}`].filter(Boolean).join("\n");
+              grow(area);
+            }
+            lead.classList.add("is-added");
+            lead.textContent = "✓ Added";
+            return;
+          }
           if (!leadingNames(sheet).includes(lead.dataset.epLead.toLowerCase())) {
             const free = [...sheet.querySelectorAll('[data-ep-top="dx"]')].find((area) => !area.value.trim()) || addTopRow(sheet).querySelector('[data-ep-top="dx"]');
             free.value = lead.dataset.epLead;
@@ -10232,6 +10259,18 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
           return;
         }
         if (event.target.closest("[data-ep-top-add]")) { addTopRow(sheet, true); return; }
+        const sysIns = event.target.closest("[data-ep-notepad-insert]");
+        if (sysIns) {
+          const area = sheet.querySelector('[data-ep="reasoning"]');
+          if (area) {
+            const sysName = sysIns.dataset.epNotepadInsert;
+            area.value = [area.value.trimEnd(), `${sysName}: `].filter(Boolean).join("\n");
+            grow(area);
+            area.focus();
+            area.selectionStart = area.selectionEnd = area.value.length;
+          }
+          return;
+        }
         const epRosChip = event.target.closest("[data-ep-ros-chip]");
         if (epRosChip) {
           const next = epRosChip.getAttribute("aria-pressed") !== "true";
@@ -10293,7 +10332,7 @@ Must exclude <u>[can't-miss]</u> given <u>[why]</u>; <u>[how]</u>.
             if ([...card.querySelectorAll("input, textarea")].some((input) => input.value.trim()) && !(await askConfirm("Remove this system and what you wrote in it?"))) return;
             card.remove();
             renderFlags(sheet);
-            sheet.querySelector("[data-ep-mine-empty]").hidden = Boolean(sysLines(sheet).length);
+            const _me = sheet.querySelector("[data-ep-mine-empty]"); if (_me) _me.hidden = Boolean(sysLines(sheet).length);
           })();
         }
       });
